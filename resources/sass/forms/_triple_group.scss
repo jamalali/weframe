@@ -1,0 +1,14 @@
+form {
+	.columns.is-grouped-triple {
+		flex-wrap: wrap;
+		
+		> .column {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			
+			@include tablet {
+				flex-basis: 33%;
+			}
+		}
+	}
+}

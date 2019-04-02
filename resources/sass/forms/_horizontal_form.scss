@@ -1,0 +1,34 @@
+form.is-horizontal {
+	
+	
+	.field-label {
+		
+		@include tablet {
+			flex-grow: 2;
+		}
+		
+		@include desktop {
+			flex-grow: 4;
+		}
+	}
+	
+	&.is-2-col {
+		
+		@include desktop {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		
+		> .field {
+			
+			@include desktop {
+				flex-basis: 50%;
+			}
+			
+		}
+	}
+	
+	hr {
+		flex-basis: 100%;
+	}
+}
