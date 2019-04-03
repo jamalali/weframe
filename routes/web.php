@@ -18,6 +18,9 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
     
     Route::get('/', 'Admin\AdminController@index')->name('index');
 	
+	// Orders Routes
+	Route::resource('orders', 'Admin\Orders\AdminOrdersController');
+	
 	// Settings Routes
 	Route::name('settings.')->prefix('settings')->group(function() {
         Route::get('/', 'Admin\Settings\AdminSettingsController@index')->name('index');

@@ -11,7 +11,7 @@
 		<div class="tile is-ancestor">
 			<div class="tile is-2 is-parent">
 				<div class="tile is-child">
-					<a class="title is-5 box has-text-centered" href="#">
+					<a class="title is-5 box has-text-centered" href="{{ route('admin.orders.index') }}">
 						New Order
 					</a>
 				</div>
