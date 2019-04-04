@@ -52,7 +52,7 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
 //    });
     
     // Staff Routes
-    Route::resource('staff', 'Admin\Staff\AdminStaffController');
+    //Route::resource('staff', 'Admin\Staff\AdminStaffController');
     
     //Route::get('/import', 'ImportController@index')->name('import');
     //Route::post('/import-process', 'ImportController@processImport')->name('import.process');
