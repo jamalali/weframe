@@ -12,7 +12,7 @@
 			<div class="tile is-2 is-parent">
 				<div class="tile is-child">
 					<a class="title is-5 box has-text-centered" href="{{ route('admin.orders.index') }}">
-						New Order
+						Orders
 					</a>
 				</div>
 			</div>

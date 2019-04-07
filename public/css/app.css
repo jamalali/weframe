@@ -11448,3 +11448,25 @@ form .columns.is-grouped-triple > .column {
   }
 }
 
+@media screen and (min-width: 769px), print {
+  form#price-calculator-admin ul.mount-options {
+    -webkit-columns: 2;
+            columns: 2;
+  }
+}
+
+form#price-calculator-admin ul.mount-options li {
+  margin-bottom: 5px;
+}
+
+@media screen and (min-width: 769px), print {
+  form#price-calculator-admin ul.mount-sizes {
+    -webkit-columns: 2;
+            columns: 2;
+  }
+}
+
+form#price-calculator-admin .title.is-6 {
+  margin-bottom: 8px;
+}
+

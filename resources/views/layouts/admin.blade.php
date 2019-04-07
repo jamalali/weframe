@@ -26,7 +26,7 @@
 			<nav class="navbar is-primary">
 				
 				<div class="navbar-brand">
-					<a class="navbar-item" href="{{ url('/') }}">
+					<a class="navbar-item" href="{{ route('admin.index') }}">
 						<strong>
 							{{ config('app.name', 'Laravel') }}
 						</strong>
@@ -57,6 +57,12 @@
 								</a>
 							@endif
 						@else
+							<a class="navbar-item" href="{{ route('admin.orders.index') }}">
+							   Orders
+							</a>
+							<a class="navbar-item" href="{{ route('admin.settings.index') }}">
+							   Settings
+							</a>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<a class="navbar-link is-arrowless" href="#">
 									Me
