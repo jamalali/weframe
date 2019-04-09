@@ -24,6 +24,13 @@ window.Vue = require('vue');
 
 Vue.component('price-calculator-admin', require('./components/PriceCalculatorAdmin.vue').default);
 
+Vue.filter('keyToLabel', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  value = value.replace('_', ' ')
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
