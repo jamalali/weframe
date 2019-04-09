@@ -26,6 +26,7 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
         Route::get('/', 'Admin\Settings\AdminSettingsController@index')->name('index');
 		
 		Route::resource('pricing', 'Admin\Settings\Pricing\AdminSettingsPricingController')->only(['index', 'store']);
+		Route::resource('glazing', 'Admin\Settings\Glazing\AdminSettingsGlazingController');
     });
     
     // Discounts Routes

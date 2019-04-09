@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Settings\Pricing;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Setting;
 

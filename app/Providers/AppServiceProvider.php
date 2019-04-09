@@ -29,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
 		
 		Blade::component('components.textboxaddon', 'textboxaddon');
 		Blade::component('components.tripletextboxaddon', 'tripletextboxaddon');
+		Blade::component('components.horizontaltextinput', 'horizontaltextinput');
     }
 }
