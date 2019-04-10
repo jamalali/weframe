@@ -263,18 +263,15 @@
 
 			<div class="columns">
 				<div class="field column is-half">
-					<label class="label">
+					<label class="label" for="glazing">
 						Glazing
 					</label>
 					<div class="control">
 						<div class="select">
-							<select>
-								<option selected>Standard Acrylic</option>
-								<option>Super Clear Acrylic</option>
-								<option>Standard Float Glass</option>
-								<option>UV Glass</option>
-								<option>AR Glass</option>
-								<option>Conservation Glass</option>
+							<select ref="glazing" id="glazing" v-on:change="getPrice">
+								<option v-for="glazing in glazings" :value="glazing.id">
+									{{ glazing.name }}
+								</option>
 							</select>
 						  </div>
 					</div>
@@ -315,6 +312,9 @@
 				mount: 'none',
 				prices: {}
 			}
+		},
+		props: {
+			glazings: ''
 		},
 		computed: {
 			topMountColourTitle: function() {
@@ -370,6 +370,9 @@
 					// Glass size
 					params.glass_size_width = this.$refs['glass_size_width']['value']
 					params.glass_size_height = this.$refs['glass_size_height']['value']
+					
+					// Glazing
+					params.glazing = this.$refs['glazing']['value']
 					
 					//console.log(params)
 				

@@ -1984,15 +1984,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       mount: 'none',
       prices: {}
     };
+  },
+  props: {
+    glazings: ''
   },
   computed: {
     topMountColourTitle: function topMountColourTitle() {
@@ -2043,7 +2043,9 @@ __webpack_require__.r(__webpack_exports__);
         params.mount = mount; // Glass size
 
         params.glass_size_width = this.$refs['glass_size_width']['value'];
-        params.glass_size_height = this.$refs['glass_size_height']['value']; //console.log(params)
+        params.glass_size_height = this.$refs['glass_size_height']['value']; // Glazing
+
+        params.glazing = this.$refs['glazing']['value']; //console.log(params)
 
         axios.get('http://weframe.local/api/price', {
           params: params
@@ -20226,9 +20228,38 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "field column is-half" }, [
+          _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
+            _vm._v("\n\t\t\t\t\tGlazing\n\t\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  ref: "glazing",
+                  attrs: { id: "glazing" },
+                  on: { change: _vm.getPrice }
+                },
+                _vm._l(_vm.glazings, function(glazing) {
+                  return _c("option", { domProps: { value: glazing.id } }, [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t\t\t" +
+                        _vm._s(glazing.name) +
+                        "\n\t\t\t\t\t\t\t"
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(1)
+      _vm._m(0)
     ]),
     _vm._v(" "),
     _c(
@@ -20250,38 +20281,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "field column is-half" }, [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\t\tGlazing\n\t\t\t\t")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "control" }, [
-          _c("div", { staticClass: "select" }, [
-            _c("select", [
-              _c("option", { attrs: { selected: "" } }, [
-                _vm._v("Standard Acrylic")
-              ]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Super Clear Acrylic")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Standard Float Glass")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("UV Glass")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("AR Glass")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Conservation Glass")])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

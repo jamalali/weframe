@@ -7,7 +7,7 @@
 
 <div class="columns is-centered">
 	<div class="column is-three-quarters">
-		<price-calculator-admin></price-calculator-admin>
+		<price-calculator-admin v-bind:glazings="{{ $glazings }}"></price-calculator-admin>
     </div>
 	<div class="column">
 		<h4 class="title is-4">
