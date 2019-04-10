@@ -27,17 +27,14 @@ class PriceController extends Controller
 		
 		$glazing_id		= $request->input('glazing');
 		
-		$mould_price = $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
-		$glazing_price = $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
-		$mount_price = $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
-		
-		$total = $mould_price + $glazing_price + $mount_price;
+		$mould_price	= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
+		$glazing_price	= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
+		$mount_price	= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
 		
 		return response()->json([
-			'mould_price'	=> number_format($mould_price, 2),
-			'mount_price'	=> number_format($mount_price / 100, 2),
-			'total'			=> number_format($total / 100, 2),
-			'glazing_price'	=> number_format($glazing_price / 100, 2)
+			'mould_price'	=> $mould_price,
+			'mount_price'	=> $mount_price,
+			'glazing_price'	=> $glazing_price
 		]);
     }
 	
@@ -55,6 +52,15 @@ class PriceController extends Controller
 		];
 		
 		// If standard float glass or mirror glass get the "Oversized" sizes
+		$jumbo_peice = false;
+		
+		if (isset($glazing['oversized_width']) && isset($glazing['oversized_height']) && isset($glazing['oversized_price'])) {
+			$jumbo_peice = [
+				'width'		=> $glazing['oversized_width'],
+				'height'	=> $glazing['oversized_height'],
+				'price'		=> $glazing['oversized_price']
+			];
+		}
 		
 		// The glass sizes i.e. full, half & quarter		
 		$full_peice = [
@@ -71,9 +77,10 @@ class PriceController extends Controller
 		
 		// Now check which size glass peice the customers frame size fits into
 		// and use that price
-		if ($this->fits($frame, $quarter_peice))	{ $glass_price = $quarter_peice['price'];} 
-		else if ($this->fits($frame, $half_peice))	{ $glass_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))	{ $glass_price = $full_peice['price'];}
+		if ($this->fits($frame, $quarter_peice))					{ $glass_price = $quarter_peice['price'];} 
+		else if ($this->fits($frame, $half_peice))					{ $glass_price = $half_peice['price'];}
+		else if ($this->fits($frame, $full_peice))					{ $glass_price = $full_peice['price'];}
+		else if ($jumbo_peice && $this->fits($frame, $jumbo_peice)) { $glass_price = $jumbo_peice['price'];}
 		
 		// Add the percentage wastage
 		$glass_price = $glass_price + ($glass_price / 100 * $wastage);
@@ -81,7 +88,7 @@ class PriceController extends Controller
 		// Add the percentage markup
 		$glass_price = $glass_price + ($glass_price / 100 * $markup);
 		
-		return $glass_price;
+		return number_format($glass_price / 100, 2);
 	}
 	
 	private function getMountPrice($frame_width, $frame_height, $mount, $settings) {
@@ -114,13 +121,17 @@ class PriceController extends Controller
 		else if ($this->fits($frame, $full_peice))	{ $mount_price = $full_peice['price'];}
 		else if ($this->fits($frame, $jumbo_peice))	{ $mount_price = $jumbo_peice['price'];}
 		
+		if (!isset($mount_price)) {
+			return 'Frame too big for mount';
+		}
+		
 		// Add the percentage wastage
 		$mount_price = $mount_price + ($mount_price / 100 * $wastage);
 		
 		// Add the percentage markup
 		$mount_price = $mount_price + ($mount_price / 100 * $markup);
 		
-		return $mount_price;
+		return number_format($mount_price / 100, 2);
 	}
 	
 	private function getMouldPrice($glass_width, $glass_height, $mould_cost, $mould_width, $settings) {
@@ -133,7 +144,7 @@ class PriceController extends Controller
 		
 		$total_mould_cost_plus_wastage = $total_mould_cost + ($total_mould_cost / 100 * $mould_cut_wastage);
 		
-		return $total_mould_cost_plus_wastage;
+		return number_format($total_mould_cost_plus_wastage, 2);
 	}
 	
 	private function fits($frame, $peice) {

@@ -18,6 +18,9 @@ class Glazing extends Model {
         'width',
         'height',
         'price',
+		'oversized_width',
+        'oversized_height',
+        'oversized_price',
 		'exclude_online'
     ];
 
@@ -26,11 +29,18 @@ class Glazing extends Model {
     ];
 	
 	protected $attributes = [
-        'exclude_online' => 0,
+		'oversized_width'	=> null,
+        'oversized_height'	=> null,
+        'oversized_price'	=> null,
+        'exclude_online'	=> 0,
     ];
 	
 	public function getPriceInPounds($priceInPence) {
 		$priceInPounds = $priceInPence / 100;
 		return number_format($priceInPounds, 2);
+	}
+	
+	public function hasJumbo() {
+		return isset($this->oversized_width) && isset($this->oversized_height) && isset($this->oversized_price);
 	}
 }

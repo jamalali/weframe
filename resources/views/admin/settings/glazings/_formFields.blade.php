@@ -26,20 +26,47 @@
 ])@endhorizontaltextinput
 
 <div class="field is-horizontal">
-	<div class="field-label is-normal">
-		
-	</div>
-	
+	<div class="field-label is-normal"></div>
 	<div class="field-body">
 		<label class="checkbox">
 			<input type="checkbox" name="exclude_online" value="1"
-				@if($glazing->exclude_online == 1)
+				@if(isset($glazing) && $glazing->exclude_online == 1)
 				   checked
 				@endif>
 			Don't show online
 		</label>
 	</div>
 </div>
+
+<div class="field is-horizontal">
+	<div class="field-label is-normal"></div>
+	<div class="field-body">
+		<h4 class="title is-5">
+			Does this have an oversized/jumbo size?
+		</h4>
+	</div>
+</div>
+
+@horizontaltextinput([
+	'label'		=> 'Width',
+	'id'		=> 'oversized_width',
+	'addon'		=> 'mm',
+	'object'	=> $glazing
+])@endhorizontaltextinput
+
+@horizontaltextinput([
+	'label'		=> 'Height',
+	'id'		=> 'oversized_height',
+	'addon'		=> 'mm',
+	'object'	=> $glazing
+])@endhorizontaltextinput
+
+@horizontaltextinput([
+	'label'		=> 'Price',
+	'id'		=> 'oversized_price',
+	'addon'		=> 'p',
+	'object'	=> $glazing
+])@endhorizontaltextinput
 
 <div class="field is-horizontal">
 	<div class="field-label is-normal">

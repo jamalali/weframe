@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Glazing;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\StoreUpdateGlazing;
 
 class AdminSettingsGlazingsController extends Controller {
 	
@@ -23,15 +24,7 @@ class AdminSettingsGlazingsController extends Controller {
 		]);
     }
 	
-    public function store(Request $request) {
-		
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'width' => 'required|numeric',
-            'height' => 'required|numeric',
-            'price' => 'required|numeric',
-			'exclude_online' => 'boolean'
-        ]);
+    public function store(StoreUpdateGlazing $request) {
 		
 		$input = $request->except(['_token', '_method']);
 		
@@ -55,15 +48,7 @@ class AdminSettingsGlazingsController extends Controller {
         return view('admin.settings.glazings.edit', ['glazing' => $glazing]);
     }
 	
-    public function update(Request $request, Glazing $glazing) {
-        
-		$validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'width' => 'required|numeric',
-            'height' => 'required|numeric',
-            'price' => 'required|numeric',
-			'exclude_online' => 'boolean'
-        ]);
+    public function update(StoreUpdateGlazing $request, Glazing $glazing) {
 		
 		$input = $request->except(['_token', '_method']);
 		
