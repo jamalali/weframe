@@ -18,10 +18,10 @@
 			</div>
 		@endif
 
-		<form method="POST" action="{{ route('admin.settings.glazing.store') }}" autocomplete="off">
+		<form method="POST" action="{{ route('admin.settings.glazings.store') }}" autocomplete="off">
 			@csrf
 
-			@include('admin.settings.glazing._formFields')
+			@include('admin.settings.glazings._formFields')
 		</form>
             
     </div>

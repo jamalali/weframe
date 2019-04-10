@@ -10,7 +10,7 @@
 			 has-addons
 			 @endisset">
 			<div class="control">
-				<input value="@isset($value){{ $value }}@else{{ old($id) }}@endisset" type="text" class="input" name="{{ $id }}" id="{{ $id }}" placeholder="">
+				<input value="@isset($object->$id){{ $object->$id }}@else{{ old($id) }}@endisset" type="text" class="input" name="{{ $id }}" id="{{ $id }}" placeholder="">
 			</div>
 			@isset($addon)
 				<div class="control">

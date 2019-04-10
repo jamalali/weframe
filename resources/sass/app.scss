@@ -2,5 +2,9 @@
 
 @import '~bulma/bulma';
 
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
 @import 'forms/all';
 @import 'vue/components/all';

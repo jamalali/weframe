@@ -19,8 +19,8 @@
 			
 			<div class="tile is-2 is-parent">
 				<div class="tile is-child">
-					<a class="title is-5 box has-text-centered" href="{{ route('admin.settings.glazing.index') }}">
-						Glazing
+					<a class="title is-5 box has-text-centered" href="{{ route('admin.settings.glazings.index') }}">
+						Glazings
 					</a>
 				</div>
 			</div>

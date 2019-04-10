@@ -5,11 +5,12 @@
 	<div class="column">
 		
 		<h1 class="title is-3">
-			Glazing options
+			Glazings
 		</h1>
 		
 		@if (session('success'))
 			<div class="notification is-success">
+				<i class="fas fa-check-circle"></i>
 				{{ session()->get('success') }}
 			</div>
 		@endif
@@ -49,8 +50,8 @@
 								&pound;{{ $glazing_option->getPriceInPounds($glazing_option->price) }}
 							</td>
 							<td class="text-right">
-								<a href="{{ route('admin.settings.glazing.edit', $glazing_option->id) }}">
-									Edit
+								<a href="{{ route('admin.settings.glazings.edit', $glazing_option->id) }}">
+									<i class="fas fa-edit"></i>
 								</a>
 							</td>
 						</tr>
@@ -59,7 +60,7 @@
 			</table>
 		@endisset
 		
-		<a class="button is-primary" href="{{ route('admin.settings.glazing.create') }}">
+		<a class="button is-primary" href="{{ route('admin.settings.glazings.create') }}">
 			Add a new glazing option
 		</a>
             

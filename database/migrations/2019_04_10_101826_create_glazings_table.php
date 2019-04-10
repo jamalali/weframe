@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGlazingOptionsTable extends Migration
+class CreateGlazingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGlazingOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('glazing_options', function (Blueprint $table) {
+        Schema::create('glazings', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('name');
 			$table->double('width');
@@ -32,6 +32,6 @@ class CreateGlazingOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('glazing_options');
+        Schema::dropIfExists('glazings');
     }
 }
