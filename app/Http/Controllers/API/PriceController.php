@@ -27,16 +27,53 @@ class PriceController extends Controller
 		
 		$glazing_id		= $request->input('glazing');
 		
-		$mould_price	= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
-		$glazing_price	= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
-		$mount_price	= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
+		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
+		$glazing_price			= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
+		$mount_price			= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
+		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
 		
 		return response()->json([
-			'mould_price'	=> $mould_price,
-			'mount_price'	=> $mount_price,
-			'glazing_price'	=> $glazing_price
+			'mould_price'			=> $mould_price,
+			'mount_price'			=> $mount_price,
+			'glazing_price'			=> $glazing_price,
+			'backing_board_price'	=> $backing_board_price
 		]);
     }
+	
+	private function getBackingBoardPrice($frame_width, $frame_height, $settings) {
+		
+		$backing_board = $settings['backing_board'];
+		
+		$frame = [
+			'width'		=> $frame_width,
+			'height'	=> $frame_height
+		];
+		
+		// The glass sizes i.e. double, full, half & quarter
+		// We don't a seperate jumbo sized backing board so we just double the standard one
+		$double_peice	= $this->doubleUp($backing_board);
+		
+		$full_peice = [
+			'width'		=> $backing_board['width'],
+			'height'	=> $backing_board['height'],
+			'price'		=> $backing_board['price']
+		];
+		
+		// Cut the full size in her half to get the half size
+		$half_peice		= $this->cutInHalf($full_peice);
+		
+		// Cut the half size in her half to get the quarter size
+		$quarter_peice	= $this->cutInHalf($half_peice);
+		
+		// Now check which size peice the customers frame size fits into
+		// and use that price
+		if ($this->fits($frame, $quarter_peice))		{ $backing_board_price = $quarter_peice['price'];} 
+		else if ($this->fits($frame, $half_peice))		{ $backing_board_price = $half_peice['price'];}
+		else if ($this->fits($frame, $full_peice))		{ $backing_board_price = $full_peice['price'];}
+		else if ($this->fits($frame, $double_peice))	{ $backing_board_price = $double_peice['price'];}
+		
+		return number_format($backing_board_price / 100, 2);
+	}
 	
 	private function getGlazingPrice($frame_width, $frame_height, $glazing_id, $settings) {
 		
@@ -62,7 +99,7 @@ class PriceController extends Controller
 			];
 		}
 		
-		// The glass sizes i.e. full, half & quarter		
+		// The glass sizes i.e. full, half & quarter
 		$full_peice = [
 			'width'		=> $glazing['width'],
 			'height'	=> $glazing['height'],
@@ -151,6 +188,25 @@ class PriceController extends Controller
 		// we need to check both portrait and landscape orientation
 		return $frame['width'] <= $peice['width'] && $frame['height'] <= $peice['height'] || $frame['height'] <= $peice['width'] && $frame['width'] <= $peice['height'];
 	}
+	
+	private function doubleUp($peice) {
+		
+		if ($peice['width'] > $peice['height']) {
+			$width_double	= $peice['width'];
+			$height_double	= $peice['height'] * 2;
+			$price_double	= $peice['price'] * 2;
+		} else {
+			$width_double	= $peice['width'] * 2;
+			$height_double	= $peice['height'];
+			$price_double	= $peice['price'] * 2;
+		}
+		
+		return [
+			'width'		=> $width_double,
+			'height'	=> $height_double,
+			'price'		=> $price_double
+		];
+	}
 
 	private function cutInHalf($peice) {
 		
@@ -161,14 +217,14 @@ class PriceController extends Controller
 			$price_half		= $peice['price'] / 2;
 		} else {
 			$width_half		= $peice['width'];
-			$height_half	= $peice['height'] /2;
+			$height_half	= $peice['height'] / 2;
 			$price_half		= $peice['price'] / 2;
 		}
 		
 		return [
-			'width' => $width_half,
-			'height' => $height_half,
-			'price' => $price_half
+			'width'		=> $width_half,
+			'height'	=> $height_half,
+			'price'		=> $price_half
 		];
 	}
 }
