@@ -1,22 +1,28 @@
-<label class="label">
-	{{ $label }}
-</label>
+@isset($label)
+	<label class="label">
+		{{ $label }}
+	</label>
+@endisset
 
 <div class="columns is-grouped-triple">
 	
 	@foreach ($boxes as $box)
 	
 		@php
-		$box_id = $box['id'];
-		$value	= null;
-		
-		if (isset($settings[$id])) {
-			$value = $settings[$id]->$box_id;
-		}
+			$box_id = $box['id'];
+			$value = null;
+
+			if (isset($values[$id])) {
+				$value = $values[$id]->$box_id;
+			}
 		@endphp
 
 		<div class="field column">
-			<label class="label is-size-7 has-text-weight-normal" for="{{ $id }}[{{ $box['id'] }}]">
+			<label class="label @isset($label)
+				   is-size-7 has-text-weight-normal
+				@else
+					is-size-6
+				@endisset" for="{{ $id }}[{{ $box['id'] }}]">
 				{{ $box['label'] }}
 			</label>
 

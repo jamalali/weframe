@@ -1,28 +1,28 @@
 @horizontaltextinput([
 	'label'		=> 'Name',
 	'id'		=> 'name',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 @horizontaltextinput([
 	'label'		=> 'Width',
 	'id'		=> 'width',
 	'addon'		=> 'mm',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 @horizontaltextinput([
 	'label'		=> 'Height',
 	'id'		=> 'height',
 	'addon'		=> 'mm',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 @horizontaltextinput([
 	'label'		=> 'Price',
 	'id'		=> 'price',
 	'addon'		=> 'p',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 <div class="field is-horizontal">
@@ -51,21 +51,21 @@
 	'label'		=> 'Width',
 	'id'		=> 'oversized_width',
 	'addon'		=> 'mm',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 @horizontaltextinput([
 	'label'		=> 'Height',
 	'id'		=> 'oversized_height',
 	'addon'		=> 'mm',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 @horizontaltextinput([
 	'label'		=> 'Price',
 	'id'		=> 'oversized_price',
 	'addon'		=> 'p',
-	'object'	=> $glazing
+	'values'	=> $glazing
 ])@endhorizontaltextinput
 
 <div class="field is-horizontal">

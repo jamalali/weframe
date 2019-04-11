@@ -60,9 +60,20 @@
 							<a class="navbar-item" href="{{ route('admin.orders.index') }}">
 							   Orders
 							</a>
-							<a class="navbar-item" href="{{ route('admin.settings.index') }}">
-							   Settings
-							</a>
+							<div class="navbar-item has-dropdown is-hoverable">
+								<a class="navbar-link is-arrowless" href="{{ route('admin.settings.index') }}">
+								   Settings
+								</a>
+								
+								<div class="navbar-dropdown is-right">
+									<a class="navbar-item" href="{{ route('admin.settings.pricing.index') }}">
+										{{ __('Pricing') }}
+									</a>
+									<a class="navbar-item" href="{{ route('admin.settings.glazings.index') }}">
+										{{ __('Glazings') }}
+									</a>
+								</div>
+							</div>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<a class="navbar-link is-arrowless" href="#">
 									Me

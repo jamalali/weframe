@@ -204,6 +204,13 @@
 
 				</div>
 			</div>
+			
+			<hr />
+			
+			<label class="checkbox label">
+				<input type="checkbox" name="dry_mount_included" value="1" ref="dry_mount_included" v-on:change="getPrice">
+				Include a dry mount?
+			</label>
 
 			<hr />
 
@@ -373,6 +380,9 @@
 					
 					// Glazing
 					params.glazing = this.$refs['glazing']['value']
+					
+					// Dry Mount
+					params.dry_mount = this.$refs['dry_mount_included']['value']
 					
 					//console.log(params)
 				

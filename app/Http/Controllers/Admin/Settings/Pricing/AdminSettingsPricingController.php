@@ -15,7 +15,7 @@ class AdminSettingsPricingController extends Controller {
 		
 		//$settings = Cache::get('settings_' . $this->settings_namespace);
 		
-		$settings = Setting::where('namespace', $this->settings_namespace)->get()->pluck('value', 'key');
+		$settings = Setting::where('namespace', $this->settings_namespace)->pluck('value', 'key')->all();
 		
         return view('admin.settings.pricing.index', ['settings' => $settings]);
     }

@@ -6,13 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
-class PriceController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class PriceController extends Controller {
+	
+	private $include_markup = false;
+
     public function get(Request $request) {
 		
 		$settings = Cache::get('settings_pricing');
@@ -20,26 +17,146 @@ class PriceController extends Controller
 		$mould_cost		= $request->input('mould_cost');
 		$mould_width	= $request->input('mould_width');
 		
-		$mount		= json_decode($request->input('mount'));
+		$mount = json_decode($request->input('mount'));
 		
 		$glass_size_width		= $request->input('glass_size_width');
 		$glass_size_height		= $request->input('glass_size_height');
 		
-		$glazing_id		= $request->input('glazing');
+		$glazing_id	= $request->input('glazing');
+		
+		$dry_mount_included = $request->input('dry_mount_included');
 		
 		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
 		$glazing_price			= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
 		$mount_price			= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
 		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
+		$dry_mount_price		= $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings);
 		
 		return response()->json([
 			'mould_price'			=> $mould_price,
 			'mount_price'			=> $mount_price,
 			'glazing_price'			=> $glazing_price,
-			'backing_board_price'	=> $backing_board_price
+			'backing_board_price'	=> $backing_board_price,
+			'dry_mount_price'		=> $dry_mount_price,
+			'markup_included'		=> $this->include_markup ? 'Yes' : 'No'
 		]);
     }
 	
+	private function getDryMountPrice($frame_width, $frame_height, $dry_mount_included, $settings) {
+		
+		if (!$dry_mount_included) {
+			return 'Not included';
+		}
+		
+		$tissue_price = $this->getDryMountTissuePrice($frame_width, $frame_height, $settings);
+		$paper_price = $this->getSiliconeReleasePaperPrice($frame_width, $frame_height, $settings);
+		$board_price = $this->getPulpBoardPrice($frame_width, $frame_height, $settings);
+		
+		return [
+			'dry_mount_tissue'			=> $tissue_price,
+			'silicone_release_paper'	=> $paper_price,
+			'pulp_board'				=> $board_price
+		];
+	}
+	
+	private function getPulpBoardPrice($frame_width, $frame_height, $settings) {
+		
+		// NOTE:
+		// If the frame is too big for the pulp board we need to use the jumbo mount board
+		// so get the jumbo mount board sizes and price
+		
+		$pulp_board				= $settings['pulp_board'];
+		$pulp_board_wastage		= $settings['pulp_board_wastage'];
+		$pulp_board_markup		= $settings['pulp_board_markup'];
+		
+		$mount_board			= $settings['jumbo_mount_board'];
+		$mount_board_wastage	= $settings['mount_board_wastage'];
+		$mount_board_markup		= $settings['mount_board_markup'];
+		
+		$frame = [
+			'width'		=> $frame_width,
+			'height'	=> $frame_height
+		];
+		
+		$mount_board_used = false;
+		$mount_board_peice = [
+			'width'		=> $mount_board['width'],
+			'height'	=> $mount_board['height'],
+			'price'		=> $mount_board['price']
+		];
+		
+		// The sheet sizes i.e. full, half & quarter
+		$full_peice = [
+			'width'		=> $pulp_board['width'],
+			'height'	=> $pulp_board['height'],
+			'price'		=> $pulp_board['price']
+		];
+		
+		// Cut the full size in her half to get the half size
+		$half_peice		= $this->cutInHalf($full_peice);
+		
+		// Cut the half size in her half to get the quarter size
+		$quarter_peice	= $this->cutInHalf($half_peice);
+		
+		// Now check which size peice the customers frame size fits into
+		// and use that price
+		if ($this->fits($frame, $quarter_peice))			{ $pulp_board_price = $quarter_peice['price'];} 
+		else if ($this->fits($frame, $half_peice))			{ $pulp_board_price = $half_peice['price'];}
+		else if ($this->fits($frame, $full_peice))			{ $pulp_board_price = $full_peice['price'];}
+		else if ($this->fits($frame, $mount_board_peice))	{ $pulp_board_price = $mount_board_peice['price']; $mount_board_used = true;}
+		
+		// Add the percentage wastage
+		$wastage = $mount_board_used ? $mount_board_wastage : $pulp_board_wastage;
+		$pulp_board_price = $pulp_board_price + ($pulp_board_price / 100 * $wastage);
+		
+		// Add the percentage markup
+		if ($this->include_markup) {
+			$markup = $mount_board_wastage ? $pulp_board_markup : $mount_board_markup;
+			$pulp_board_price = $pulp_board_price + ($pulp_board_price / 100 * $markup);
+		}
+		
+		return number_format($pulp_board_price / 100, 2);
+	}
+	
+	private function getSiliconeReleasePaperPrice($frame_width, $frame_height, $settings) {
+		$silicone_release_paper_price	= $settings['silicone_release_paper_price'];
+		return number_format($silicone_release_paper_price / 100, 2);
+	}
+	
+	private function getDryMountTissuePrice($frame_width, $frame_height, $settings) {
+		
+		$tissue_buffer = 10; // There needs to be a little extra tissue around the artwork (in mm)
+		
+		// Dry mount itssue
+		$dry_mount_tissue_width		= $settings['dry_mount_tissue_width'];
+		$dry_mount_tissue_price		= $settings['dry_mount_tissue_price']; // price per metre
+		$dry_mount_tissue_price_mm	= $dry_mount_tissue_price / 1000; // price per mm
+		
+		// What length of the roll do we need?
+		// Check againt the longest side of the frame size first
+		// to see if that fits the width of the dry mount tissue roll
+		if ($frame_width > $frame_height && $frame_width <= $dry_mount_tissue_width - $tissue_buffer * 2) {
+			$tissue_length_needed = $frame_height + $tissue_buffer * 2;
+			
+		// If the longest side of the frame is too long rotate it 90 degrees and check againt the short side
+		} else if ($frame_height <= $dry_mount_tissue_width - $tissue_buffer * 2) {
+			$tissue_length_needed = $frame_width + $tissue_buffer * 2;
+		} else {
+			$tissue_length_needed = 'The frame is too big for the dry mount tissue paper';
+		}
+		
+		// Now lets work out the cost
+		
+		if (is_int($tissue_length_needed)) {
+			$tissue_price = $dry_mount_tissue_price_mm * $tissue_length_needed;
+			$tissue_price = number_format($tissue_price / 100, 2);
+		} else {
+			$tissue_price = $tissue_length_needed;
+		}
+		
+		return $tissue_price;
+	}
+
 	private function getBackingBoardPrice($frame_width, $frame_height, $settings) {
 		
 		$backing_board = $settings['backing_board'];
@@ -123,7 +240,9 @@ class PriceController extends Controller
 		$glass_price = $glass_price + ($glass_price / 100 * $wastage);
 		
 		// Add the percentage markup
-		$glass_price = $glass_price + ($glass_price / 100 * $markup);
+		if ($this->include_markup) {
+			$glass_price = $glass_price + ($glass_price / 100 * $markup);
+		}
 		
 		return number_format($glass_price / 100, 2);
 	}
@@ -166,7 +285,9 @@ class PriceController extends Controller
 		$mount_price = $mount_price + ($mount_price / 100 * $wastage);
 		
 		// Add the percentage markup
-		$mount_price = $mount_price + ($mount_price / 100 * $markup);
+		if ($this->include_markup) {
+			$mount_price = $mount_price + ($mount_price / 100 * $markup);
+		}
 		
 		return number_format($mount_price / 100, 2);
 	}

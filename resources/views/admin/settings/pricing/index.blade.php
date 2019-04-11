@@ -4,7 +4,7 @@
 <div class="columns is-centered">
 	<div class="column">
 		
-		<h1 class="title is-1">
+		<h1 class="title is-3">
 			Pricing Settings
 		</h1>
 		
@@ -17,114 +17,174 @@
 		<form class="is-horizontal is-2-col" action="{{ route('admin.settings.pricing.store') }}" method="POST">
 			@csrf
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Mould length',
 				'id'		=> 'mould_length',
 				'addon'		=> 'metres',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Mould cut wastage',
 				'id'		=> 'mould_cut_wastage',
 				'addon'		=> '%',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Glass wastage',
 				'id'		=> 'glass_wastage',
 				'addon'		=> '%',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Glass markup',
 				'id'		=> 'glass_markup',
 				'addon'		=> '%',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Mount board wastage',
 				'id'		=> 'mount_board_wastage',
 				'addon'		=> '%',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Mount board markup',
 				'id'		=> 'mount_board_markup',
 				'addon'		=> '%',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
 			<hr />
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Flexi & fletcher pins',
 				'id'		=> 'flexi_fletcher_pins',
 				'addon'		=> 'pence per metre',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Plastic bag',
 				'id'		=> 'plastic_bag',
 				'addon'		=> 'pence per bag',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'D rings',
 				'id'		=> 'd_rings',
 				'addon'		=> 'pence per frame',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'ATG tape',
 				'id'		=> 'atg_tape',
 				'addon'		=> 'pence per metre',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'String',
 				'id'		=> 'string',
 				'addon'		=> 'pence per metre',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
-			@textboxaddon([
+			@horizontaltextinput([
 				'label'		=> 'Cassese wedges',
 				'id'		=> 'cassese_wedges',
 				'addon'		=> 'pence per frame',
-				'settings'	=> $settings
-			])@endtextboxaddon
+				'values'	=> $settings
+			])@endhorizontaltextinput
 			
 			<hr />
 			
-			@textboxaddon([
-				'label'		=> 'Dry mount tissue',
-				'id'		=> 'dry_mount_tissue',
-				'addon'		=> 'pence per metre',
-				'settings'	=> $settings
-			])@endtextboxaddon
-			
-			@textboxaddon([
-				'label'		=> 'Pulp board',
-				'id'		=> 'pulp_board',
-				'addon'		=> 'pence per sheet',
-				'settings'	=> $settings
-			])@endtextboxaddon
-			
-			@textboxaddon([
-				'label'		=> 'Silicone release paper',
-				'id'		=> 'silicone_release_paper',
-				'addon'		=> 'pence per metre',
-				'settings'	=> $settings
-			])@endtextboxaddon
+			<div class="columns">
+				<div class="column is-one-quarter">
+					<h2 class="title is-5 has-text-info">
+						Dry mount tissue
+					</h2>
+					
+					@textboxaddon([
+						'label'		=> 'Width',
+						'id'		=> 'dry_mount_tissue_width',
+						'addon'		=> 'mm',
+						'values'	=> $settings
+					])@endtextboxaddon
+					
+					@textboxaddon([
+						'label'		=> 'Price per metre',
+						'id'		=> 'dry_mount_tissue_price',
+						'addon'		=> 'p',
+						'values'	=> $settings
+					])@endtextboxaddon
+				</div>
+				<div class="column">
+					<h2 class="title is-5 has-text-info">
+						Pulp board
+					</h2>
+					
+					@tripletextboxaddon([
+						'id'		=> 'pulp_board',
+						'values'	=> $settings,
+						'boxes'		=> [
+							0 => [
+								'label' => 'Width',
+								'id'	=> 'width',
+								'addon' => 'mm'
+							],
+							1 => [
+								'label' => 'Height',
+								'id'	=> 'height',
+								'addon' => 'mm'
+							],
+							2 => [
+								'label' => 'Price',
+								'id'	=> 'price',
+								'addon' => 'p'
+							]
+						]
+					])@endtripletextboxaddon
+					
+					<div class="columns">
+						<div class="column">
+							@textboxaddon([
+								'label'		=> 'Wastage',
+								'id'		=> 'pulp_board_wastage',
+								'addon'		=> '%',
+								'values'	=> $settings
+							])@endtextboxaddon
+						</div>
+						
+						<div class="column">
+							@textboxaddon([
+								'label'		=> 'Markup',
+								'id'		=> 'pulp_board_markup',
+								'addon'		=> '%',
+								'values'	=> $settings
+							])@endtextboxaddon
+						</div>
+					</div>
+				</div>
+				<div class="column is-one-quarter">
+					<h2 class="title is-5 has-text-info">
+						Silicone release paper
+					</h2>
+					
+					@textboxaddon([
+						'label'		=> 'Price per frame',
+						'id'		=> 'silicone_release_paper_price',
+						'addon'		=> 'p',
+						'values'	=> $settings
+					])@endtextboxaddon
+				</div>
+			</div>
 			
 			<hr />
 			
@@ -133,7 +193,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Jumbo mount board',
 						'id'		=> 'jumbo_mount_board',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -157,7 +217,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Standard mount board',
 						'id'		=> 'standard_mount_board',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -183,7 +243,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Black core mount board',
 						'id'		=> 'black_core_mount_board',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -207,7 +267,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Triple thick mount board',
 						'id'		=> 'triple_thick_mount_board',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -236,7 +296,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Backing board',
 						'id'		=> 'backing_board',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -267,7 +327,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Foam board 5mm',
 						'id'		=> 'foam_board_5mm',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',
@@ -291,7 +351,7 @@
 					@tripletextboxaddon([
 						'label'		=> 'Foam board 10mm',
 						'id'		=> 'foam_board_10mm',
-						'settings'	=> $settings,
+						'values'	=> $settings,
 						'boxes'		=> [
 							0 => [
 								'label' => 'width',

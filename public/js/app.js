@@ -1984,6 +1984,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2045,7 +2052,9 @@ __webpack_require__.r(__webpack_exports__);
         params.glass_size_width = this.$refs['glass_size_width']['value'];
         params.glass_size_height = this.$refs['glass_size_height']['value']; // Glazing
 
-        params.glazing = this.$refs['glazing']['value']; //console.log(params)
+        params.glazing = this.$refs['glazing']['value']; // Dry Mount
+
+        params.dry_mount = this.$refs['dry_mount_included']['value']; //console.log(params)
 
         axios.get('http://weframe.local/api/price', {
           params: params
@@ -20152,6 +20161,17 @@ var render = function() {
               ])
             ])
           : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("label", { staticClass: "checkbox label" }, [
+        _c("input", {
+          ref: "dry_mount_included",
+          attrs: { type: "checkbox", name: "dry_mount_included", value: "1" },
+          on: { change: _vm.getPrice }
+        }),
+        _vm._v("\n\t\t\tInclude a dry mount?\n\t\t")
       ]),
       _vm._v(" "),
       _c("hr"),

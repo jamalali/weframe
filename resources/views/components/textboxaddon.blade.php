@@ -1,15 +1,23 @@
-<div class="field is-horizontal">
-	<div class="field-label is-normal">
-		<label class="label" for="{{ $id }}">
-			{{ $label }}
-		</label>
-	</div>
+@php
+	if (isset($values) && isset($values->$id)) {
+		$value = $values->$id;
+	} else if (isset($values) && isset($values[$id])) {
+		$value = $values[$id];
+	}
+@endphp
 
-	<div class="field-body">
-		<div class="field has-addons">
-			<div class="control">
-				<input value="@isset($settings[$id]){{ $settings[$id] }}@else{{ old($id) }}@endisset" id="{{ $id }}" name="{{ $id }}" class="input" type="text" placeholder="">
-			</div>
+<div class="field">
+	<label class="label" for="{{ $id }}">
+		{{ $label }}
+	</label>
+	
+	<div class="field @isset($addon)
+			 has-addons
+			 @endisset">
+		<div class="control">
+			<input value="@isset($value){{ $value }}@else{{ old($id) }}@endisset" id="{{ $id }}" name="{{ $id }}" class="input" type="text" placeholder="">
+		</div>
+		@isset($addon)
 			<div class="control">
 				<span class="button is-static">
 					<span class="is-size-7">
@@ -17,6 +25,6 @@
 					</span>
 				</span>
 			</div>
-		</div>
+		@endisset
 	</div>
 </div>
