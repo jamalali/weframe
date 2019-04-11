@@ -25,12 +25,14 @@ class PriceController extends Controller {
 		$glazing_id	= $request->input('glazing');
 		
 		$dry_mount_included = $request->input('dry_mount_included');
+		$fixings_included	= $request->input('fixings_included');
 		
 		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
 		$glazing_price			= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
 		$mount_price			= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
 		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
 		$dry_mount_price		= $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings);
+		$fixings_price			= $this->getFixingsPrice($glass_size_width, $glass_size_height, $fixings_included, $settings);
 		
 		return response()->json([
 			'mould_price'			=> $mould_price,
@@ -38,13 +40,29 @@ class PriceController extends Controller {
 			'glazing_price'			=> $glazing_price,
 			'backing_board_price'	=> $backing_board_price,
 			'dry_mount_price'		=> $dry_mount_price,
+			'fixings_price'			=> $fixings_price,
 			'markup_included'		=> $this->include_markup ? 'Yes' : 'No'
 		]);
     }
 	
+	private function getFixingsPrice($frame_width, $frame_height, $fixings_included, $settings) {
+		
+		if (!filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN)) {
+			return 'Not included';
+		}
+		
+		$d_rings = $settings['d_rings'];
+		
+		$d_rings_price = number_format($d_rings / 100, 2);
+		
+		return [
+			'd_rings' => $d_rings_price
+		];
+	}
+	
 	private function getDryMountPrice($frame_width, $frame_height, $dry_mount_included, $settings) {
 		
-		if (!$dry_mount_included) {
+		if (!filter_var($dry_mount_included, FILTER_VALIDATE_BOOLEAN)) {
 			return 'Not included';
 		}
 		

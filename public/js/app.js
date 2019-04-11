@@ -1973,24 +1973,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2054,7 +2036,9 @@ __webpack_require__.r(__webpack_exports__);
 
         params.glazing = this.$refs['glazing']['value']; // Dry Mount
 
-        params.dry_mount = this.$refs['dry_mount_included']['value']; //console.log(params)
+        params.dry_mount_included = this.$refs['dry_mount_included']['checked']; // Fixings
+
+        params.fixings_included = this.$refs['fixings_included']['checked']; //console.log(params)
 
         axios.get('http://weframe.local/api/price', {
           params: params
@@ -20174,24 +20158,13 @@ var render = function() {
         _vm._v("\n\t\t\tInclude a dry mount?\n\t\t")
       ]),
       _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "field column is-half" }, [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\t\tArtwork mounting\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select" }, [
-              _c("select", { ref: "artwork_mounting" }, [
-                _c("option", [_vm._v("Dry mount")]),
-                _vm._v(" "),
-                _c("option", [_vm._v("Japanese hinging tape")])
-              ])
-            ])
-          ])
-        ])
+      _c("label", { staticClass: "checkbox label" }, [
+        _c("input", {
+          ref: "fixings_included",
+          attrs: { type: "checkbox", name: "fixings_included", value: "1" },
+          on: { change: _vm.getPrice }
+        }),
+        _vm._v("\n\t\t\tInclude fixings?\n\t\t")
       ]),
       _vm._v(" "),
       _c("hr"),
@@ -20277,55 +20250,58 @@ var render = function() {
             ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0)
+      ])
     ]),
     _vm._v(" "),
     _c(
       "ul",
-      { attrs: { id: "example-1" } },
+      { staticClass: "menu-list" },
       _vm._l(_vm.prices, function(price, key) {
-        return _c("li", [
-          _vm._v(
-            "\n\t\t  " +
-              _vm._s(_vm._f("keyToLabel")(key)) +
-              ": £" +
-              _vm._s(price) +
-              "\n\t\t"
-          )
+        return _c("li", { staticClass: "level-1-item" }, [
+          typeof price !== "object"
+            ? _c("a", [
+                _vm._v(
+                  "\n\t\t\t\t" +
+                    _vm._s(_vm._f("keyToLabel")(key)) +
+                    ": " +
+                    _vm._s(price) +
+                    "\n\t\t\t"
+                )
+              ])
+            : _c("a", [
+                _vm._v(
+                  "\n\t\t\t\t" + _vm._s(_vm._f("keyToLabel")(key)) + ":\n\t\t\t"
+                )
+              ]),
+          _vm._v(" "),
+          typeof price === "object"
+            ? _c(
+                "ul",
+                _vm._l(price, function(priceChild, keyChild) {
+                  return typeof price === "object"
+                    ? _c("li", { staticClass: "level-2-item" }, [
+                        _c("a", [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t" +
+                              _vm._s(_vm._f("keyToLabel")(keyChild)) +
+                              ": " +
+                              _vm._s(priceChild) +
+                              "\n\t\t\t\t\t"
+                          )
+                        ])
+                      ])
+                    : _vm._e()
+                }),
+                0
+              )
+            : _vm._e()
         ])
       }),
       0
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "field column is-half" }, [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\t\tFixings\n\t\t\t\t")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "control" }, [
-          _c("div", { staticClass: "select" }, [
-            _c("select", [
-              _c("option", { attrs: { selected: "" } }, [_vm._v("Standard")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Heavy")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Invisible")])
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -20534,7 +20510,7 @@ Vue.component('price-calculator-admin', __webpack_require__(/*! ./components/Pri
 Vue.filter('keyToLabel', function (value) {
   if (!value) return '';
   value = value.toString();
-  value = value.replace('_', ' ');
+  value = value.replace(/_/g, ' ');
   return value.charAt(0).toUpperCase() + value.slice(1);
 });
 /**

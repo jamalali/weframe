@@ -27,7 +27,7 @@ Vue.component('price-calculator-admin', require('./components/PriceCalculatorAdm
 Vue.filter('keyToLabel', function (value) {
   if (!value) return ''
   value = value.toString()
-  value = value.replace('_', ' ')
+  value = value.replace(/_/g, ' ')
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
 

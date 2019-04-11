@@ -211,24 +211,11 @@
 				<input type="checkbox" name="dry_mount_included" value="1" ref="dry_mount_included" v-on:change="getPrice">
 				Include a dry mount?
 			</label>
-
-			<hr />
-
-			<div class="columns">
-				<div class="field column is-half">
-					<label class="label">
-						Artwork mounting
-					</label>
-					<div class="control">
-						<div class="select">
-							<select ref="artwork_mounting">
-								<option>Dry mount</option>
-								<option>Japanese hinging tape</option>
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>
+			
+			<label class="checkbox label">
+				<input type="checkbox" name="fixings_included" value="1" ref="fixings_included" v-on:change="getPrice">
+				Include fixings?
+			</label>
 
 			<hr />
 
@@ -285,28 +272,23 @@
 				</div>	
 			</div>
 
-			<div class="columns">
-				<div class="field column is-half">
-					<label class="label">
-						Fixings
-					</label>
-					<div class="control">
-						<div class="select">
-							<select>
-								<option selected>Standard</option>
-								<option>Heavy</option>
-								<option>Invisible</option>
-							</select>
-						  </div>
-					</div>
-				</div>	
-			</div>
-
 		</form>
 
-		<ul id="example-1">
-			<li v-for="(price, key) in prices">
-			  {{ key | keyToLabel }}: &pound;{{ price }}
+		<ul class="menu-list">
+			<li v-for="(price, key) in prices" class="level-1-item">
+				<a v-if="typeof price !== 'object'">
+					{{ key | keyToLabel }}: {{ price }}
+				</a>
+				<a v-else>
+					{{ key | keyToLabel }}:
+				</a>
+				<ul v-if="typeof price === 'object'">
+					<li v-if="typeof price === 'object'" v-for="(priceChild, keyChild) in price" class="level-2-item">
+						<a>
+							{{ keyChild | keyToLabel }}: {{ priceChild }}
+						</a>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</div>
@@ -382,7 +364,10 @@
 					params.glazing = this.$refs['glazing']['value']
 					
 					// Dry Mount
-					params.dry_mount = this.$refs['dry_mount_included']['value']
+					params.dry_mount_included = this.$refs['dry_mount_included']['checked']
+					
+					// Fixings
+					params.fixings_included = this.$refs['fixings_included']['checked']
 					
 					//console.log(params)
 				
