@@ -273,24 +273,6 @@
 			</div>
 
 		</form>
-
-		<ul class="menu-list">
-			<li v-for="(price, key) in prices" class="level-1-item">
-				<a v-if="typeof price !== 'object'">
-					{{ key | keyToLabel }}: {{ price }}
-				</a>
-				<a v-else>
-					{{ key | keyToLabel }}:
-				</a>
-				<ul v-if="typeof price === 'object'">
-					<li v-if="typeof price === 'object'" v-for="(priceChild, keyChild) in price" class="level-2-item">
-						<a>
-							{{ keyChild | keyToLabel }}: {{ priceChild }}
-						</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
 	</div>
 </template>
 
@@ -298,8 +280,7 @@
     export default {
 		data() {
 			return {
-				mount: 'none',
-				prices: {}
+				mount: 'none'
 			}
 		},
 		props: {
@@ -373,9 +354,8 @@
 				
 					axios.get('http://weframe.local/api/price', {
 						params: params
-					})
-					.then(response => (
-						this.prices = response.data
+					}).then(response => (
+						this.$store.commit('updateCalculation', response.data)
 					))
 				})
 			}

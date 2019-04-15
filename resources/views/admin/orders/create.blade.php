@@ -6,13 +6,20 @@
 </h1>
 
 <div class="columns is-centered">
-	<div class="column is-three-quarters">
+	<div class="column is-two-thirds">
 		<price-calculator-admin v-bind:glazings="{{ $glazings }}"></price-calculator-admin>
     </div>
-	<div class="column">
-		<h4 class="title is-4">
-			Basket
-		</h4>
+	<div class="column is-one-third">
+		<div class="basket-container">
+			<h4 class="title is-4">
+				Basket
+			</h4>
+			<p>
+				empty
+			</p>
+		</div>
+		<hr />
+		<calculation-display-admin></calculation-display-admin>
     </div>
 </div>
 

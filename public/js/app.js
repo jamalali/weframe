@@ -1668,6 +1668,61 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    calculation: function calculation(state) {
+      return state.calculation;
+    }
+  }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['calculationTotal']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js& ***!
@@ -1955,29 +2010,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      mount: 'none',
-      prices: {}
+      mount: 'none'
     };
   },
   props: {
@@ -2043,7 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.get('http://weframe.local/api/price', {
           params: params
         }).then(function (response) {
-          return _this.prices = response.data;
+          return _this.$store.commit('updateCalculation', response.data);
         });
       });
     }
@@ -19663,6 +19699,94 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return Object.keys(_vm.calculation).length
+    ? _c("div", { staticClass: "calculation-display" }, [
+        _c("h4", { staticClass: "title is-4" }, [
+          _vm._v("\n\t\tPrice calculation\n\t")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "columns is-multiline" },
+          [
+            _vm._l(_vm.calculation, function(price, key) {
+              return _c(
+                "div",
+                { staticClass: "column is-full" },
+                [
+                  _vm._v(
+                    "\n\t\t\t" + _vm._s(_vm._f("keyToLabel")(key)) + "\n\t\t\t"
+                  ),
+                  typeof price !== "object"
+                    ? _c("span", { staticClass: "is-pulled-right" }, [
+                        _vm._v(
+                          "\n\t\t\t\t" +
+                            _vm._s(_vm._f("currency")(price)) +
+                            "\n\t\t\t"
+                        )
+                      ])
+                    : _vm._l(price, function(priceChild, keyChild) {
+                        return _c("div", [
+                          _vm._v(
+                            "\n\t\t\t\t- " +
+                              _vm._s(_vm._f("keyToLabel")(keyChild)) +
+                              "\n\t\t\t\t"
+                          ),
+                          _c("span", { staticClass: "is-pulled-right" }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t" +
+                                _vm._s(_vm._f("currency")(priceChild)) +
+                                "\n\t\t\t\t"
+                            )
+                          ])
+                        ])
+                      })
+                ],
+                2
+              )
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-full" }, [
+              _c("span", { staticClass: "title is-5" }, [
+                _vm._v("\n\t\t\t\tTotal\n\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "title is-5 is-pulled-right" }, [
+                _vm._v(
+                  "\n\t\t\t\t" +
+                    _vm._s(_vm._f("currency")(_vm.calculationTotal)) +
+                    "\n\t\t\t"
+                )
+              ])
+            ])
+          ],
+          2
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862& ***!
@@ -20251,54 +20375,7 @@ var render = function() {
           ])
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      { staticClass: "menu-list" },
-      _vm._l(_vm.prices, function(price, key) {
-        return _c("li", { staticClass: "level-1-item" }, [
-          typeof price !== "object"
-            ? _c("a", [
-                _vm._v(
-                  "\n\t\t\t\t" +
-                    _vm._s(_vm._f("keyToLabel")(key)) +
-                    ": " +
-                    _vm._s(price) +
-                    "\n\t\t\t"
-                )
-              ])
-            : _c("a", [
-                _vm._v(
-                  "\n\t\t\t\t" + _vm._s(_vm._f("keyToLabel")(key)) + ":\n\t\t\t"
-                )
-              ]),
-          _vm._v(" "),
-          typeof price === "object"
-            ? _c(
-                "ul",
-                _vm._l(price, function(priceChild, keyChild) {
-                  return typeof price === "object"
-                    ? _c("li", { staticClass: "level-2-item" }, [
-                        _c("a", [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t" +
-                              _vm._s(_vm._f("keyToLabel")(keyChild)) +
-                              ": " +
-                              _vm._s(priceChild) +
-                              "\n\t\t\t\t\t"
-                          )
-                        ])
-                      ])
-                    : _vm._e()
-                }),
-                0
-              )
-            : _vm._e()
-        ])
-      }),
-      0
-    )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -20483,19 +20560,28 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./bulma.js */ "./resources/js/bulma.js");
-
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20506,12 +20592,56 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('price-calculator-admin', __webpack_require__(/*! ./components/PriceCalculatorAdmin.vue */ "./resources/js/components/PriceCalculatorAdmin.vue")["default"]);
-Vue.filter('keyToLabel', function (value) {
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('price-calculator-admin', __webpack_require__(/*! ./components/PriceCalculatorAdmin.vue */ "./resources/js/components/PriceCalculatorAdmin.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('calculation-display-admin', __webpack_require__(/*! ./components/CalculationDisplayAdmin.vue */ "./resources/js/components/CalculationDisplayAdmin.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('keyToLabel', function (value) {
   if (!value) return '';
   value = value.toString();
   value = value.replace(/_/g, ' ');
   return value.charAt(0).toUpperCase() + value.slice(1);
+});
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('currency', function (value) {
+  if (isNaN(parseFloat(value))) return value;
+  return '£' + value;
+});
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  state: {
+    calculation: {}
+  },
+  getters: {
+    calculationTotal: function calculationTotal(state) {
+      var total = 0;
+
+      for (var key in state.calculation) {
+        var value = state.calculation[key];
+
+        if (_typeof(value) == 'object') {
+          for (var childKey in value) {
+            var childValue = value[childKey];
+            childValue = parseFloat(childValue);
+
+            if (!isNaN(childValue)) {
+              total = total + childValue;
+            }
+          }
+        } else {
+          value = parseFloat(value);
+
+          if (!isNaN(value)) {
+            total = total + value;
+          }
+        }
+      }
+
+      return total.toFixed(2);
+    }
+  },
+  mutations: {
+    updateCalculation: function updateCalculation(state, updatedCalculation) {
+      state.calculation = updatedCalculation;
+    }
+  }
 });
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20519,8 +20649,9 @@ Vue.filter('keyToLabel', function (value) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
-  el: '#app'
+var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+  el: '#app',
+  store: store
 });
 
 /***/ }),
@@ -20595,6 +20726,75 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/components/CalculationDisplayAdmin.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/CalculationDisplayAdmin.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a& */ "./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a&");
+/* harmony import */ var _CalculationDisplayAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CalculationDisplayAdmin.vue?vue&type=script&lang=js& */ "./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CalculationDisplayAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CalculationDisplayAdmin.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalculationDisplayAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CalculationDisplayAdmin.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalculationDisplayAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalculationDisplayAdmin.vue?vue&type=template&id=6e72350a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalculationDisplayAdmin_vue_vue_type_template_id_6e72350a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

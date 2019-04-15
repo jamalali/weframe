@@ -27,29 +27,32 @@ class PriceController extends Controller {
 		$dry_mount_included = $request->input('dry_mount_included');
 		$fixings_included	= $request->input('fixings_included');
 		
+		// Get the prices, if we need to
 		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
 		$glazing_price			= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
-		$mount_price			= $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings);
+		$mount_price			= $mount->type != 'none' ? $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings) : false;
 		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
-		$dry_mount_price		= $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings);
-		$fixings_price			= $this->getFixingsPrice($glass_size_width, $glass_size_height, $fixings_included, $settings);
+		$dry_mount_price		= filter_var($dry_mount_included, FILTER_VALIDATE_BOOLEAN) ? $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings) : false;
+		$fixings_price			= filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN) ? $this->getFixingsPrice($glass_size_width, $glass_size_height, $fixings_included, $settings) : false;
 		
-		return response()->json([
-			'mould_price'			=> $mould_price,
-			'mount_price'			=> $mount_price,
-			'glazing_price'			=> $glazing_price,
-			'backing_board_price'	=> $backing_board_price,
-			'dry_mount_price'		=> $dry_mount_price,
-			'fixings_price'			=> $fixings_price,
-			'markup_included'		=> $this->include_markup ? 'Yes' : 'No'
-		]);
+		// Build the response array
+		$response = [];
+		$response['mould'] = $mould_price;
+		
+		if ($mount_price) { $response['mount'] = $mount_price; }
+		
+		$response['glazing']			= $glazing_price;
+		$response['backing_board']		= $backing_board_price;
+		
+		if ($dry_mount_price)	{ $response['dry_mount']	= $dry_mount_price; }
+		if ($fixings_price)		{ $response['fixings']		= $fixings_price; }
+		
+		$response['markup_included']	= $this->include_markup ? 'Yes' : 'No';
+		
+		return response()->json($response);
     }
 	
 	private function getFixingsPrice($frame_width, $frame_height, $fixings_included, $settings) {
-		
-		if (!filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN)) {
-			return 'Not included';
-		}
 		
 		$d_rings = $settings['d_rings'];
 		
