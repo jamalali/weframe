@@ -61,47 +61,63 @@
 			
 			<hr />
 			
-			@horizontaltextinput([
-				'label'		=> 'Flexi & fletcher pins',
-				'id'		=> 'flexi_fletcher_pins',
-				'addon'		=> 'pence per metre',
-				'values'	=> $settings
-			])@endhorizontaltextinput
-			
-			@horizontaltextinput([
-				'label'		=> 'Plastic bag',
-				'id'		=> 'plastic_bag',
-				'addon'		=> 'pence per bag',
-				'values'	=> $settings
-			])@endhorizontaltextinput
-			
-			@horizontaltextinput([
-				'label'		=> 'D rings',
-				'id'		=> 'd_rings',
-				'addon'		=> 'pence per frame',
-				'values'	=> $settings
-			])@endhorizontaltextinput
-			
-			@horizontaltextinput([
-				'label'		=> 'ATG tape',
-				'id'		=> 'atg_tape',
-				'addon'		=> 'pence per metre',
-				'values'	=> $settings
-			])@endhorizontaltextinput
-			
-			@horizontaltextinput([
-				'label'		=> 'String',
-				'id'		=> 'string',
-				'addon'		=> 'pence per metre',
-				'values'	=> $settings
-			])@endhorizontaltextinput
-			
-			@horizontaltextinput([
-				'label'		=> 'Cassese wedges',
-				'id'		=> 'cassese_wedges',
-				'addon'		=> 'pence per frame',
-				'values'	=> $settings
-			])@endhorizontaltextinput
+			<div class="container">
+				<div class="columns">
+					<div class="column is-one-half">
+						<h2 class="title is-5 has-text-info">
+							Fixings
+						</h2>
+
+						@horizontaltextinput([
+							'label'		=> 'D rings',
+							'id'		=> 'd_rings',
+							'addon'		=> 'pence per frame',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+
+						@horizontaltextinput([
+							'label'		=> 'String',
+							'id'		=> 'string',
+							'addon'		=> 'pence per frame',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+
+						@horizontaltextinput([
+							'label'		=> 'Plastic bag',
+							'id'		=> 'plastic_bag',
+							'addon'		=> 'pence per bag',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+					</div>
+
+					<div class="column is-one-half">
+						<h2 class="title is-5 has-text-info">
+							Other bits
+						</h2>
+
+						@horizontaltextinput([
+							'label'		=> 'Flexi & fletcher pins',
+							'id'		=> 'flexi_fletcher_pins',
+							'addon'		=> 'pence per metre',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+
+						@horizontaltextinput([
+							'label'		=> 'ATG tape',
+							'id'		=> 'atg_tape',
+							'addon'		=> 'pence per metre',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+
+						@horizontaltextinput([
+							'label'		=> 'Cassese wedges',
+							'id'		=> 'cassese_wedges',
+							'addon'		=> 'pence per frame',
+							'values'	=> $settings
+						])@endhorizontaltextinput
+					</div>
+				</div>
+			</div>
 			
 			<hr />
 			

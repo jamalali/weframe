@@ -99,7 +99,7 @@
 			</nav>
 
 			<section class="section main">
-				<div class="container is-fluid">
+				<div class="container is-fullhd">
 					@yield('content')
 				</div>
 			</section>

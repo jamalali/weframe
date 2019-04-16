@@ -34,6 +34,7 @@ class PriceController extends Controller {
 		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
 		$dry_mount_price		= filter_var($dry_mount_included, FILTER_VALIDATE_BOOLEAN) ? $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings) : false;
 		$fixings_price			= filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN) ? $this->getFixingsPrice($glass_size_width, $glass_size_height, $fixings_included, $settings) : false;
+		$other_prices			= $this->getOtherPrices($glass_size_width, $glass_size_height, $settings);
 		
 		// Build the response array
 		$response = [];
@@ -47,19 +48,52 @@ class PriceController extends Controller {
 		if ($dry_mount_price)	{ $response['dry_mount']	= $dry_mount_price; }
 		if ($fixings_price)		{ $response['fixings']		= $fixings_price; }
 		
+		$response['other'] = $other_prices;
+		
 		$response['markup_included']	= $this->include_markup ? 'Yes' : 'No';
 		
 		return response()->json($response);
     }
 	
-	private function getFixingsPrice($frame_width, $frame_height, $fixings_included, $settings) {
+	private function getOtherPrices($frame_width, $frame_height, $settings) {
 		
-		$d_rings = $settings['d_rings'];
+		// Calculate the total linear frame length (in metres)
+		$total_length = ($frame_width * 2 + $frame_height * 2) / 1000;
 		
-		$d_rings_price = number_format($d_rings / 100, 2);
+		$flexi_fletcher_pins	= $settings['flexi_fletcher_pins'];
+		$atg_tape				= $settings['atg_tape'];
+		$cassese_wedges			= $settings['cassese_wedges'];
+		
+		// Calculate the cost of flexi/fletcher pins by way of the total linear length of the frame (in pounds)
+		$pins_price = ($flexi_fletcher_pins * $total_length) / 100;
+		
+		// Calculate the cost of ATG tape by way of the total linear length of the frame (in pounds)
+		$tape_price = ($atg_tape * $total_length) / 100;
+		
+		// Cassese wedges price in pounds
+		$wedges_price = $cassese_wedges / 100;
 		
 		return [
-			'd_rings' => $d_rings_price
+			'fletcher_flexi_pins'	=> number_format($pins_price, 2),
+			'atg_tape'				=> number_format($tape_price, 2),
+			'cassese_wedges'		=> number_format($wedges_price, 2)
+		];
+	}
+	
+	private function getFixingsPrice($frame_width, $frame_height, $fixings_included, $settings) {
+		
+		$d_rings		= $settings['d_rings'];
+		$string			= $settings['string'];
+		$plastic_bag	= $settings['plastic_bag'];
+		
+		$d_rings_price		= number_format($d_rings / 100, 2);
+		$string_price		= number_format($string / 100, 2);
+		$plastic_bag_price	= number_format($plastic_bag / 100, 2);
+		
+		return [
+			'd_rings'		=> $d_rings_price,
+			'string'		=> $string_price,
+			'plastic_bag'	=> $plastic_bag_price
 		];
 	}
 	
