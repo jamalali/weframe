@@ -60,6 +60,12 @@
 							<a class="navbar-item" href="{{ route('admin.orders.index') }}">
 							   Orders
 							</a>
+							<a class="navbar-item" href="{{ route('admin.mounts.index') }}">
+							   Mounts
+							</a>
+							<a class="navbar-item" href="{{ route('admin.moulds.index') }}">
+							   Moulds
+							</a>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<a class="navbar-link is-arrowless" href="{{ route('admin.settings.index') }}">
 								   Settings

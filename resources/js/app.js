@@ -26,6 +26,7 @@ require('./bulma.js');
 
 Vue.component('price-calculator-admin', require('./components/PriceCalculatorAdmin.vue').default);
 Vue.component('calculation-display-admin', require('./components/CalculationDisplayAdmin.vue').default);
+Vue.component('mount-variants', require('./components/MountVariants.vue').default);
 
 Vue.filter('keyToLabel', function (value) {
 	if (!value) return ''

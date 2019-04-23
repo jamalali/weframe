@@ -21,6 +21,12 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
 	// Orders Routes
 	Route::resource('orders', 'Admin\Orders\AdminOrdersController');
 	
+	// Mounts
+	Route::resource('mounts', 'Admin\Mounts\AdminMountsController');
+	
+	// Moulds
+	Route::resource('moulds', 'Admin\Moulds\AdminMouldsController');
+	
 	// Settings Routes
 	Route::name('settings.')->prefix('settings')->group(function() {
         Route::get('/', 'Admin\Settings\AdminSettingsController@index')->name('index');
