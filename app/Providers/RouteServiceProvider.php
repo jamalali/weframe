@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use App\Models\MountVariant;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,16 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+		
+		Route::bind('variant', function($value, $route) {
+            
+            $mount = $route->parameter('mount');
+			
+			return MountVariant::with('mount')->where([
+                'id'		=> $value,
+                'mount_id'  => $mount
+            ])->first() ?? abort(404);
+		});
     }
 
     /**

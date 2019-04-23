@@ -26,6 +26,12 @@ class MountVariant extends Model {
         'price'		=> null
     ];
 	
+	protected $touches = ['mount'];
+	
+	public function mount() {
+        return $this->belongsTo('App\Models\Mount');
+    }
+	
 	public function getPriceInPounds($priceInPence) {
 		$priceInPounds = $priceInPence / 100;
 		return number_format($priceInPounds, 2);

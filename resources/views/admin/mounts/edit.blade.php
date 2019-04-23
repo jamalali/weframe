@@ -1,51 +1,51 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
+<div class="columns is-centered">
+	<div class="column">
+	
+		@include('admin.mounts._ctaRowTop')
                     
-            @if (session('success'))
-                <div class="notification is-success">
-                    {{ session()->get('success') }}
-                </div>
-            @endif
+		@if (session('success'))
+			<div class="notification is-success">
+				{{ session()->get('success') }}
+			</div>
+		@endif
 
-            <h1 class="title is-3">
-                Edit "{{ $glazing->name }}" glazing
-            </h1>
-			
-			@if ($errors->any())
-				<div class="notification is-danger">
-					<ul>
-						@foreach ($errors->all() as $error)
-							<li>
-								<i class="fas fa-exclamation-circle"></i> {{ $error }}
-							</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
+		<h1 class="title is-3">
+			{{ $mount->name }}
+		</h1>
 
-            <form method="POST" action="{{ route('admin.mounts.update', $glazing->id) }}" autocomplete="off">
-                @csrf
-                @method('PUT')
+		@if ($errors->any())
+			<div class="notification is-danger">
+				<ul>
+					@foreach ($errors->all() as $error)
+						<li>
+							<i class="fas fa-exclamation-circle"></i> {{ $error }}
+						</li>
+					@endforeach
+				</ul>
+			</div>
+		@endif
 
-                @include('admin.mounts._formFields', ['glazing' => $glazing])
-            </form>
-                    
-            <form id="delete-glazing" action="{{ route('admin.mounts.destroy', [$glazing->id]) }}" method="POST" >
-                @csrf
-                @method('DELETE')
-            </form>
+		<form method="POST" action="{{ route('admin.mounts.update', $mount->id) }}" autocomplete="off">
+			@csrf
+			@method('PUT')
 
-        </div>
-    </div>
+			@include('admin.mounts._formFields', ['type' => 'edit', 'mount' => $mount])
+		</form>
+
+		<form id="delete-mount" action="{{ route('admin.mounts.destroy', [$mount->id]) }}" method="POST" >
+			@csrf
+			@method('DELETE')
+		</form>
+		
+	</div>
 </div>
 <script>
-    function deleteGlazing() {
-        if (confirm("Are you sure you want to delete this glazing?")) {
-            document.getElementById('delete-glazing').submit();
+    function deleteMount() {
+        if (confirm("Are you sure you want to delete this mount?")) {
+            document.getElementById('delete-mount').submit();
         }
     }
 </script>

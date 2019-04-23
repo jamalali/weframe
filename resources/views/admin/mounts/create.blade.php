@@ -4,6 +4,8 @@
 <div class="columns is-centered">
 	<div class="column">
 		
+		@include('admin.mounts._ctaRowTop')
+		
 		<h1 class="title is-3">
 			New mount
 		</h1>
@@ -21,7 +23,7 @@
 		<form method="POST" action="{{ route('admin.mounts.store') }}" autocomplete="off">
 			@csrf
 
-			@include('admin.mounts._formFields', ['type' => 'create'])
+			@include('admin.mounts._formFields', ['type' => 'create', 'mount' => false])
 		</form>
             
     </div>

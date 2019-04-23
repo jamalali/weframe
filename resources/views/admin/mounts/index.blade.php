@@ -35,28 +35,33 @@
 							Has jumbo
 						</th>
 						<th class="has-text-centered">
-							Hidden online
+							Core colour
+						</th>
+						<th class="has-text-centered">
+							Thickness
 						</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($mounts as $glazing_option)
+					@foreach ($mounts as $mount)
 						<tr>
 							<td>
-								{{ $glazing_option->name }}
+								<a href="{{ route('admin.mounts.edit', $mount->id) }}">
+									{{ $mount->name }}
+								</a>
 							</td>
 							<td class="has-text-centered">
-								{{ $glazing_option->width }}
+								{{ $mount->width }}
 							</td>
 							<td class="has-text-centered">
-								{{ $glazing_option->height }}
+								{{ $mount->height }}
 							</td>
 							<td class="has-text-centered">
-								&pound;{{ $glazing_option->getPriceInPounds($glazing_option->price) }}
+								&pound;{{ $mount->getPriceInPounds($mount->price) }}
 							</td>
 							<td class="has-text-centered">
-								@if($glazing_option->hasJumbo())
+								@if($mount->hasJumbo())
 									<span class="icon has-text-success">
 										<i class="fas fa-check"></i>
 									</span>
@@ -67,18 +72,13 @@
 								@endif
 							</td>
 							<td class="has-text-centered">
-								@if($glazing_option->exclude_online == 1)
-									<span class="icon has-text-success">
-										<i class="fas fa-check"></i>
-									</span>
-								@else
-									<span class="icon has-text-danger">
-										<i class="fas fa-times"></i>
-									</span>
-								@endif
+								{{ $mount->core_colour }}
 							</td>
-							<td class="text-right">
-								<a href="{{ route('admin.mounts.edit', $glazing_option->id) }}">
+							<td class="has-text-centered">
+								{{ $mount->thickness }}
+							</td>
+							<td class="has-text-right">
+								<a href="{{ route('admin.mounts.edit', $mount->id) }}">
 									<i class="fas fa-edit"></i>
 								</a>
 							</td>

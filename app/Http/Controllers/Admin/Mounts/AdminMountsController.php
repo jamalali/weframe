@@ -34,6 +34,7 @@ class AdminMountsController extends Controller {
         
         $mount = Mount::create($input);
 		
+		// Store all the variants
 		foreach ($variants as $variant) {
 			$variant['mount_id'] = $mount->id;
 			
@@ -49,38 +50,34 @@ class AdminMountsController extends Controller {
         return redirect()->route('admin.mounts.index')->with('success', 'New Mount added');
     }
 	
-    public function show(Mount $mount) {
-		
-		$mount_cache = Cache::get('mount_' . $mount->id);
-		
-        dd($mount);
+    public function show($mount_id) {
+		$mount = Mount::with('variants')->where('id', $mount_id)->first();
+		dd($mount);
+		//return view('admin.mounts.edit', ['mount' => $mount]);
     }
 	
-    public function edit(Request $request, Glazing $glazing) {
-        return view('admin.mounts.edit', ['glazing' => $glazing]);
+    public function edit(Request $request, $mount_id) {
+        $mount = Mount::with('variants')->where('id', $mount_id)->first();
+		return view('admin.mounts.edit', ['mount' => $mount]);
     }
 	
-    public function update(StoreUpdateGlazing $request, Glazing $glazing) {
+    public function update(StoreUpdateMount $request, Mount $mount) {
 		
 		$input = $request->except(['_token', '_method']);
-		
-		$input['exclude_online'] = isset($input['exclude_online']) ? 1 : 0;
         
-        $glazing->update($input);
-		
-		$this->_cache($glazing->id, $input);
+        $mount->update($input);
         
-        return redirect()->route('admin.mounts.index')->with('success', 'Glazing updated');
+        return redirect()->route('admin.mounts.edit', $mount->id)->with('success', 'Mount updated successfully');
     }
 	
-    public function destroy(Glazing $glazing) {
+    public function destroy(Mount $mount) {
 		
-        $glazing->delete();
+		// Delete the mount
+        $mount->delete();
+		
+		// Delet its variants
+		MountVariant::where('mount_id', $mount->id)->delete();
         
-        return redirect()->route('admin.mounts.index')->with('success', 'Group deleted');
+        return redirect()->route('admin.mounts.index')->with('success', 'Mount has been deleted succcesfully');
     }
-	
-	private function _cache($id, $data) {
-		Cache::forever('mount_' . $id, $data);
-	}
 }

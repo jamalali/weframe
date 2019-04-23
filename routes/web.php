@@ -21,8 +21,9 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
 	// Orders Routes
 	Route::resource('orders', 'Admin\Orders\AdminOrdersController');
 	
-	// Mounts
+	// Mounts, Mount Variants
 	Route::resource('mounts', 'Admin\Mounts\AdminMountsController');
+	Route::resource('mounts.variants', 'Admin\Mounts\Variants\AdminMountsVariantsController');
 	
 	// Moulds
 	Route::resource('moulds', 'Admin\Moulds\AdminMouldsController');

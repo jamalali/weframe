@@ -2,28 +2,28 @@
 	@horizontaltextinput([
 		'label'		=> 'Name',
 		'id'		=> 'name',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 
 	@horizontaltextinput([
 		'label'		=> 'Width',
 		'id'		=> 'width',
 		'addon'		=> 'mm',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 
 	@horizontaltextinput([
 		'label'		=> 'Height',
 		'id'		=> 'height',
 		'addon'		=> 'mm',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 
 	@horizontaltextinput([
 		'label'		=> 'Price',
 		'id'		=> 'price',
 		'addon'		=> 'p',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 </div>
 
@@ -36,21 +36,21 @@
 		'label'		=> 'Width',
 		'id'		=> 'oversized_width',
 		'addon'		=> 'mm',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 
 	@horizontaltextinput([
 		'label'		=> 'Height',
 		'id'		=> 'oversized_height',
 		'addon'		=> 'mm',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 
 	@horizontaltextinput([
 		'label'		=> 'Price',
 		'id'		=> 'oversized_price',
 		'addon'		=> 'p',
-		'values'	=> $glazing
+		'values'	=> $mount
 	])@endhorizontaltextinput
 </div>
 
@@ -111,26 +111,65 @@
 	</div>
 @endif
 
-<div class="field is-grouped">
-	<div class="control">
-		<a href="{{ route('admin.mounts.index') }}" class="button">
-			Cancel
-		</a>
+@isset($mount->variants)
+	<div class="box">
+		<h5 class="title is-5">
+			Variants
+		</h5>
+		
+		<table class="table is-striped is-hoverable is-fullwidth">
+			<thead>
+				<tr>
+					<th>
+						Colour
+					</th>
+					<th class="has-text-centered">
+						SKU
+					</th>
+					<th class="has-text-centered">
+						Inventory
+					</th>
+					<th class="has-text-centered">
+						Price
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($mount->variants as $variant)
+					<tr>
+						<td>
+							{{ $variant->colour }}
+						</td>
+						<td class="has-text-centered">
+							{{ $variant->sku }}
+						</td>
+						<td class="has-text-centered">
+							{{ $variant->inventory }}
+						</td>
+						<td class="has-text-centered">
+							{{ $variant->price }}
+						</td>
+						<td class="has-text-right">
+							<a href="{{ route('admin.mounts.variants.edit', [$mount->id, $variant->id]) }}">
+								<i class="fas fa-edit"></i>
+							</a>
+						</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
 	</div>
-	<div class="control">
-		<button class="button is-primary">
-			@isset($glazing)
-				Update
-			@else
-				Save
-			@endisset
+@endisset
+
+<div>
+	@if($type == 'edit')
+		<button onclick="deleteMount();" type="button" class="button is-danger">
+			Delete mount
 		</button>
-	</div>
-	@isset($glazing)
-		<div class="control">
-			<button onclick="deleteGlazing();" type="button" class="button is-danger">
-				Delete
-			</button>
-		</div>
-	@endisset
+	@endif
+	
+	<button class="button is-primary is-pulled-right">
+		Save
+	</button>
 </div>
