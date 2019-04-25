@@ -71,8 +71,21 @@
 				<div class="control">
 					<div class="select">
 						<select name="core_colour" id="core_colour">
-							<option value="white">White</option>
-							<option value="black">Black</option>
+							<option value="white" @if(isset($mount) && $mount->core_colour == 'white')
+									selected
+									@endif>
+								White
+							</option>
+							<option value="black" @if(isset($mount) && $mount->core_colour == 'black')
+									selected
+									@endif>
+								Black
+							</option>
+							<option value="multi" @if(isset($mount) && $mount->core_colour == 'multi')
+									selected
+									@endif>
+								Multi
+							</option>
 						</select>
 					</div>
 				</div>
@@ -92,8 +105,15 @@
 				<div class="control">
 					<div class="select">
 						<select name="thickness" id="thickness">
-							<option value="standard">Standard</option>
-							<option value="triple">Triple thick</option>
+							<option value="standard" @if(isset($mount) && $mount->thickness == 'standard')
+									selected
+									@endif>Standard</option>
+							<option value="deep" @if(isset($mount) && $mount->thickness == 'deep')
+									selected
+									@endif>Deep</option>
+							<option value="extra_deep" @if(isset($mount) && $mount->thickness == 'extra_deep')
+									selected
+									@endif>Extra Deep</option>
 						</select>
 					</div>
 				</div>
@@ -113,9 +133,13 @@
 
 @isset($mount->variants)
 	<div class="box">
-		<h5 class="title is-5">
+		<h5 class="title is-5" style="display:inline-block;">
 			Variants
 		</h5>
+		
+		<a href="{{ route('admin.mounts.variants.create', $mount->id) }}" class="is-pulled-right">
+			Add variant
+		</a>
 		
 		<table class="table is-striped is-hoverable is-fullwidth">
 			<thead>

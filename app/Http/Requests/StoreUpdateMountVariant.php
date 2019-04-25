@@ -22,9 +22,9 @@ class StoreUpdateMountVariant extends FormRequest
      */
     public function rules() {
 		
-        return [			
-			'sku'		=> 'nullable|alpha_num',
-			'colour'	=> 'nullable|alpha',
+        return [
+			'colour'	=> 'required',
+			'sku'		=> 'required|alpha_num',
 			'inventory'	=> 'nullable|integer',
 			'price'		=> 'nullable|numeric'
         ];

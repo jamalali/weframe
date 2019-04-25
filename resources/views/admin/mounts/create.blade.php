@@ -23,7 +23,7 @@
 		<form method="POST" action="{{ route('admin.mounts.store') }}" autocomplete="off">
 			@csrf
 
-			@include('admin.mounts._formFields', ['type' => 'create', 'mount' => false])
+			@include('admin.mounts._formFields', ['type' => 'create', 'mount' => null])
 		</form>
             
     </div>

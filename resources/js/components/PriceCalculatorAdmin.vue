@@ -179,12 +179,18 @@
 					<h6 class="title is-6">
 						{{ topMountColourTitle }}
 					</h6>
-
-					<div class="select">
-						<select ref="top_mount_colour">
-							<option value="white">White</option>
-							<option value="black">Black</option>
-						</select>
+					
+					<div v-for="(mount, mountsIndex) in mounts" style="margin-bottom:20px;">
+						<strong>
+							{{ mount.name }}
+						</strong>
+						
+						<div v-for="(variant, variantsIndex) in mount.variants">
+							<label class="radio">
+								  <input type="radio" name="top_mount_colour" v-model="top_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
+								  {{ variant.colour }}
+							</label>
+						</div>
 					</div>
 
 				</div>
@@ -192,14 +198,20 @@
 				<div class="column is-one-quarter" v-if="mount == 'double'">
 
 					<h6 class="title is-6" v-if="mount == 'double'">
-						Bottom mount colour
+						Bottom mount style & colour
 					</h6>
+					
+					<div v-for="mount in mounts" style="margin-bottom:20px;">
+						<strong>
+							{{ mount.name }}
+						</strong>
 
-					<div class="select">
-						<select ref="bottom_mount_colour">
-							<option value="white">White</option>
-							<option value="black">Black</option>
-						</select>
+						<div v-for="variant in mount.variants">
+							<label class="radio">
+								  <input type="radio" name="bottom_mount_colour" v-model="bottom_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
+								  {{ variant.colour }}
+							</label>
+						</div>
 					</div>
 
 				</div>
@@ -280,15 +292,18 @@
     export default {
 		data() {
 			return {
-				mount: 'none'
+				mount: 'none',
+				top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
+				bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
 			}
 		},
 		props: {
+			mounts: '',
 			glazings: ''
 		},
 		computed: {
 			topMountColourTitle: function() {
-				return this.mount == 'double' ? 'Top mount colour' : 'Mount colour'
+				return this.mount == 'double' ? 'Top mount style & colour' : 'Mount style & colour'
 			},
 			topMountSizeTitle: function() {
 				return this.mount == 'double' ? 'Top mount size' : 'Mount size'
@@ -318,21 +333,21 @@
 								bottom: this.$refs['top_mount_size_bottom']['value'],
 								left: this.$refs['top_mount_size_left']['value']
 							},
-							colour: this.$refs['top_mount_colour']['value']
+							colour: this.top_mount_colour
 						}
 					}
 					
 					if (this.mount == 'double') {
 						mount.bottom = {
 							size: this.$refs['bottom_mount_size']['value'],
-							colour: this.$refs['bottom_mount_colour']['value']
+							colour: this.bottom_mount_colour
 						}
 					}
 					
 					if (this.mount == 'multimount') {
 						mount.num_apertures = this.$refs['num_apertures']['value']
 						mount.gap_size = this.$refs['gap_size']['value']
-						mount.colour = this.$refs['top_mount_colour']['value']
+						mount.colour = this.top_mount_colour
 					}
 					
 					params.mount = mount

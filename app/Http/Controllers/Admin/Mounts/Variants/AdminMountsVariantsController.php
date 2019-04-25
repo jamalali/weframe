@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Mounts\Variants;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mount;
+use App\Models\MountVariant;
 use App\Http\Requests\StoreUpdateMountVariant;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,9 +16,11 @@ class AdminMountsVariantsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Mount $mount) {
+        return view('admin.mounts.variants.create', [
+			'mount'		=> $mount,
+			'variant'	=> null
+		]);
     }
 
     /**
@@ -26,13 +29,28 @@ class AdminMountsVariantsController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreUpdateMountVariant $request, Mount $mount) {
+        
+		$input = $request->except(['_token', '_method']);
+		
+		$input['mount_id'] = $mount->id;
+		
+		$variant = MountVariant::create($input);
+		
+		Cache::tags(['mounts'])->forever($variant->id, [
+			'mount'		=> $mount,
+			'variant'	=> $variant
+		]);
+		
+		return redirect()->route('admin.mounts.variants.edit', [$mount->id, $variant->id])->with('success', 'Variant added successfully');
     }
 	
-    public function show($mount, $variant) {
-		dd($variant);
+    public function show($mount_id, $variant) {
+		
+		$key = $mount_id . '-' . $variant->id;
+		$CachedVariant = Cache::tags(['mountboards'])->get($key);
+		
+		dd($CachedVariant);
     }
 	
     public function edit($mount_id, $variant) {
@@ -52,10 +70,7 @@ class AdminMountsVariantsController extends Controller {
 		$variant->update($input);
 		
 		// Store in cache
-		Cache::tags(['mounts'])->forever($variant->id, [
-			'mount'		=> $mount,
-			'variant'	=> $variant
-		]);
+		$this->storeInCache($mount, $variant);
 		
 		return redirect()->route('admin.mounts.variants.edit', [$mount->id, $variant->id])->with('success', 'Variant has been updated successfully');
     }
@@ -67,4 +82,34 @@ class AdminMountsVariantsController extends Controller {
 		
 		return redirect()->route('admin.mounts.edit', [$mount_id])->with('success', 'Variant has been deleted succcesfully');
     }
+	
+	private function storeInCache($mount, $variant) {
+		
+		$key = $mount->id . '-' .$variant->id;
+		
+		$value = [
+			'name'		=> $mount->name,
+			'width'		=> $mount->width,
+			'height'	=> $mount->height,
+			'price'		=> $mount->price,
+			'colour'	=> $variant->colour,
+			'sku'		=> $variant->sku
+		];
+		
+		// If the variant has a price we use that price instead of the price of the parent mountboard
+		if (null !== $variant->price) {
+			$value['price'] = $variant->price;
+		}
+		
+		// If has jumbo size
+		if (null !== $mount->oversized_width && null !== $mount->oversized_height && null !== $mount->oversized_price) {
+			$value['oversized'] = [
+				'width'		=> $mount->oversized_width,
+				'height'	=> $mount->oversized_height,
+				'price'		=> $mount->oversized_height
+			];
+		}
+		
+		Cache::tags(['mountboards'])->forever($key, $value);
+	}
 }

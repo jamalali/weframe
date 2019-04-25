@@ -21,9 +21,7 @@ class AdminMountsController extends Controller {
     }
 	
     public function create() {
-        return view('admin.mounts.create', [
-			'glazing' => null
-		]);
+        return view('admin.mounts.create');
     }
 	
     public function store(StoreUpdateMount $request) {
@@ -34,17 +32,19 @@ class AdminMountsController extends Controller {
         
         $mount = Mount::create($input);
 		
-		// Store all the variants
-		foreach ($variants as $variant) {
-			$variant['mount_id'] = $mount->id;
-			
-			$mountVariant = MountVariant::create($variant);
-			
-			// Store in cache
-			Cache::tags(['mounts'])->forever($mountVariant->id, [
-				'mount'		=> $mount,
-				'variant'	=> $mountVariant
-			]);
+		// Store all the variants if we have any
+		if ($variants) {
+			foreach ($variants as $variant) {
+				$variant['mount_id'] = $mount->id;
+
+				$mountVariant = MountVariant::create($variant);
+
+				// Store in cache
+				Cache::tags(['mounts'])->forever($mountVariant->id, [
+					'mount'		=> $mount,
+					'variant'	=> $mountVariant
+				]);
+			}
 		}
         
         return redirect()->route('admin.mounts.index')->with('success', 'New Mount added');

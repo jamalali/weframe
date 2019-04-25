@@ -304,24 +304,60 @@ class PriceController extends Controller {
 	
 	private function getMountPrice($frame_width, $frame_height, $mount, $settings) {
 		
+		$mount_type	= $mount->type;
+		
+		switch ($mount_type) {
+			case 'single':
+			case 'circular':
+			case 'oval':
+				$top_mount = $mount->top;
+				$top_mount_cost = $this->getCostOfMountboard($frame_width, $frame_height, $top_mount->colour, $settings);
+				
+				return $top_mount_cost;
+			
+			case 'double':
+				$top_mount		= $mount->top;
+				$bottom_mount	= $mount->bottom;
+				
+				$top_mount_cost		= $this->getCostOfMountboard($frame_width, $frame_height, $top_mount->colour, $settings);
+				$bottom_mount_cost	= $this->getCostOfMountboard($frame_width, $frame_height, $bottom_mount->colour, $settings);
+				
+				return [
+					'top_mount'		=> $top_mount_cost,
+					'bottom_mount'	=> $bottom_mount_cost
+				];
+			
+			case 'multimount':
+				break;
+		}
+	}
+	
+	private function getCostOfMountboard($frame_width, $frame_height, $mount_colour, $settings) {
+		
 		$wastage	= $settings['mount_board_wastage'];
 		$markup		= $settings['mount_board_markup'];
+		
+		$mount_variant = Cache::tags(['mountboards'])->get($mount_colour);
 		
 		$frame = [
 			'width'		=> $frame_width,
 			'height'	=> $frame_height
 		];
 		
-		$jumbo_peice = [
-			'width'		=> $settings['jumbo_mount_board']['width'],
-			'height'	=> $settings['jumbo_mount_board']['height'],
-			'price'		=> $settings['jumbo_mount_board']['price']
-		];
+		$jumbo_peice = false;
+		
+		if (isset($mount_variant['oversized'])) {
+			$jumbo_peice = [
+				'width'		=> $mount_variant['oversized']['width'],
+				'height'	=> $mount_variant['oversized']['height'],
+				'price'		=> $mount_variant['oversized']['price']
+			];
+		}
 		
 		$full_peice = [
-			'width'		=> $settings['standard_mount_board']['width'],
-			'height'	=> $settings['standard_mount_board']['height'],
-			'price'		=> $settings['standard_mount_board']['price']
+			'width'		=> $mount_variant['width'],
+			'height'	=> $mount_variant['height'],
+			'price'		=> $mount_variant['price']
 		];
 		
 		$half_peice = $this->cutInHalf($full_peice);

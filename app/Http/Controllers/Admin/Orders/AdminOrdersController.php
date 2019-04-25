@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Orders;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Glazing;
+use App\Models\Mount;
 
 class AdminOrdersController extends Controller {
 
@@ -14,12 +15,14 @@ class AdminOrdersController extends Controller {
 
     public function create() {
 		
-		$glazings = Glazing::all();
+		$mounts		= Mount::with('variants')->get();
+		$glazings	= Glazing::all();
 		
 		//dd($glazings);
 		
         return view('admin.orders.create', [
-			'glazings' => $glazings
+			'mounts'	=> $mounts,
+			'glazings'	=> $glazings
 		]);
     }
 

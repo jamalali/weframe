@@ -2113,18 +2113,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      mount: 'none'
+      mount: 'none',
+      top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
+      bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
     };
   },
   props: {
+    mounts: '',
     glazings: ''
   },
   computed: {
     topMountColourTitle: function topMountColourTitle() {
-      return this.mount == 'double' ? 'Top mount colour' : 'Mount colour';
+      return this.mount == 'double' ? 'Top mount style & colour' : 'Mount style & colour';
     },
     topMountSizeTitle: function topMountSizeTitle() {
       return this.mount == 'double' ? 'Top mount size' : 'Mount size';
@@ -2151,21 +2166,21 @@ __webpack_require__.r(__webpack_exports__);
               bottom: this.$refs['top_mount_size_bottom']['value'],
               left: this.$refs['top_mount_size_left']['value']
             },
-            colour: this.$refs['top_mount_colour']['value']
+            colour: this.top_mount_colour
           };
         }
 
         if (this.mount == 'double') {
           mount.bottom = {
             size: this.$refs['bottom_mount_size']['value'],
-            colour: this.$refs['bottom_mount_colour']['value']
+            colour: this.bottom_mount_colour
           };
         }
 
         if (this.mount == 'multimount') {
           mount.num_apertures = this.$refs['num_apertures']['value'];
           mount.gap_size = this.$refs['gap_size']['value'];
-          mount.colour = this.$refs['top_mount_colour']['value'];
+          mount.colour = this.top_mount_colour;
         }
 
         params.mount = mount; // Glass size
@@ -20478,45 +20493,151 @@ var render = function() {
         _vm.mount == "circular" ||
         _vm.mount == "oval" ||
         _vm.mount == "multimount"
-          ? _c("div", { staticClass: "column is-half" }, [
-              _c("h6", { staticClass: "title is-6" }, [
-                _vm._v(
-                  "\n\t\t\t\t\t" +
-                    _vm._s(_vm.topMountColourTitle) +
-                    "\n\t\t\t\t"
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "select" }, [
-                _c("select", { ref: "top_mount_colour" }, [
-                  _c("option", { attrs: { value: "white" } }, [
-                    _vm._v("White")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "black" } }, [_vm._v("Black")])
-                ])
-              ])
-            ])
+          ? _c(
+              "div",
+              { staticClass: "column is-half" },
+              [
+                _c("h6", { staticClass: "title is-6" }, [
+                  _vm._v(
+                    "\n\t\t\t\t\t" +
+                      _vm._s(_vm.topMountColourTitle) +
+                      "\n\t\t\t\t"
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.mounts, function(mount, mountsIndex) {
+                  return _c(
+                    "div",
+                    { staticStyle: { "margin-bottom": "20px" } },
+                    [
+                      _c("strong", [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t" + _vm._s(mount.name) + "\n\t\t\t\t\t"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(mount.variants, function(variant, variantsIndex) {
+                        return _c("div", [
+                          _c("label", { staticClass: "radio" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.top_mount_colour,
+                                  expression: "top_mount_colour"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                name: "top_mount_colour"
+                              },
+                              domProps: {
+                                value: mount.id + "-" + variant.id,
+                                checked: _vm._q(
+                                  _vm.top_mount_colour,
+                                  mount.id + "-" + variant.id
+                                )
+                              },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    _vm.top_mount_colour =
+                                      mount.id + "-" + variant.id
+                                  },
+                                  _vm.getPrice
+                                ]
+                              }
+                            }),
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t  " +
+                                _vm._s(variant.colour) +
+                                "\n\t\t\t\t\t\t"
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                })
+              ],
+              2
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.mount == "double"
-          ? _c("div", { staticClass: "column is-one-quarter" }, [
-              _vm.mount == "double"
-                ? _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("\n\t\t\t\t\tBottom mount colour\n\t\t\t\t")
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "select" }, [
-                _c("select", { ref: "bottom_mount_colour" }, [
-                  _c("option", { attrs: { value: "white" } }, [
-                    _vm._v("White")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "black" } }, [_vm._v("Black")])
-                ])
-              ])
-            ])
+          ? _c(
+              "div",
+              { staticClass: "column is-one-quarter" },
+              [
+                _vm.mount == "double"
+                  ? _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v(
+                        "\n\t\t\t\t\tBottom mount style & colour\n\t\t\t\t"
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.mounts, function(mount) {
+                  return _c(
+                    "div",
+                    { staticStyle: { "margin-bottom": "20px" } },
+                    [
+                      _c("strong", [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t" + _vm._s(mount.name) + "\n\t\t\t\t\t"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(mount.variants, function(variant) {
+                        return _c("div", [
+                          _c("label", { staticClass: "radio" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.bottom_mount_colour,
+                                  expression: "bottom_mount_colour"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                name: "bottom_mount_colour"
+                              },
+                              domProps: {
+                                value: mount.id + "-" + variant.id,
+                                checked: _vm._q(
+                                  _vm.bottom_mount_colour,
+                                  mount.id + "-" + variant.id
+                                )
+                              },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    _vm.bottom_mount_colour =
+                                      mount.id + "-" + variant.id
+                                  },
+                                  _vm.getPrice
+                                ]
+                              }
+                            }),
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t  " +
+                                _vm._s(variant.colour) +
+                                "\n\t\t\t\t\t\t"
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                })
+              ],
+              2
+            )
           : _vm._e()
       ]),
       _vm._v(" "),
