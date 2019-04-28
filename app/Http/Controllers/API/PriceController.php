@@ -9,10 +9,24 @@ use Illuminate\Support\Facades\Cache;
 class PriceController extends Controller {
 	
 	private $include_markup = false;
+	
+	private $labour_costs	= [];
+	
+	private $labour_config	= [];
+	private $wastage_config	= [];
+	
+	private $job_type = '';
+	
+	function __construct() {
+		$this->labour_config	= config('pricing.labour');
+		$this->wastage_config	= config('pricing.wastage');
+	}
 
     public function get(Request $request) {
 		
 		$settings = Cache::get('settings_pricing');
+		
+		$this->job_type = $request->input('job_type');
 		
 		$mould_cost		= $request->input('mould_cost');
 		$mould_width	= $request->input('mould_width');
@@ -22,19 +36,23 @@ class PriceController extends Controller {
 		$glass_size_width		= $request->input('glass_size_width');
 		$glass_size_height		= $request->input('glass_size_height');
 		
-		$glazing_id	= $request->input('glazing');
+		$glazing_id		= $request->input('glazing');
+		$foam_board_id	= $request->input('foam_board');
 		
 		$dry_mount_included = $request->input('dry_mount_included');
 		$fixings_included	= $request->input('fixings_included');
 		
 		// Get the prices, if we need to
-		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width, $settings);
-		$glazing_price			= $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings);
+		$mould_price			= $this->getMouldPrice($glass_size_width, $glass_size_height, $mould_cost, $mould_width);
+		$glazing_price			= !empty($glazing_id) ? $this->getGlazingPrice($glass_size_width, $glass_size_height, $glazing_id, $settings) : false;
+		$foam_board_price		= !empty($foam_board_id) ? $this->getFoamBoardPrice($glass_size_width, $glass_size_height, $foam_board_id, $settings) : false;
 		$mount_price			= $mount->type != 'none' ? $this->getMountPrice($glass_size_width, $glass_size_height, $mount, $settings) : false;
 		$backing_board_price	= $this->getBackingBoardPrice($glass_size_width, $glass_size_height, $settings);
 		$dry_mount_price		= filter_var($dry_mount_included, FILTER_VALIDATE_BOOLEAN) ? $this->getDryMountPrice($glass_size_width, $glass_size_height, $dry_mount_included, $settings) : false;
 		$fixings_price			= filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN) ? $this->getFixingsPrice($glass_size_width, $glass_size_height, $fixings_included, $settings) : false;
 		$other_prices			= $this->getOtherPrices($glass_size_width, $glass_size_height, $settings);
+		
+		$this->setLabourCosts($request);
 		
 		// Build the response array
 		$response = [];
@@ -45,15 +63,85 @@ class PriceController extends Controller {
 		$response['glazing']			= $glazing_price;
 		$response['backing_board']		= $backing_board_price;
 		
-		if ($dry_mount_price)	{ $response['dry_mount']	= $dry_mount_price; }
-		if ($fixings_price)		{ $response['fixings']		= $fixings_price; }
+		if ($dry_mount_price)	{ $response['dry_mount']		= $dry_mount_price; }
+		if ($fixings_price)		{ $response['fixings']			= $fixings_price; }
+		if ($foam_board_price)		{ $response['foam_board']	= $foam_board_price; }
 		
 		$response['other'] = $other_prices;
+		
+		$response['labour'] = $this->labour_costs;
 		
 		$response['markup_included']	= $this->include_markup ? 'Yes' : 'No';
 		
 		return response()->json($response);
     }
+	
+	private function getFoamBoardPrice($frame_width, $frame_height, $foam_board_id, $settings) {
+		
+		$foam_board	= config('pricing.foam_board.' . $foam_board_id);
+		
+		$frame = [
+			'width'		=> $frame_width,
+			'height'	=> $frame_height
+		];
+		
+		// The glass sizes i.e. full, half & quarter
+		$full_peice = [
+			'width'		=> $foam_board['width'],
+			'height'	=> $foam_board['height'],
+			'price'		=> $foam_board['price']
+		];
+		
+		// Cut the full size in her half to get the half size
+		$half_peice		= $this->cutInHalf($full_peice);
+		
+		// Cut the half size in her half to get the quarter size
+		$quarter_peice	= $this->cutInHalf($half_peice);
+		
+		// Now check which size glass peice the customers frame size fits into
+		// and use that price
+		if ($this->fits($frame, $quarter_peice))	{ $foam_board_price = $quarter_peice['price'];} 
+		else if ($this->fits($frame, $half_peice))	{ $foam_board_price = $half_peice['price'];}
+		else if ($this->fits($frame, $full_peice))	{ $foam_board_price = $full_peice['price'];}
+		
+		if (!isset($foam_board_price)) {
+			return 'Frame too big for glazing';
+		}
+		
+		return number_format($foam_board_price / 100, 2);
+	}
+	
+	private function setLabourCosts($request) {
+		
+		switch ($this->job_type) {
+			case 'walk_in':
+				$this->labour_costs['sealing'] = $this->labourCostInPounds($this->labour_config['sealing']);
+				break;
+		}
+		
+		$artwork_supplied	= $request->input('artwork_supplied');
+		$box_frame			= $request->input('box_frame');
+		$hinge_mount		= $request->input('hinge_mount');
+		$picture_stand		= $request->input('picture_stand');
+		
+		if (filter_var($artwork_supplied, FILTER_VALIDATE_BOOLEAN)) {
+			$this->labour_costs['mount_supplied_artwork'] = $this->labourCostInPounds($this->labour_config['atg_tape_mounting']);
+		}
+		
+		if (filter_var($box_frame, FILTER_VALIDATE_BOOLEAN)) {
+			$this->labour_costs['lining_frame'] = $this->labourCostInPounds($this->labour_config['lining_frame']);
+		}
+		
+		if (filter_var($hinge_mount, FILTER_VALIDATE_BOOLEAN)) {
+			$this->labour_costs['hinge_mount'] = $this->labourCostInPounds($this->labour_config['hinge_mount']);
+		}
+		
+		if (filter_var($picture_stand, FILTER_VALIDATE_BOOLEAN)) {
+			$this->labour_costs['attach_picture_stand'] = $this->labourCostInPounds($this->labour_config['attach_picture_stand']);
+		}
+		
+		$this->labour_costs['assembly'] = $this->labourCostInPounds($this->labour_config['assembly']);
+	}
 	
 	private function getOtherPrices($frame_width, $frame_height, $settings) {
 		
@@ -106,6 +194,8 @@ class PriceController extends Controller {
 		$tissue_price = $this->getDryMountTissuePrice($frame_width, $frame_height, $settings);
 		$paper_price = $this->getSiliconeReleasePaperPrice($frame_width, $frame_height, $settings);
 		$board_price = $this->getPulpBoardPrice($frame_width, $frame_height, $settings);
+		
+		$this->labour_costs['dry_mount'] = $this->labourCostInPounds($this->labour_config['dry_mount']);
 		
 		return [
 			'dry_mount_tissue'			=> $tissue_price,
@@ -244,6 +334,13 @@ class PriceController extends Controller {
 		else if ($this->fits($frame, $full_peice))		{ $backing_board_price = $full_peice['price'];}
 		else if ($this->fits($frame, $double_peice))	{ $backing_board_price = $double_peice['price'];}
 		
+		if (!isset($backing_board_price)) {
+			return 'Frame too big for backing board';
+		}
+		
+		// Labour costs
+		$this->labour_costs['cutting_backing_board'] = $this->labourCostInPounds($this->labour_config['cutting_backing_board']);
+		
 		return number_format($backing_board_price / 100, 2);
 	}
 	
@@ -291,6 +388,10 @@ class PriceController extends Controller {
 		else if ($this->fits($frame, $full_peice))					{ $glass_price = $full_peice['price'];}
 		else if ($jumbo_peice && $this->fits($frame, $jumbo_peice)) { $glass_price = $jumbo_peice['price'];}
 		
+		if (!isset($glass_price)) {
+			return 'Frame too big for glazing';
+		}
+		
 		// Add the percentage wastage
 		$glass_price = $glass_price + ($glass_price / 100 * $wastage);
 		
@@ -306,12 +407,17 @@ class PriceController extends Controller {
 		
 		$mount_type	= $mount->type;
 		
+		$return = [];
+		
 		switch ($mount_type) {
 			case 'single':
 			case 'circular':
 			case 'oval':
 				$top_mount = $mount->top;
 				$top_mount_cost = $this->getCostOfMountboard($frame_width, $frame_height, $top_mount->colour, $settings);
+				
+				// Labour costs
+				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard']);
 				
 				return $top_mount_cost;
 			
@@ -322,13 +428,24 @@ class PriceController extends Controller {
 				$top_mount_cost		= $this->getCostOfMountboard($frame_width, $frame_height, $top_mount->colour, $settings);
 				$bottom_mount_cost	= $this->getCostOfMountboard($frame_width, $frame_height, $bottom_mount->colour, $settings);
 				
+				// Labour costs
+				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard']) * 2;
+				
 				return [
 					'top_mount'		=> $top_mount_cost,
 					'bottom_mount'	=> $bottom_mount_cost
 				];
 			
 			case 'multimount':
-				break;
+				$num_apertures	= $mount->num_apertures;
+				$mount_colour	= $mount->colour;
+				
+				$mount_cost = $this->getCostOfMountboard($frame_width, $frame_height, $mount_colour, $settings);
+				
+				// Labour costs
+				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['multimount']) * $num_apertures;
+				
+				return $mount_cost;
 		}
 	}
 	
@@ -383,9 +500,9 @@ class PriceController extends Controller {
 		return number_format($mount_price / 100, 2);
 	}
 	
-	private function getMouldPrice($glass_width, $glass_height, $mould_cost, $mould_width, $settings) {
+	private function getMouldPrice($glass_width, $glass_height, $mould_cost, $mould_width) {
 		
-		$mould_cut_wastage = $settings['mould_cut_wastage'];
+		$mould_cut_wastage = $this->wastage_config['mould'];
 		
 		$total_length = $glass_width * 2 + $glass_height * 2 + $mould_width * 8;
 		
@@ -393,7 +510,21 @@ class PriceController extends Controller {
 		
 		$total_mould_cost_plus_wastage = $total_mould_cost + ($total_mould_cost / 100 * $mould_cut_wastage);
 		
+		// Labour costs
+		$this->labour_costs['cutting_frame'] = $this->labourCostInPounds($this->labour_config['cutting_frame']);
+		
+		if ($glass_width >= $this->labour_config['big_frame']['width'] && $glass_height >= $this->labour_config['big_frame']['height']) {
+			$this->labour_costs['pinning_frame'] = $this->labourCostInPounds($this->labour_config['pinning_big_frame']);
+		} else {
+			$this->labour_costs['pinning_frame'] = $this->labourCostInPounds($this->labour_config['pinning_frame']);
+		}
+		
 		return number_format($total_mould_cost_plus_wastage, 2);
+	}
+	
+	private function labourCostInPounds($minutes) {
+		$cost = ($minutes * $this->labour_config['pence_per_minute']) / 100;
+		return number_format($cost, 2);
 	}
 	
 	private function fits($frame, $peice) {

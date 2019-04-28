@@ -15,14 +15,20 @@ class AdminOrdersController extends Controller {
 
     public function create() {
 		
-		$mounts		= Mount::with('variants')->get();
-		$glazings	= Glazing::all();
+		$mounts			= Mount::with('variants')->get();
+		$glazings		= Glazing::all();
+		$foam_boards	= (object) config('pricing.foam_board');
 		
-		//dd($glazings);
+
+		
+
+		
+		
 		
         return view('admin.orders.create', [
-			'mounts'	=> $mounts,
-			'glazings'	=> $glazings
+			'mounts'		=> $mounts,
+			'glazings'		=> $glazings,
+			'foam_boards'	=> json_encode($foam_boards)
 		]);
     }
 

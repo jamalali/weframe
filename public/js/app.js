@@ -2125,9 +2125,150 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      job_type: 'walk_in',
+      artwork_supplied: 0,
+      hinge_mount: 0,
+      box_frame: 0,
+      picture_stand: 0,
       mount: 'none',
       top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
       bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
@@ -2135,7 +2276,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     mounts: '',
-    glazings: ''
+    glazings: '',
+    foam_boards: ''
   },
   computed: {
     topMountColourTitle: function topMountColourTitle() {
@@ -2151,7 +2293,13 @@ __webpack_require__.r(__webpack_exports__);
         var _this = this;
 
         var params = {};
-        var mount = {}; // Mould params
+        var mount = {}; // Job type and other options
+
+        params.job_type = this.job_type;
+        params.artwork_supplied = this.artwork_supplied;
+        params.hinge_mount = this.hinge_mount;
+        params.box_frame = this.box_frame;
+        params.picture_stand = this.picture_stand; // Mould params
 
         params.mould_cost = this.$refs['mould_cost']['value'];
         params.mould_width = this.$refs['mould_width']['value']; // Mount params
@@ -2188,7 +2336,9 @@ __webpack_require__.r(__webpack_exports__);
         params.glass_size_width = this.$refs['glass_size_width']['value'];
         params.glass_size_height = this.$refs['glass_size_height']['value']; // Glazing
 
-        params.glazing = this.$refs['glazing']['value']; // Dry Mount
+        params.glazing = this.$refs['glazing']['value']; // Foam Board
+
+        params.foam_board = this.$refs['foam_board']['value']; // Dry Mount
 
         params.dry_mount_included = this.$refs['dry_mount_included']['checked']; // Fixings
 
@@ -20068,6 +20218,420 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("form", { attrs: { id: "price-calculator-admin" } }, [
+      _c("div", { staticClass: "field" }, [
+        _c("label", { staticClass: "label" }, [
+          _vm._v("\n\t\t\t\tGlass size\n\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "field column is-one-quarter" }, [
+            _c(
+              "label",
+              {
+                staticClass: "label is-size-7 has-text-weight-normal",
+                attrs: { for: "glass_size_width" }
+              },
+              [_vm._v("\n\t\t\t\t\t\tWidth (mm)\n\t\t\t\t\t")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("input", {
+                  ref: "glass_size_width",
+                  staticClass: "input",
+                  attrs: { id: "glass_size_width", type: "text" },
+                  on: { keyup: _vm.getPrice }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field column is-one-quarter" }, [
+            _c(
+              "label",
+              {
+                staticClass: "label is-size-7 has-text-weight-normal",
+                attrs: { for: "glass_size_height" }
+              },
+              [_vm._v("\n\t\t\t\t\t\tHeight (mm)\n\t\t\t\t\t")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("input", {
+                  ref: "glass_size_height",
+                  staticClass: "input",
+                  attrs: { id: "glass_size_height", type: "text" },
+                  on: { keyup: _vm.getPrice }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns is-multiline" }, [
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\t\tJob type\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.job_type,
+                          expression: "job_type"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "walk_in", checked: "" },
+                      domProps: { checked: _vm._q(_vm.job_type, "walk_in") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.job_type = "walk_in"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tWalk-in\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.job_type,
+                          expression: "job_type"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "contract" },
+                      domProps: { checked: _vm._q(_vm.job_type, "contract") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.job_type = "contract"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tContract\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.job_type,
+                          expression: "job_type"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "online" },
+                      domProps: { checked: _vm._q(_vm.job_type, "online") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.job_type = "online"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tOnline\n\t\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\t\tArtwork Supplied?\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.artwork_supplied,
+                          expression: "artwork_supplied"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: { checked: _vm._q(_vm.artwork_supplied, "0") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.artwork_supplied = "0"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.artwork_supplied,
+                          expression: "artwork_supplied"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: { checked: _vm._q(_vm.artwork_supplied, "1") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.artwork_supplied = "1"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\t\tBox Frame?\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.box_frame,
+                          expression: "box_frame"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: { checked: _vm._q(_vm.box_frame, "0") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.box_frame = "0"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.box_frame,
+                          expression: "box_frame"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: { checked: _vm._q(_vm.box_frame, "1") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.box_frame = "1"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\t\tHinge Mount?\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.hinge_mount,
+                          expression: "hinge_mount"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: { checked: _vm._q(_vm.hinge_mount, "0") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.hinge_mount = "0"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.hinge_mount,
+                          expression: "hinge_mount"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: { checked: _vm._q(_vm.hinge_mount, "1") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.hinge_mount = "1"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\t\tPicture Stand?\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.picture_stand,
+                          expression: "picture_stand"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: { checked: _vm._q(_vm.picture_stand, "0") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.picture_stand = "0"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.picture_stand,
+                          expression: "picture_stand"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: { checked: _vm._q(_vm.picture_stand, "1") },
+                      on: {
+                        change: [
+                          function($event) {
+                            _vm.picture_stand = "1"
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
       _c("div", { staticClass: "columns" }, [
         _c("div", { staticClass: "field column" }, [
           _c("label", { staticClass: "label", attrs: { for: "mould_cost" } }, [
@@ -20442,24 +21006,13 @@ var render = function() {
                 [_vm._v("\n\t\t\t\t\tNumber of apertures\n\t\t\t\t")]
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "select" }, [
-                _c(
-                  "select",
-                  {
-                    ref: "num_apertures",
-                    attrs: { id: "num_apertures" },
-                    on: { change: _vm.getPrice }
-                  },
-                  [
-                    _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "8" } }, [_vm._v("8")])
-                  ]
-                )
+              _c("div", { staticClass: "control" }, [
+                _c("input", {
+                  ref: "num_apertures",
+                  staticClass: "input",
+                  attrs: { value: "2", id: "num_apertures", type: "text" },
+                  on: { keyup: _vm.getPrice }
+                })
               ])
             ])
           : _vm._e(),
@@ -20493,26 +21046,31 @@ var render = function() {
         _vm.mount == "circular" ||
         _vm.mount == "oval" ||
         _vm.mount == "multimount"
-          ? _c(
-              "div",
-              { staticClass: "column is-half" },
-              [
-                _c("h6", { staticClass: "title is-6" }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t" +
-                      _vm._s(_vm.topMountColourTitle) +
-                      "\n\t\t\t\t"
-                  )
-                ]),
-                _vm._v(" "),
+          ? _c("div", { staticClass: "column is-half" }, [
+              _c("h6", { staticClass: "title is-6" }, [
+                _vm._v(
+                  "\n\t\t\t\t\t" +
+                    _vm._s(_vm.topMountColourTitle) +
+                    "\n\t\t\t\t"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "columns is-multiline" },
                 _vm._l(_vm.mounts, function(mount, mountsIndex) {
                   return _c(
                     "div",
-                    { staticStyle: { "margin-bottom": "20px" } },
+                    {
+                      staticClass: "column is-half",
+                      staticStyle: { "margin-bottom": "20px" }
+                    },
                     [
                       _c("strong", [
                         _vm._v(
-                          "\n\t\t\t\t\t\t" + _vm._s(mount.name) + "\n\t\t\t\t\t"
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(mount.name) +
+                            "\n\t\t\t\t\t\t"
                         )
                       ]),
                       _vm._v(" "),
@@ -20550,9 +21108,9 @@ var render = function() {
                               }
                             }),
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t  " +
+                              "\n\t\t\t\t\t\t\t\t  " +
                                 _vm._s(variant.colour) +
-                                "\n\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t\t\t"
                             )
                           ])
                         ])
@@ -20560,33 +21118,36 @@ var render = function() {
                     ],
                     2
                   )
-                })
-              ],
-              2
-            )
+                }),
+                0
+              )
+            ])
           : _vm._e(),
         _vm._v(" "),
         _vm.mount == "double"
-          ? _c(
-              "div",
-              { staticClass: "column is-one-quarter" },
-              [
-                _vm.mount == "double"
-                  ? _c("h6", { staticClass: "title is-6" }, [
-                      _vm._v(
-                        "\n\t\t\t\t\tBottom mount style & colour\n\t\t\t\t"
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
+          ? _c("div", { staticClass: "column is-half" }, [
+              _vm.mount == "double"
+                ? _c("h6", { staticClass: "title is-6" }, [
+                    _vm._v("\n\t\t\t\t\tBottom mount style & colour\n\t\t\t\t")
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "columns is-multiline" },
                 _vm._l(_vm.mounts, function(mount) {
                   return _c(
                     "div",
-                    { staticStyle: { "margin-bottom": "20px" } },
+                    {
+                      staticClass: "column is-half",
+                      staticStyle: { "margin-bottom": "20px" }
+                    },
                     [
                       _c("strong", [
                         _vm._v(
-                          "\n\t\t\t\t\t\t" + _vm._s(mount.name) + "\n\t\t\t\t\t"
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(mount.name) +
+                            "\n\t\t\t\t\t\t"
                         )
                       ]),
                       _vm._v(" "),
@@ -20624,9 +21185,9 @@ var render = function() {
                               }
                             }),
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t  " +
+                              "\n\t\t\t\t\t\t\t\t  " +
                                 _vm._s(variant.colour) +
-                                "\n\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t\t\t"
                             )
                           ])
                         ])
@@ -20634,10 +21195,10 @@ var render = function() {
                     ],
                     2
                   )
-                })
-              ],
-              2
-            )
+                }),
+                0
+              )
+            ])
           : _vm._e()
       ]),
       _vm._v(" "),
@@ -20663,58 +21224,6 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("div", { staticClass: "field" }, [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\tGlass size\n\t\t\t")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "field column is-one-quarter" }, [
-            _c(
-              "label",
-              {
-                staticClass: "label is-size-7 has-text-weight-normal",
-                attrs: { for: "glass_size_width" }
-              },
-              [_vm._v("\n\t\t\t\t\t\tWidth (mm)\n\t\t\t\t\t")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "glass_size_width",
-                  staticClass: "input",
-                  attrs: { id: "glass_size_width", type: "text" },
-                  on: { keyup: _vm.getPrice }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field column is-one-quarter" }, [
-            _c(
-              "label",
-              {
-                staticClass: "label is-size-7 has-text-weight-normal",
-                attrs: { for: "glass_size_height" }
-              },
-              [_vm._v("\n\t\t\t\t\t\tHeight (mm)\n\t\t\t\t\t")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "glass_size_height",
-                  staticClass: "input",
-                  attrs: { id: "glass_size_height", type: "text" },
-                  on: { keyup: _vm.getPrice }
-                })
-              ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "columns" }, [
         _c("div", { staticClass: "field column is-half" }, [
           _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
@@ -20730,16 +21239,57 @@ var render = function() {
                   attrs: { id: "glazing" },
                   on: { change: _vm.getPrice }
                 },
-                _vm._l(_vm.glazings, function(glazing) {
-                  return _c("option", { domProps: { value: glazing.id } }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t\t\t" +
-                        _vm._s(glazing.name) +
-                        "\n\t\t\t\t\t\t\t"
-                    )
-                  ])
-                }),
-                0
+                [
+                  _c("option", { attrs: { value: "0", selected: "" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.glazings, function(glazing) {
+                    return _c("option", { domProps: { value: glazing.id } }, [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t\t" +
+                          _vm._s(glazing.name) +
+                          "\n\t\t\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field column is-half" }, [
+          _c("label", { staticClass: "label", attrs: { for: "foam_board" } }, [
+            _vm._v("\n\t\t\t\t\tFoam Board\n\t\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  ref: "foam_board",
+                  attrs: { id: "foam_board" },
+                  on: { change: _vm.getPrice }
+                },
+                [
+                  _c("option", { attrs: { value: "0", selected: "" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.foam_boards, function(board, boardName) {
+                    return _c("option", { domProps: { value: boardName } }, [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t\t" +
+                          _vm._s(boardName) +
+                          "\n\t\t\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                ],
+                2
               )
             ])
           ])

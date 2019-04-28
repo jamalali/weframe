@@ -1,6 +1,159 @@
 <template>
 	<div>
 		<form id="price-calculator-admin">
+			<div class="field">
+
+				<label class="label">
+					Glass size
+				</label>
+
+				<div class="columns">
+
+					<div class="field column is-one-quarter">
+						<label class="label is-size-7 has-text-weight-normal" for="glass_size_width">
+							Width (mm)
+						</label>
+
+						<div class="field">
+							<div class="control">
+								<input ref="glass_size_width" v-on:keyup="getPrice" id="glass_size_width" class="input" type="text">
+							</div>
+						</div>
+					</div>
+
+					<div class="field column is-one-quarter">
+						<label class="label is-size-7 has-text-weight-normal" for="glass_size_height">
+							Height (mm)
+						</label>
+
+						<div class="field">
+							<div class="control">
+								<input ref="glass_size_height" v-on:keyup="getPrice" id="glass_size_height" class="input" type="text">
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			
+			<hr />
+			
+			<div class="columns is-multiline">
+				<div class="field column is-one-third is-one-fifth-desktop">
+					<label class="label">
+						Job type
+					</label>
+					<div class="control">
+						<ul>
+							<li>
+								<label class="radio">
+									<input type="radio" value="walk_in" v-on:change="getPrice" v-model="job_type" checked>
+									Walk-in
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="contract" v-on:change="getPrice" v-model="job_type">
+									Contract
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="online" v-on:change="getPrice" v-model="job_type">
+									Online
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="field column is-one-third is-one-fifth-desktop">
+					<label class="label">
+						Artwork Supplied?
+					</label>
+					<div class="control">
+						<ul>
+							<li>
+								<label class="radio">
+									<input type="radio" value="0" v-on:change="getPrice" v-model="artwork_supplied" checked>
+									No
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="artwork_supplied">
+									Yes
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="field column is-one-third is-one-fifth-desktop">
+					<label class="label">
+						Box Frame?
+					</label>
+					<div class="control">
+						<ul>
+							<li>
+								<label class="radio">
+									<input type="radio" value="0" v-on:change="getPrice" v-model="box_frame" checked>
+									No
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="box_frame">
+									Yes
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="field column is-one-third is-one-fifth-desktop">
+					<label class="label">
+						Hinge Mount?
+					</label>
+					<div class="control">
+						<ul>
+							<li>
+								<label class="radio">
+									<input type="radio" value="0" v-on:change="getPrice" v-model="hinge_mount" checked>
+									No
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="hinge_mount">
+									Yes
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="field column is-one-third is-one-fifth-desktop">
+					<label class="label">
+						Picture Stand?
+					</label>
+					<div class="control">
+						<ul>
+							<li>
+								<label class="radio">
+									<input type="radio" value="0" v-on:change="getPrice" v-model="picture_stand" checked>
+									No
+								</label>
+							</li>
+							<li>
+								<label class="radio">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="picture_stand">
+									Yes
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<hr />
+			
 			<div class="columns">
 				<div class="field column">
 					<label class="label" for="mould_cost">
@@ -153,14 +306,9 @@
 					<label class="label is-6 has-text-weight-semibold" for="num_apertures">
 						Number of apertures
 					</label>
-
-					<div class="select">
-						<select ref="num_apertures" id="num_apertures" v-on:change="getPrice">
-							<option value="2">2</option>
-							<option value="4">4</option>
-							<option value="6">6</option>
-							<option value="8">8</option>
-						</select>
+					
+					<div class="control">
+						<input value="2" ref="num_apertures" v-on:keyup="getPrice" id="num_apertures" class="input" type="text">
 					</div>
 				</div>
 				<div class="column is-one-quarter" v-if="mount == 'multimount'">
@@ -180,37 +328,41 @@
 						{{ topMountColourTitle }}
 					</h6>
 					
-					<div v-for="(mount, mountsIndex) in mounts" style="margin-bottom:20px;">
-						<strong>
-							{{ mount.name }}
-						</strong>
-						
-						<div v-for="(variant, variantsIndex) in mount.variants">
-							<label class="radio">
-								  <input type="radio" name="top_mount_colour" v-model="top_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
-								  {{ variant.colour }}
-							</label>
+					<div class="columns is-multiline">
+						<div class="column is-half" v-for="(mount, mountsIndex) in mounts" style="margin-bottom:20px;">
+							<strong>
+								{{ mount.name }}
+							</strong>
+
+							<div v-for="(variant, variantsIndex) in mount.variants">
+								<label class="radio">
+									  <input type="radio" name="top_mount_colour" v-model="top_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
+									  {{ variant.colour }}
+								</label>
+							</div>
 						</div>
 					</div>
 
 				</div>
 
-				<div class="column is-one-quarter" v-if="mount == 'double'">
+				<div class="column is-half" v-if="mount == 'double'">
 
 					<h6 class="title is-6" v-if="mount == 'double'">
 						Bottom mount style & colour
 					</h6>
 					
-					<div v-for="mount in mounts" style="margin-bottom:20px;">
-						<strong>
-							{{ mount.name }}
-						</strong>
+					<div class="columns is-multiline">
+						<div class="column is-half" v-for="mount in mounts" style="margin-bottom:20px;">
+							<strong>
+								{{ mount.name }}
+							</strong>
 
-						<div v-for="variant in mount.variants">
-							<label class="radio">
-								  <input type="radio" name="bottom_mount_colour" v-model="bottom_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
-								  {{ variant.colour }}
-							</label>
+							<div v-for="variant in mount.variants">
+								<label class="radio">
+									  <input type="radio" name="bottom_mount_colour" v-model="bottom_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="getPrice">
+									  {{ variant.colour }}
+								</label>
+							</div>
 						</div>
 					</div>
 
@@ -231,42 +383,6 @@
 
 			<hr />
 
-			<div class="field">
-
-				<label class="label">
-					Glass size
-				</label>
-
-				<div class="columns">
-
-					<div class="field column is-one-quarter">
-						<label class="label is-size-7 has-text-weight-normal" for="glass_size_width">
-							Width (mm)
-						</label>
-
-						<div class="field">
-							<div class="control">
-								<input ref="glass_size_width" v-on:keyup="getPrice" id="glass_size_width" class="input" type="text">
-							</div>
-						</div>
-					</div>
-
-					<div class="field column is-one-quarter">
-						<label class="label is-size-7 has-text-weight-normal" for="glass_size_height">
-							Height (mm)
-						</label>
-
-						<div class="field">
-							<div class="control">
-								<input ref="glass_size_height" v-on:keyup="getPrice" id="glass_size_height" class="input" type="text">
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-
 			<div class="columns">
 				<div class="field column is-half">
 					<label class="label" for="glazing">
@@ -275,13 +391,33 @@
 					<div class="control">
 						<div class="select">
 							<select ref="glazing" id="glazing" v-on:change="getPrice">
+								<option value="0" selected>
+									None
+								</option>
 								<option v-for="glazing in glazings" :value="glazing.id">
 									{{ glazing.name }}
 								</option>
 							</select>
 						  </div>
 					</div>
-				</div>	
+				</div>
+				<div class="field column is-half">
+					<label class="label" for="foam_board">
+						Foam Board
+					</label>
+					<div class="control">
+						<div class="select">
+							<select ref="foam_board" id="foam_board" v-on:change="getPrice">
+								<option value="0" selected>
+									None
+								</option>
+								<option v-for="(board, boardName) in foam_boards" :value="boardName">
+									{{ boardName }}
+								</option>
+							</select>
+						  </div>
+					</div>
+				</div>
 			</div>
 
 		</form>
@@ -292,6 +428,11 @@
     export default {
 		data() {
 			return {
+				job_type: 'walk_in',
+				artwork_supplied: 0,
+				hinge_mount: 0,
+				box_frame: 0,
+				picture_stand: 0,
 				mount: 'none',
 				top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
 				bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
@@ -299,7 +440,8 @@
 		},
 		props: {
 			mounts: '',
-			glazings: ''
+			glazings: '',
+			foam_boards: ''
 		},
 		computed: {
 			topMountColourTitle: function() {
@@ -317,6 +459,13 @@
 					
 					const params = {}
 					const mount = {}
+					
+					// Job type and other options
+					params.job_type			= this.job_type
+					params.artwork_supplied = this.artwork_supplied
+					params.hinge_mount		= this.hinge_mount
+					params.box_frame		= this.box_frame
+					params.picture_stand	= this.picture_stand
 					
 					// Mould params
 					params.mould_cost = this.$refs['mould_cost']['value']
@@ -358,6 +507,9 @@
 					
 					// Glazing
 					params.glazing = this.$refs['glazing']['value']
+					
+					// Foam Board
+					params.foam_board = this.$refs['foam_board']['value']
 					
 					// Dry Mount
 					params.dry_mount_included = this.$refs['dry_mount_included']['checked']
