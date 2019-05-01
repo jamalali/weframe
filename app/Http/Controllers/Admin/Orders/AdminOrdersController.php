@@ -17,18 +17,14 @@ class AdminOrdersController extends Controller {
 		
 		$mounts			= Mount::with('variants')->get();
 		$glazings		= Glazing::all();
-		$foam_boards	= (object) config('pricing.foam_board');
-		
-
-		
-
-		
-		
+		$foam_boards	= config('pricing.foam_board');
+		$moulds			= config('moulds');
 		
         return view('admin.orders.create', [
 			'mounts'		=> $mounts,
 			'glazings'		=> $glazings,
-			'foam_boards'	=> json_encode($foam_boards)
+			'foam_boards'	=> json_encode($foam_boards),
+			'moulds'		=> json_encode($moulds)
 		]);
     }
 

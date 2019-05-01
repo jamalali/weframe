@@ -7,7 +7,12 @@
 
 <div class="columns is-centered">
 	<div class="column is-two-thirds">
-		<price-calculator-admin v-bind:glazings="{{ $glazings }}" v-bind:mounts="{{ $mounts }}" v-bind:foam_boards="{{ $foam_boards }}"></price-calculator-admin>
+		<price-calculator-admin
+			v-bind:glazings="{{ $glazings }}"
+			v-bind:mounts="{{ $mounts }}"
+			v-bind:foam_boards="{{ $foam_boards }}"
+			v-bind:moulds="{{ $moulds }}"
+		></price-calculator-admin>
     </div>
 	<div class="column is-one-third">
 		<div class="basket-container">

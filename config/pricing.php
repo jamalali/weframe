@@ -2,6 +2,36 @@
 
 return [
 	
+	'fixings' => [
+		0 => [
+			'name' => 'None'
+		],
+		1 => [
+			'name' => 'Standard string'
+		],
+		2 => [
+			'name' => 'Invisible'
+		],
+		3 => [
+			'name' => 'Picture stand'
+		],
+	],
+	
+	'artwork_mounting' => [
+		0 => [
+			'name' => 'None'
+		],
+		1 => [
+			'name' => 'Dry mount'
+		],
+		2 => [
+			'name' => 'Hinge mount'
+		],
+		3 => [
+			'name' => 'Photo mount'
+		],
+	],
+	
 	'labour' => [
 		'cutting_frame' => 2,
 		
