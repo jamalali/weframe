@@ -1826,10 +1826,324 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MountboardSelector_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MountboardSelector.vue */ "./resources/js/components/PriceCalculator/MountboardSelector.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'mountboard-selector': _MountboardSelector_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      job_type: 'walk_in',
+      artwork_supplied: 0,
+      box_frame: 0,
+      fixing: '0',
+      artwork_mounting: '0',
+      mount: {
+        'type': 'none'
+      }
+    };
+  },
+  props: {
+    mounts: '',
+    glazings: '',
+    foam_boards: '',
+    moulds: '',
+    job_types: '',
+    fixings: '',
+    artwork_mountings: ''
+  },
+  methods: {
+    setMount: function setMount(data) {
+      this.mount = data;
+      this.getPrice();
+    },
+    setArtworkMounting: function setArtworkMounting(artworkMountingKey) {
+      this.artwork_mounting = artworkMountingKey;
+      this.getPrice();
+    },
+    setFixingType: function setFixingType(fixingOptKey) {
+      this.fixing = fixingOptKey;
+      this.getPrice();
+    },
+    setJobType: function setJobType(jobTypeKey) {
+      this.job_type = jobTypeKey;
+      this.getPrice();
+    },
+    typingTimeout: function typingTimeout(event) {
+      var _this = this;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(function () {
+        _this.getPrice();
+      }, 1000);
+    },
+    getPrice: function getPrice() {
+      this.$nextTick(function () {
+        var _this2 = this;
+
+        // Required options - check them
+        if (this.$refs['mould']['value'] == 0) {
+          alert('Please choose a moulding');
+          return false;
+        }
+
+        var params = {}; // Job type and other options
+
+        params.job_type = this.job_type;
+        params.artwork_supplied = this.artwork_supplied;
+        params.box_frame = this.box_frame;
+        params.fixing = this.fixing;
+        params.artwork_mounting = this.artwork_mounting; // Mould params
+
+        params.mould = this.$refs['mould']['value'];
+        params.mount = this.mount; // Aerwork size
+
+        params.artwork_width = this.$refs['artwork_width']['value'];
+        params.artwork_height = this.$refs['artwork_height']['value']; // Glazing
+
+        params.glazing = this.$refs['glazing']['value']; // Foam Board
+
+        params.foam_board = this.$refs['foam_board']['value']; //console.log(params)
+
+        axios.get('http://weframe.local/api/price', {
+          params: params
+        }).then(function (response) {
+          return _this2.$store.commit('updateCalculation', response.data);
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2003,285 +2317,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      job_type: 'walk_in',
-      artwork_supplied: 0,
-      box_frame: 0,
-      mount: 'none',
-      fixing: '0',
-      artwork_mounting: '0',
+      mountType: 'none',
+      equal_mount_borders: true,
       top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
       bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
     };
   },
   props: {
-    mounts: '',
-    glazings: '',
-    foam_boards: '',
-    moulds: '',
-    job_types: '',
-    fixings: '',
-    artwork_mountings: ''
+    mounts: ''
   },
   computed: {
     topMountColourTitle: function topMountColourTitle() {
-      return this.mount == 'double' ? 'Top mount style & colour' : 'Mount style & colour';
+      return this.mountType == 'double' ? 'Top mount style & colour' : 'Mount style & colour';
     },
     topMountSizeTitle: function topMountSizeTitle() {
-      return this.mount == 'double' ? 'Top mount size' : 'Mount size';
+      return this.mountType == 'double' ? 'Top mount size' : 'Mount size';
     }
   },
   methods: {
-    setArtworkMounting: function setArtworkMounting(artworkMountingKey) {
-      this.artwork_mounting = artworkMountingKey;
-      this.getPrice();
-    },
-    setFixingType: function setFixingType(fixingOptKey) {
-      this.fixing = fixingOptKey;
-      this.getPrice();
-    },
-    setJobType: function setJobType(jobTypeKey) {
-      this.job_type = jobTypeKey;
-      this.getPrice();
+    setMountType: function setMountType(type) {
+      this.mountType = type;
+      this.returnMount();
     },
     typingTimeout: function typingTimeout(event) {
       var _this = this;
@@ -2292,33 +2351,16 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.timer = setTimeout(function () {
-        _this.getPrice();
+        _this.returnMount();
       }, 1000);
     },
-    getPrice: function getPrice() {
+    returnMount: function returnMount() {
       this.$nextTick(function () {
-        var _this2 = this;
+        var mount = {}; // Mount params
 
-        // Required options - check them
-        if (this.$refs['mould']['value'] == 0) {
-          alert('Please choose a moulding');
-          return false;
-        }
+        mount.type = this.mountType;
 
-        var params = {};
-        var mount = {}; // Job type and other options
-
-        params.job_type = this.job_type;
-        params.artwork_supplied = this.artwork_supplied;
-        params.box_frame = this.box_frame;
-        params.fixing = this.fixing;
-        params.artwork_mounting = this.artwork_mounting; // Mould params
-
-        params.mould = this.$refs['mould']['value']; // Mount params
-
-        mount.type = this.mount;
-
-        if (this.mount != 'none' && this.mount != 'multimount') {
+        if (this.mountType != 'none') {
           mount.top = {
             sizes: {
               top: this.$refs['top_mount_size_top']['value'],
@@ -2330,33 +2372,19 @@ __webpack_require__.r(__webpack_exports__);
           };
         }
 
-        if (this.mount == 'double') {
+        if (this.mountType == 'double') {
           mount.bottom = {
             size: this.$refs['bottom_mount_size']['value'],
             colour: this.bottom_mount_colour
           };
-        }
+        } //					if (this.mountType == 'multimount') {
+        //						mount.num_apertures = this.$refs['num_apertures']['value']
+        //						mount.gap_size = this.$refs['gap_size']['value']
+        //						mount.colour = this.top_mount_colour
+        //					}
 
-        if (this.mount == 'multimount') {
-          mount.num_apertures = this.$refs['num_apertures']['value'];
-          mount.gap_size = this.$refs['gap_size']['value'];
-          mount.colour = this.top_mount_colour;
-        }
 
-        params.mount = mount; // Aerwork size
-
-        params.artwork_width = this.$refs['artwork_width']['value'];
-        params.artwork_height = this.$refs['artwork_height']['value']; // Glazing
-
-        params.glazing = this.$refs['glazing']['value']; // Foam Board
-
-        params.foam_board = this.$refs['foam_board']['value']; //console.log(params)
-
-        axios.get('http://weframe.local/api/price', {
-          params: params
-        }).then(function (response) {
-          return _this2.$store.commit('updateCalculation', response.data);
-        });
+        this.$emit('setmount', mount); //console.log(mount)
       });
     }
   }
@@ -20209,10 +20237,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -20225,964 +20253,446 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { attrs: { id: "price-calculator-admin" } }, [
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("p", { staticClass: "control" }, [
-              _c("input", {
-                ref: "artwork_description",
-                staticClass: "input",
-                attrs: { type: "text", id: "artwork_description" }
-              })
+    _c(
+      "form",
+      { attrs: { id: "price-calculator-admin" } },
+      [
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("div", { staticClass: "field" }, [
+              _c("p", { staticClass: "control" }, [
+                _c("input", {
+                  ref: "artwork_description",
+                  staticClass: "input",
+                  attrs: { type: "text", id: "artwork_description" }
+                })
+              ])
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "field" }, [
-        _c("label", { staticClass: "label", attrs: { for: "mould" } }, [
-          _vm._v("\n\t\t\t\tMoulding\n\t\t\t")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "control" }, [
-          _c("div", { staticClass: "select is-multiple" }, [
-            _c(
-              "select",
-              {
-                ref: "mould",
-                attrs: { id: "mould", size: "5", multiple: "" },
-                on: { change: _vm.getPrice }
-              },
-              [
-                _c("option", { attrs: { value: "0", selected: "" } }, [
-                  _vm._v("\n\t\t\t\t\t\t\tChoose one\n\t\t\t\t\t\t")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.moulds, function(mould, mouldIndex) {
-                  return _c("option", { domProps: { value: mouldIndex } }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t\t" + _vm._s(mould.name) + "\n\t\t\t\t\t\t"
-                    )
-                  ])
-                })
-              ],
-              2
-            )
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label", attrs: { for: "mould" } }, [
+            _vm._v("\n\t\t\t\tMoulding\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select is-multiple" }, [
+              _c(
+                "select",
+                {
+                  ref: "mould",
+                  attrs: { id: "mould", size: "5", multiple: "" },
+                  on: { change: _vm.getPrice }
+                },
+                [
+                  _c("option", { attrs: { value: "0", selected: "" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\tChoose one\n\t\t\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.moulds, function(mould, mouldIndex) {
+                    return _c("option", { domProps: { value: mouldIndex } }, [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(mould.name) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\tJob type\n\t\t\t")
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "buttons has-addons" },
-          _vm._l(_vm.job_types, function(type, typeKey) {
-            return _c(
-              "button",
-              {
-                staticClass: "button",
-                class: { "is-info is-selected": _vm.job_type == typeKey },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.setJobType(typeKey)
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", [
+          _c("label", { staticClass: "label" }, [
+            _vm._v("\n\t\t\t\tJob type\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "buttons has-addons" },
+            _vm._l(_vm.job_types, function(type, typeKey) {
+              return _c(
+                "button",
+                {
+                  staticClass: "button",
+                  class: { "is-info is-selected": _vm.job_type == typeKey },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.setJobType(typeKey)
+                    }
                   }
-                }
-              },
-              [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "field" }, [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\tArtwork size\n\t\t\t")
+                },
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
+              )
+            }),
+            0
+          )
         ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label" }, [
+            _vm._v("\n\t\t\t\tArtwork size\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "field column is-one-quarter" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "label is-size-7 has-text-weight-normal",
+                  attrs: { for: "artwork_width" }
+                },
+                [_vm._v("\n\t\t\t\t\t\tWidth (mm)\n\t\t\t\t\t")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    ref: "artwork_width",
+                    staticClass: "input",
+                    attrs: { id: "artwork_width", type: "text" },
+                    on: { keydown: _vm.typingTimeout }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field column is-one-quarter" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "label is-size-7 has-text-weight-normal",
+                  attrs: { for: "artwork_height" }
+                },
+                [_vm._v("\n\t\t\t\t\t\tHeight (mm)\n\t\t\t\t\t")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    ref: "artwork_height",
+                    staticClass: "input",
+                    attrs: { id: "artwork_height", type: "text" },
+                    on: { keydown: _vm.typingTimeout }
+                  })
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("mountboard-selector", {
+          attrs: { mounts: _vm.mounts },
+          on: { setmount: _vm.setMount }
+        }),
+        _vm._v(" "),
+        _c("hr"),
         _vm._v(" "),
         _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "field column is-one-quarter" }, [
-            _c(
-              "label",
-              {
-                staticClass: "label is-size-7 has-text-weight-normal",
-                attrs: { for: "artwork_width" }
-              },
-              [_vm._v("\n\t\t\t\t\t\tWidth (mm)\n\t\t\t\t\t")]
-            ),
+          _c("div", { staticClass: "field column is-half" }, [
+            _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
+              _vm._v("\n\t\t\t\t\tGlazing\n\t\t\t\t")
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "artwork_width",
-                  staticClass: "input",
-                  attrs: { id: "artwork_width", type: "text" },
-                  on: { keydown: _vm.typingTimeout }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field column is-one-quarter" }, [
-            _c(
-              "label",
-              {
-                staticClass: "label is-size-7 has-text-weight-normal",
-                attrs: { for: "artwork_height" }
-              },
-              [_vm._v("\n\t\t\t\t\t\tHeight (mm)\n\t\t\t\t\t")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "artwork_height",
-                  staticClass: "input",
-                  attrs: { id: "artwork_height", type: "text" },
-                  on: { keydown: _vm.typingTimeout }
-                })
+            _c("div", { staticClass: "control" }, [
+              _c("div", { staticClass: "select" }, [
+                _c(
+                  "select",
+                  {
+                    ref: "glazing",
+                    attrs: { id: "glazing" },
+                    on: { change: _vm.getPrice }
+                  },
+                  [
+                    _c("option", { attrs: { value: "0", selected: "" } }, [
+                      _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.glazings, function(glazing) {
+                      return _c("option", { domProps: { value: glazing.id } }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t" +
+                            _vm._s(glazing.name) +
+                            "\n\t\t\t\t\t\t\t"
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                )
               ])
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "field column is-half" }, [
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", [
           _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\t\tMount\n\t\t\t\t")
+            _vm._v("\n\t\t\t\tFixing\n\t\t\t")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("ul", { staticClass: "mount-options" }, [
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "none" },
-                    domProps: {
-                      checked: _vm.mount == "none",
-                      checked: _vm._q(_vm.mount, "none")
-                    },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "none"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "single" },
-                    domProps: { checked: _vm._q(_vm.mount, "single") },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "single"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tSingle\n\t\t\t\t\t\t\t")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "double" },
-                    domProps: { checked: _vm._q(_vm.mount, "double") },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "double"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tDouble\n\t\t\t\t\t\t\t")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "circular" },
-                    domProps: { checked: _vm._q(_vm.mount, "circular") },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "circular"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tCircular\n\t\t\t\t\t\t\t")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "oval" },
-                    domProps: { checked: _vm._q(_vm.mount, "oval") },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "oval"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tOval\n\t\t\t\t\t\t\t")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("label", { staticClass: "radio" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mount,
-                        expression: "mount"
-                      }
-                    ],
-                    attrs: { type: "radio", value: "multimount" },
-                    domProps: { checked: _vm._q(_vm.mount, "multimount") },
-                    on: {
-                      change: [
-                        function($event) {
-                          _vm.mount = "multimount"
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  }),
-                  _vm._v("\n\t\t\t\t\t\t\t\tMultimount\n\t\t\t\t\t\t\t")
-                ])
-              ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _vm.mount == "single" ||
-        _vm.mount == "double" ||
-        _vm.mount == "circular" ||
-        _vm.mount == "oval"
-          ? _c("div", { staticClass: "column is-half" }, [
-              _c("h6", { staticClass: "title is-6" }, [
-                _vm._v(
-                  "\n\t\t\t\t\t" + _vm._s(_vm.topMountSizeTitle) + "\n\t\t\t\t"
-                )
-              ]),
-              _vm._v(" "),
-              _c("ul", { staticClass: "mount-sizes" }, [
-                _c("li", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "label is-size-7 has-text-weight-normal",
-                      attrs: { for: "top_mount_size_top" }
-                    },
-                    [_vm._v("\n\t\t\t\t\t\t\tTop (mm)\n\t\t\t\t\t\t")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "field" }, [
-                    _c("div", { staticClass: "control" }, [
-                      _c("input", {
-                        ref: "top_mount_size_top",
-                        staticClass: "input",
-                        attrs: {
-                          value: "50",
-                          id: "top_mount_size_top",
-                          type: "text"
-                        },
-                        on: { keydown: _vm.typingTimeout }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "label is-size-7 has-text-weight-normal",
-                      attrs: { for: "top_mount_size_bottom" }
-                    },
-                    [_vm._v("\n\t\t\t\t\t\t\tBottom (mm)\n\t\t\t\t\t\t")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "field" }, [
-                    _c("div", { staticClass: "control" }, [
-                      _c("input", {
-                        ref: "top_mount_size_bottom",
-                        staticClass: "input",
-                        attrs: {
-                          value: "50",
-                          id: "top_mount_size_bottom",
-                          type: "text"
-                        },
-                        on: { keydown: _vm.typingTimeout }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "label is-size-7 has-text-weight-normal",
-                      attrs: { for: "top_mount_size_right" }
-                    },
-                    [_vm._v("\n\t\t\t\t\t\t\tRight (mm)\n\t\t\t\t\t\t")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "field" }, [
-                    _c("div", { staticClass: "control" }, [
-                      _c("input", {
-                        ref: "top_mount_size_right",
-                        staticClass: "input",
-                        attrs: {
-                          value: "50",
-                          id: "top_mount_size_right",
-                          type: "text"
-                        },
-                        on: { keydown: _vm.typingTimeout }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "label is-size-7 has-text-weight-normal",
-                      attrs: { for: "top_mount_size_left" }
-                    },
-                    [_vm._v("\n\t\t\t\t\t\t\tLeft (mm)\n\t\t\t\t\t\t")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "field" }, [
-                    _c("div", { staticClass: "control" }, [
-                      _c("input", {
-                        ref: "top_mount_size_left",
-                        staticClass: "input",
-                        attrs: {
-                          value: "50",
-                          id: "top_mount_size_left",
-                          type: "text"
-                        },
-                        on: { keydown: _vm.typingTimeout }
-                      })
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.mount == "double"
-          ? _c("div", { staticClass: "column is-one-quarter" }, [
-              _vm.mount == "double"
-                ? _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("\n\t\t\t\t\tBottom mount size\n\t\t\t\t")
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("ul", [
-                _c("li", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "label is-size-7 has-text-weight-normal",
-                      attrs: { for: "bottom_mount_size" }
-                    },
-                    [_vm._v("\n\t\t\t\t\t\t\tSize (mm)\n\t\t\t\t\t\t")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "field" }, [
-                    _c("div", { staticClass: "control" }, [
-                      _c("input", {
-                        ref: "bottom_mount_size",
-                        staticClass: "input",
-                        attrs: {
-                          value: "5",
-                          id: "bottom_mount_size",
-                          type: "text"
-                        },
-                        on: { keydown: _vm.typingTimeout }
-                      })
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.mount == "multimount"
-          ? _c("div", { staticClass: "column is-one-quarter" }, [
-              _c(
-                "label",
+          _c(
+            "div",
+            { staticClass: "buttons has-addons" },
+            _vm._l(_vm.fixings, function(fixingOpt, fixingOptKey) {
+              return _c(
+                "button",
                 {
-                  staticClass: "label is-6 has-text-weight-semibold",
-                  attrs: { for: "num_apertures" }
+                  staticClass: "button",
+                  class: { "is-info is-selected": _vm.fixing == fixingOptKey },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.setFixingType(fixingOptKey)
+                    }
+                  }
                 },
-                [_vm._v("\n\t\t\t\t\tNumber of apertures\n\t\t\t\t")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "num_apertures",
-                  staticClass: "input",
-                  attrs: { value: "2", id: "num_apertures", type: "text" },
-                  on: { keydown: _vm.typingTimeout }
-                })
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.mount == "multimount"
-          ? _c("div", { staticClass: "column is-one-quarter" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "label is-6 has-text-weight-semibold",
-                  attrs: { for: "gap_size" }
-                },
-                [_vm._v("\n\t\t\t\t\tGap size (mm)\n\t\t\t\t")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  ref: "gap_size",
-                  staticClass: "input",
-                  attrs: { value: "5", id: "gap_size", type: "text" },
-                  on: { keydown: _vm.typingTimeout }
-                })
-              ])
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _vm.mount == "single" ||
-        _vm.mount == "double" ||
-        _vm.mount == "circular" ||
-        _vm.mount == "oval" ||
-        _vm.mount == "multimount"
-          ? _c("div", { staticClass: "column is-half" }, [
-              _c("h6", { staticClass: "title is-6" }, [
-                _vm._v(
-                  "\n\t\t\t\t\t" +
-                    _vm._s(_vm.topMountColourTitle) +
-                    "\n\t\t\t\t"
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "columns is-multiline" },
-                _vm._l(_vm.mounts, function(mount, mountsIndex) {
-                  return _c(
-                    "div",
-                    {
-                      staticClass: "column is-half",
-                      staticStyle: { "margin-bottom": "20px" }
-                    },
-                    [
-                      _c("strong", [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t" +
-                            _vm._s(mount.name) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(mount.variants, function(variant, variantsIndex) {
-                        return _c("div", [
-                          _c("label", { staticClass: "radio" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.top_mount_colour,
-                                  expression: "top_mount_colour"
-                                }
-                              ],
-                              attrs: {
-                                type: "radio",
-                                name: "top_mount_colour"
-                              },
-                              domProps: {
-                                value: mount.id + "-" + variant.id,
-                                checked: _vm._q(
-                                  _vm.top_mount_colour,
-                                  mount.id + "-" + variant.id
-                                )
-                              },
-                              on: {
-                                change: [
-                                  function($event) {
-                                    _vm.top_mount_colour =
-                                      mount.id + "-" + variant.id
-                                  },
-                                  _vm.getPrice
-                                ]
-                              }
-                            }),
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t  " +
-                                _vm._s(variant.colour) +
-                                "\n\t\t\t\t\t\t\t"
-                            )
-                          ])
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                }),
-                0
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(fixingOpt.name) + "\n\t\t\t\t")]
               )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.mount == "double"
-          ? _c("div", { staticClass: "column is-half" }, [
-              _vm.mount == "double"
-                ? _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("\n\t\t\t\t\tBottom mount style & colour\n\t\t\t\t")
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "columns is-multiline" },
-                _vm._l(_vm.mounts, function(mount) {
-                  return _c(
-                    "div",
-                    {
-                      staticClass: "column is-half",
-                      staticStyle: { "margin-bottom": "20px" }
-                    },
-                    [
-                      _c("strong", [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t" +
-                            _vm._s(mount.name) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(mount.variants, function(variant) {
-                        return _c("div", [
-                          _c("label", { staticClass: "radio" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.bottom_mount_colour,
-                                  expression: "bottom_mount_colour"
-                                }
-                              ],
-                              attrs: {
-                                type: "radio",
-                                name: "bottom_mount_colour"
-                              },
-                              domProps: {
-                                value: mount.id + "-" + variant.id,
-                                checked: _vm._q(
-                                  _vm.bottom_mount_colour,
-                                  mount.id + "-" + variant.id
-                                )
-                              },
-                              on: {
-                                change: [
-                                  function($event) {
-                                    _vm.bottom_mount_colour =
-                                      mount.id + "-" + variant.id
-                                  },
-                                  _vm.getPrice
-                                ]
-                              }
-                            }),
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t  " +
-                                _vm._s(variant.colour) +
-                                "\n\t\t\t\t\t\t\t"
-                            )
-                          ])
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                }),
-                0
-              )
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "field column is-half" }, [
-          _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
-            _vm._v("\n\t\t\t\t\tGlazing\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select" }, [
-              _c(
-                "select",
-                {
-                  ref: "glazing",
-                  attrs: { id: "glazing" },
-                  on: { change: _vm.getPrice }
-                },
-                [
-                  _c("option", { attrs: { value: "0", selected: "" } }, [
-                    _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.glazings, function(glazing) {
-                    return _c("option", { domProps: { value: glazing.id } }, [
-                      _vm._v(
-                        "\n\t\t\t\t\t\t\t\t" +
-                          _vm._s(glazing.name) +
-                          "\n\t\t\t\t\t\t\t"
-                      )
-                    ])
-                  })
-                ],
-                2
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\tFixing\n\t\t\t")
+            }),
+            0
+          )
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "buttons has-addons" },
-          _vm._l(_vm.fixings, function(fixingOpt, fixingOptKey) {
-            return _c(
-              "button",
-              {
-                staticClass: "button",
-                class: { "is-info is-selected": _vm.fixing == fixingOptKey },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.setFixingType(fixingOptKey)
-                  }
-                }
-              },
-              [_vm._v("\n\t\t\t\t\t" + _vm._s(fixingOpt.name) + "\n\t\t\t\t")]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", [
-        _c("label", { staticClass: "label" }, [
-          _vm._v("\n\t\t\t\tArtwork mounting\n\t\t\t")
-        ]),
+        _c("hr"),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "buttons has-addons" },
-          _vm._l(_vm.artwork_mountings, function(
-            artworkMounting,
-            artworkMountingKey
-          ) {
-            return _c(
-              "button",
-              {
-                staticClass: "button",
-                class: {
-                  "is-info is-selected":
-                    _vm.artwork_mounting == artworkMountingKey
-                },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.setArtworkMounting(artworkMountingKey)
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n\t\t\t\t\t" + _vm._s(artworkMounting.name) + "\n\t\t\t\t"
-                )
-              ]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns is-multiline" }, [
-        _c(
-          "div",
-          { staticClass: "field column is-one-third is-one-fifth-desktop" },
-          [
-            _c("label", { staticClass: "label" }, [
-              _vm._v("\n\t\t\t\t\tArtwork Supplied?\n\t\t\t\t")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("ul", [
-                _c("li", [
-                  _c("label", { staticClass: "radio" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.artwork_supplied,
-                          expression: "artwork_supplied"
-                        }
-                      ],
-                      attrs: { type: "radio", value: "0", checked: "" },
-                      domProps: { checked: _vm._q(_vm.artwork_supplied, "0") },
-                      on: {
-                        change: [
-                          function($event) {
-                            _vm.artwork_supplied = "0"
-                          },
-                          _vm.getPrice
-                        ]
-                      }
-                    }),
-                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("label", { staticClass: "radio" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.artwork_supplied,
-                          expression: "artwork_supplied"
-                        }
-                      ],
-                      attrs: { type: "radio", value: "1" },
-                      domProps: { checked: _vm._q(_vm.artwork_supplied, "1") },
-                      on: {
-                        change: [
-                          function($event) {
-                            _vm.artwork_supplied = "1"
-                          },
-                          _vm.getPrice
-                        ]
-                      }
-                    }),
-                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
-                  ])
-                ])
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "field column is-one-third is-one-fifth-desktop" },
-          [
-            _c("label", { staticClass: "label" }, [
-              _vm._v("\n\t\t\t\t\tBox Frame?\n\t\t\t\t")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("ul", [
-                _c("li", [
-                  _c("label", { staticClass: "radio" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.box_frame,
-                          expression: "box_frame"
-                        }
-                      ],
-                      attrs: { type: "radio", value: "0", checked: "" },
-                      domProps: { checked: _vm._q(_vm.box_frame, "0") },
-                      on: {
-                        change: [
-                          function($event) {
-                            _vm.box_frame = "0"
-                          },
-                          _vm.getPrice
-                        ]
-                      }
-                    }),
-                    _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("label", { staticClass: "radio" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.box_frame,
-                          expression: "box_frame"
-                        }
-                      ],
-                      attrs: { type: "radio", value: "1" },
-                      domProps: { checked: _vm._q(_vm.box_frame, "1") },
-                      on: {
-                        change: [
-                          function($event) {
-                            _vm.box_frame = "1"
-                          },
-                          _vm.getPrice
-                        ]
-                      }
-                    }),
-                    _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
-                  ])
-                ])
-              ])
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "field column is-half" }, [
-          _c("label", { staticClass: "label", attrs: { for: "foam_board" } }, [
-            _vm._v("\n\t\t\t\t\tFoam Board\n\t\t\t\t")
+        _c("div", [
+          _c("label", { staticClass: "label" }, [
+            _vm._v("\n\t\t\t\tArtwork mounting\n\t\t\t")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select" }, [
-              _c(
-                "select",
+          _c(
+            "div",
+            { staticClass: "buttons has-addons" },
+            _vm._l(_vm.artwork_mountings, function(
+              artworkMounting,
+              artworkMountingKey
+            ) {
+              return _c(
+                "button",
                 {
-                  ref: "foam_board",
-                  attrs: { id: "foam_board" },
-                  on: { change: _vm.getPrice }
+                  staticClass: "button",
+                  class: {
+                    "is-info is-selected":
+                      _vm.artwork_mounting == artworkMountingKey
+                  },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.setArtworkMounting(artworkMountingKey)
+                    }
+                  }
                 },
                 [
-                  _c("option", { attrs: { value: "0", selected: "" } }, [
-                    _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
+                  _vm._v(
+                    "\n\t\t\t\t\t" + _vm._s(artworkMounting.name) + "\n\t\t\t\t"
+                  )
+                ]
+              )
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "columns is-multiline" }, [
+          _c(
+            "div",
+            { staticClass: "field column is-one-third is-one-fifth-desktop" },
+            [
+              _c("label", { staticClass: "label" }, [
+                _vm._v("\n\t\t\t\t\tArtwork Supplied?\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("ul", [
+                  _c("li", [
+                    _c("label", { staticClass: "radio" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.artwork_supplied,
+                            expression: "artwork_supplied"
+                          }
+                        ],
+                        attrs: { type: "radio", value: "0", checked: "" },
+                        domProps: {
+                          checked: _vm._q(_vm.artwork_supplied, "0")
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.artwork_supplied = "0"
+                            },
+                            _vm.getPrice
+                          ]
+                        }
+                      }),
+                      _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                    ])
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.foam_boards, function(board, boardName) {
-                    return _c("option", { domProps: { value: boardName } }, [
-                      _vm._v(
-                        "\n\t\t\t\t\t\t\t\t" +
-                          _vm._s(boardName) +
-                          "\n\t\t\t\t\t\t\t"
-                      )
+                  _c("li", [
+                    _c("label", { staticClass: "radio" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.artwork_supplied,
+                            expression: "artwork_supplied"
+                          }
+                        ],
+                        attrs: { type: "radio", value: "1" },
+                        domProps: {
+                          checked: _vm._q(_vm.artwork_supplied, "1")
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.artwork_supplied = "1"
+                            },
+                            _vm.getPrice
+                          ]
+                        }
+                      }),
+                      _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
                     ])
-                  })
-                ],
-                2
-              )
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "field column is-one-third is-one-fifth-desktop" },
+            [
+              _c("label", { staticClass: "label" }, [
+                _vm._v("\n\t\t\t\t\tBox Frame?\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("ul", [
+                  _c("li", [
+                    _c("label", { staticClass: "radio" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.box_frame,
+                            expression: "box_frame"
+                          }
+                        ],
+                        attrs: { type: "radio", value: "0", checked: "" },
+                        domProps: { checked: _vm._q(_vm.box_frame, "0") },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.box_frame = "0"
+                            },
+                            _vm.getPrice
+                          ]
+                        }
+                      }),
+                      _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("label", { staticClass: "radio" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.box_frame,
+                            expression: "box_frame"
+                          }
+                        ],
+                        attrs: { type: "radio", value: "1" },
+                        domProps: { checked: _vm._q(_vm.box_frame, "1") },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.box_frame = "1"
+                            },
+                            _vm.getPrice
+                          ]
+                        }
+                      }),
+                      _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "field column is-half" }, [
+            _c(
+              "label",
+              { staticClass: "label", attrs: { for: "foam_board" } },
+              [_vm._v("\n\t\t\t\t\tFoam Board\n\t\t\t\t")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("div", { staticClass: "select" }, [
+                _c(
+                  "select",
+                  {
+                    ref: "foam_board",
+                    attrs: { id: "foam_board" },
+                    on: { change: _vm.getPrice }
+                  },
+                  [
+                    _c("option", { attrs: { value: "0", selected: "" } }, [
+                      _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.foam_boards, function(board, boardName) {
+                      return _c("option", { domProps: { value: boardName } }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t" +
+                            _vm._s(boardName) +
+                            "\n\t\t\t\t\t\t\t"
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
-      ])
-    ])
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -21209,6 +20719,438 @@ var staticRenderFns = [
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "field column" }, [
+        _c("label", { staticClass: "label" }, [
+          _vm._v("\n\t\t\t\t\tMount\n\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "buttons has-addons" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              class: { "is-info is-selected": _vm.mountType == "none" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setMountType("none")
+                }
+              }
+            },
+            [_vm._v("\n\t\t\t\t\t\tNone\n\t\t\t\t\t")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              class: { "is-info is-selected": _vm.mountType == "single" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setMountType("single")
+                }
+              }
+            },
+            [_vm._v("\n\t\t\t\t\t\tSingle\n\t\t\t\t\t")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              class: { "is-info is-selected": _vm.mountType == "double" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.setMountType("double")
+                }
+              }
+            },
+            [_vm._v("\n\t\t\t\t\t\tDouble\n\t\t\t\t\t")]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.mountType == "single" || _vm.mountType == "double"
+      ? _c("div", { staticClass: "columns is-multiline" }, [
+          _c("div", { staticClass: "column is-full" }, [
+            _c("label", { staticClass: "checkbox" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.equal_mount_borders,
+                    expression: "equal_mount_borders"
+                  }
+                ],
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: _vm.equal_mount_borders,
+                  checked: Array.isArray(_vm.equal_mount_borders)
+                    ? _vm._i(_vm.equal_mount_borders, null) > -1
+                    : _vm.equal_mount_borders
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.equal_mount_borders,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.equal_mount_borders = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.equal_mount_borders = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.equal_mount_borders = $$c
+                    }
+                  }
+                }
+              }),
+              _vm._v("\n\t\t\t\t\tRemember me\n\t\t\t\t")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "column is-half" }, [
+            _c("h6", { staticClass: "title is-6" }, [
+              _vm._v(
+                "\n\t\t\t\t\t" + _vm._s(_vm.topMountSizeTitle) + "\n\t\t\t\t"
+              )
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "mount-sizes" }, [
+              _c("li", { staticClass: "field" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "label is-size-7 has-text-weight-normal",
+                    attrs: { for: "top_mount_size_top" }
+                  },
+                  [_vm._v("\n\t\t\t\t\t\t\tTop (mm)\n\t\t\t\t\t\t")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      ref: "top_mount_size_top",
+                      staticClass: "input",
+                      attrs: {
+                        value: "50",
+                        id: "top_mount_size_top",
+                        type: "text"
+                      },
+                      on: { keydown: _vm.typingTimeout }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "field" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "label is-size-7 has-text-weight-normal",
+                    attrs: { for: "top_mount_size_bottom" }
+                  },
+                  [_vm._v("\n\t\t\t\t\t\t\tBottom (mm)\n\t\t\t\t\t\t")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      ref: "top_mount_size_bottom",
+                      staticClass: "input",
+                      attrs: {
+                        value: "50",
+                        id: "top_mount_size_bottom",
+                        type: "text"
+                      },
+                      on: { keydown: _vm.typingTimeout }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "field" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "label is-size-7 has-text-weight-normal",
+                    attrs: { for: "top_mount_size_right" }
+                  },
+                  [_vm._v("\n\t\t\t\t\t\t\tRight (mm)\n\t\t\t\t\t\t")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      ref: "top_mount_size_right",
+                      staticClass: "input",
+                      attrs: {
+                        value: "50",
+                        id: "top_mount_size_right",
+                        type: "text"
+                      },
+                      on: { keydown: _vm.typingTimeout }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "field" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "label is-size-7 has-text-weight-normal",
+                    attrs: { for: "top_mount_size_left" }
+                  },
+                  [_vm._v("\n\t\t\t\t\t\t\tLeft (mm)\n\t\t\t\t\t\t")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      ref: "top_mount_size_left",
+                      staticClass: "input",
+                      attrs: {
+                        value: "50",
+                        id: "top_mount_size_left",
+                        type: "text"
+                      },
+                      on: { keydown: _vm.typingTimeout }
+                    })
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.mountType == "double"
+            ? _c("div", { staticClass: "column is-one-quarter" }, [
+                _vm.mountType == "double"
+                  ? _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("\n\t\t\t\t\tBottom mount size\n\t\t\t\t")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("ul", [
+                  _c("li", { staticClass: "field" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "label is-size-7 has-text-weight-normal",
+                        attrs: { for: "bottom_mount_size" }
+                      },
+                      [_vm._v("\n\t\t\t\t\t\t\tSize (mm)\n\t\t\t\t\t\t")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "field" }, [
+                      _c("div", { staticClass: "control" }, [
+                        _c("input", {
+                          ref: "bottom_mount_size",
+                          staticClass: "input",
+                          attrs: {
+                            value: "5",
+                            id: "bottom_mount_size",
+                            type: "text"
+                          },
+                          on: { keydown: _vm.typingTimeout }
+                        })
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            : _vm._e()
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "columns" }, [
+      _vm.mountType == "single" || _vm.mountType == "double"
+        ? _c("div", { staticClass: "column is-half" }, [
+            _c("h6", { staticClass: "title is-6" }, [
+              _vm._v(
+                "\n\t\t\t\t\t" + _vm._s(_vm.topMountColourTitle) + "\n\t\t\t\t"
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "columns is-multiline" },
+              _vm._l(_vm.mounts, function(mount, mountsIndex) {
+                return _c(
+                  "div",
+                  {
+                    staticClass: "column is-half",
+                    staticStyle: { "margin-bottom": "20px" }
+                  },
+                  [
+                    _c("strong", [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(mount.name) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(mount.variants, function(variant, variantsIndex) {
+                      return _c("div", [
+                        _c("label", { staticClass: "radio" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.top_mount_colour,
+                                expression: "top_mount_colour"
+                              }
+                            ],
+                            attrs: { type: "radio", name: "top_mount_colour" },
+                            domProps: {
+                              value: mount.id + "-" + variant.id,
+                              checked: _vm._q(
+                                _vm.top_mount_colour,
+                                mount.id + "-" + variant.id
+                              )
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.top_mount_colour =
+                                    mount.id + "-" + variant.id
+                                },
+                                _vm.returnMount
+                              ]
+                            }
+                          }),
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t  " +
+                              _vm._s(variant.colour) +
+                              "\n\t\t\t\t\t\t\t"
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              }),
+              0
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.mountType == "double"
+        ? _c("div", { staticClass: "column is-half" }, [
+            _vm.mountType == "double"
+              ? _c("h6", { staticClass: "title is-6" }, [
+                  _vm._v("\n\t\t\t\t\tBottom mount style & colour\n\t\t\t\t")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "columns is-multiline" },
+              _vm._l(_vm.mounts, function(mount) {
+                return _c(
+                  "div",
+                  {
+                    staticClass: "column is-half",
+                    staticStyle: { "margin-bottom": "20px" }
+                  },
+                  [
+                    _c("strong", [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(mount.name) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(mount.variants, function(variant) {
+                      return _c("div", [
+                        _c("label", { staticClass: "radio" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bottom_mount_colour,
+                                expression: "bottom_mount_colour"
+                              }
+                            ],
+                            attrs: {
+                              type: "radio",
+                              name: "bottom_mount_colour"
+                            },
+                            domProps: {
+                              value: mount.id + "-" + variant.id,
+                              checked: _vm._q(
+                                _vm.bottom_mount_colour,
+                                mount.id + "-" + variant.id
+                              )
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.bottom_mount_colour =
+                                    mount.id + "-" + variant.id
+                                },
+                                _vm.returnMount
+                              ]
+                            }
+                          }),
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t  " +
+                              _vm._s(variant.colour) +
+                              "\n\t\t\t\t\t\t\t"
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              }),
+              0
+            )
+          ])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -21423,7 +21365,7 @@ __webpack_require__(/*! ./bulma.js */ "./resources/js/bulma.js");
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('price-calculator-admin', __webpack_require__(/*! ./components/PriceCalculatorAdmin.vue */ "./resources/js/components/PriceCalculatorAdmin.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('price-calculator', __webpack_require__(/*! ./components/PriceCalculator/Index.vue */ "./resources/js/components/PriceCalculator/Index.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('calculation-display-admin', __webpack_require__(/*! ./components/CalculationDisplayAdmin.vue */ "./resources/js/components/CalculationDisplayAdmin.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('mount-variants', __webpack_require__(/*! ./components/MountVariants.vue */ "./resources/js/components/MountVariants.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('keyToLabel', function (value) {
@@ -21698,18 +21640,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/PriceCalculatorAdmin.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/PriceCalculatorAdmin.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/components/PriceCalculator/Index.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/Index.vue ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PriceCalculatorAdmin.vue?vue&type=template&id=68567862& */ "./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862&");
-/* harmony import */ var _PriceCalculatorAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PriceCalculatorAdmin.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=325a8a73& */ "./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73&");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -21718,9 +21660,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _PriceCalculatorAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -21730,38 +21672,107 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/PriceCalculatorAdmin.vue"
+component.options.__file = "resources/js/components/PriceCalculator/Index.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceCalculatorAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PriceCalculatorAdmin.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceCalculatorAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73& ***!
+  \******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PriceCalculatorAdmin.vue?vue&type=template&id=68567862& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculatorAdmin.vue?vue&type=template&id=68567862&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=template&id=325a8a73& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PriceCalculatorAdmin_vue_vue_type_template_id_68567862___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MountboardSelector.vue":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MountboardSelector.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MountboardSelector.vue?vue&type=template&id=2f2ac09b& */ "./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b&");
+/* harmony import */ var _MountboardSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MountboardSelector.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MountboardSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PriceCalculator/MountboardSelector.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MountboardSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./MountboardSelector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MountboardSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./MountboardSelector.vue?vue&type=template&id=2f2ac09b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MountboardSelector.vue?vue&type=template&id=2f2ac09b&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MountboardSelector_vue_vue_type_template_id_2f2ac09b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
