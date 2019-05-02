@@ -15,6 +15,8 @@ class PriceController extends Controller {
 	private $labour_config	= [];
 	private $wastage_config	= [];
 	
+	private $settings = null;
+	
 	private $job_type = '';
 	
 	private $glass_width	= 0;
@@ -29,7 +31,7 @@ class PriceController extends Controller {
 		
 		$this->setGlassDimensions($request);
 		
-		$settings = Cache::get('settings_pricing');
+		$this->settings = Cache::get('settings_pricing');
 		
 		$this->job_type = $request->input('job_type');
 		
@@ -37,21 +39,20 @@ class PriceController extends Controller {
 		
 		$mount = json_decode($request->input('mount'));
 		
-		$glazing_id		= $request->input('glazing');
-		$foam_board_id	= $request->input('foam_board');
-		
-		$dry_mount_included = $request->input('dry_mount_included');
-		$fixings_included	= $request->input('fixings_included');
+		$glazing_id				= $request->input('glazing');
+		$foam_board_id			= $request->input('foam_board');
+		$fixing_id				= $request->input('fixing');
+		$artwork_mounting_id	= $request->input('artwork_mounting');
 		
 		// Get the prices, if we need to
-		$mould_price			= $this->getMouldPrice($mould_id);
-		$glazing_price			= !empty($glazing_id) ? $this->getGlazingPrice($glazing_id, $settings) : false;
-		$foam_board_price		= !empty($foam_board_id) ? $this->getFoamBoardPrice($foam_board_id, $settings) : false;
-		$mount_price			= $mount->type != 'none' ? $this->getMountPrice($mount, $settings) : false;
-		$backing_board_price	= $this->getBackingBoardPrice($settings);
-		$dry_mount_price		= filter_var($dry_mount_included, FILTER_VALIDATE_BOOLEAN) ? $this->getDryMountPrice($settings) : false;
-		$fixings_price			= filter_var($fixings_included, FILTER_VALIDATE_BOOLEAN) ? $this->getFixingsPrice($settings) : false;
-		$other_prices			= $this->getOtherPrices($settings);
+		$mould_price				= $this->getMouldPrice($mould_id);
+		$glazing_price				= !empty($glazing_id) ? $this->getGlazingPrice($glazing_id) : false;
+		$foam_board_price			= !empty($foam_board_id) ? $this->getFoamBoardPrice($foam_board_id) : false;
+		$fixing_price				= !empty($fixing_id) ? $this->getFixingPrice($fixing_id) : false;
+		$artwork_mounting_price		= !empty($artwork_mounting_id) ? $this->getArtworkMountingPrice($artwork_mounting_id) : false;
+		$mount_price				= $mount->type != 'none' ? $this->getMountPrice($mount) : false;
+		$backing_board_price		= $this->getBackingBoardPrice();
+		$other_prices				= $this->getOtherPrices();
 		
 		$this->setLabourCosts($request);
 		
@@ -64,9 +65,9 @@ class PriceController extends Controller {
 		
 		$response['backing_board']		= $backing_board_price;
 		
-		if ($dry_mount_price)	{ $response['dry_mount']		= $dry_mount_price; }
-		if ($fixings_price)		{ $response['fixings']			= $fixings_price; }
-		if ($foam_board_price)		{ $response['foam_board']	= $foam_board_price; }
+		if ($foam_board_price)			{ $response['foam_board']			= $foam_board_price; }
+		if ($fixing_price)				{ $response['fixing']				= $fixing_price; }
+		if ($artwork_mounting_price)	{ $response['artwork_mounting']		= $artwork_mounting_price; }
 		
 		$response['other'] = $other_prices;
 		
@@ -119,7 +120,7 @@ class PriceController extends Controller {
 		}
 	}
 	
-	private function getFoamBoardPrice($foam_board_id, $settings) {
+	private function getFoamBoardPrice($foam_board_id) {
 		
 		$foam_board	= config('pricing.foam_board.' . $foam_board_id);
 		
@@ -164,8 +165,6 @@ class PriceController extends Controller {
 		
 		$artwork_supplied	= $request->input('artwork_supplied');
 		$box_frame			= $request->input('box_frame');
-		$hinge_mount		= $request->input('hinge_mount');
-		$picture_stand		= $request->input('picture_stand');
 		
 		if (filter_var($artwork_supplied, FILTER_VALIDATE_BOOLEAN)) {
 			$this->labour_costs['mount_supplied_artwork'] = $this->labourCostInPounds($this->labour_config['atg_tape_mounting']);
@@ -175,25 +174,17 @@ class PriceController extends Controller {
 			$this->labour_costs['lining_frame'] = $this->labourCostInPounds($this->labour_config['lining_frame']);
 		}
 		
-		if (filter_var($hinge_mount, FILTER_VALIDATE_BOOLEAN)) {
-			$this->labour_costs['hinge_mount'] = $this->labourCostInPounds($this->labour_config['hinge_mount']);
-		}
-		
-		if (filter_var($picture_stand, FILTER_VALIDATE_BOOLEAN)) {
-			$this->labour_costs['attach_picture_stand'] = $this->labourCostInPounds($this->labour_config['attach_picture_stand']);
-		}
-		
 		$this->labour_costs['assembly'] = $this->labourCostInPounds($this->labour_config['assembly']);
 	}
 	
-	private function getOtherPrices($settings) {
+	private function getOtherPrices() {
 		
 		// Calculate the total linear frame length (in metres)
 		$total_length = ($this->glass_width * 2 + $this->glass_height * 2) / 1000;
 		
-		$flexi_fletcher_pins	= $settings['flexi_fletcher_pins'];
-		$atg_tape				= $settings['atg_tape'];
-		$cassese_wedges			= $settings['cassese_wedges'];
+		$flexi_fletcher_pins	= $this->settings['flexi_fletcher_pins'];
+		$atg_tape				= $this->settings['atg_tape'];
+		$cassese_wedges			= $this->settings['cassese_wedges'];
 		
 		// Calculate the cost of flexi/fletcher pins by way of the total linear length of the frame (in pounds)
 		$pins_price = ($flexi_fletcher_pins * $total_length) / 100;
@@ -211,55 +202,79 @@ class PriceController extends Controller {
 		];
 	}
 	
-	private function getFixingsPrice($settings) {
+	private function getArtworkMountingPrice($artwork_mounting_id) {
 		
-		$d_rings		= $settings['d_rings'];
-		$string			= $settings['string'];
-		$plastic_bag	= $settings['plastic_bag'];
-		
-		$d_rings_price		= number_format($d_rings / 100, 2);
-		$string_price		= number_format($string / 100, 2);
-		$plastic_bag_price	= number_format($plastic_bag / 100, 2);
-		
-		return [
-			'd_rings'		=> $d_rings_price,
-			'string'		=> $string_price,
-			'plastic_bag'	=> $plastic_bag_price
-		];
+		switch ($artwork_mounting_id) {
+			case 'dry_mount':
+				$tissue_price = $this->getDryMountTissuePrice();
+				$paper_price = $this->getSiliconeReleasePaperPrice();
+				$board_price = $this->getPulpBoardPrice();
+
+				$this->labour_costs['dry_mount'] = $this->labourCostInPounds($this->labour_config['dry_mount']);
+
+				return [
+					'dry_mount_tissue'			=> $tissue_price,
+					'silicone_release_paper'	=> $paper_price,
+					'pulp_board'				=> $board_price
+				];
+			
+			case 'hinge_mount':
+				$this->labour_costs['hinge_mount'] = $this->labourCostInPounds($this->labour_config['hinge_mount']);
+				// TODO: need to add cost of ATG tape here
+				break;
+			
+			case 'photo_mount':
+				$this->labour_costs['attach_picture_stand'] = $this->labourCostInPounds($this->labour_config['attach_picture_stand']);
+				break;
+		}
 	}
 	
-	private function getDryMountPrice($settings) {
+	private function getFixingPrice($fixing_id) {
 		
-		$tissue_price = $this->getDryMountTissuePrice($this->glass_width, $this->glass_height, $settings);
-		$paper_price = $this->getSiliconeReleasePaperPrice($this->glass_width, $this->glass_height, $settings);
-		$board_price = $this->getPulpBoardPrice($this->glass_width, $this->glass_height, $settings);
-		
-		$this->labour_costs['dry_mount'] = $this->labourCostInPounds($this->labour_config['dry_mount']);
-		
-		return [
-			'dry_mount_tissue'			=> $tissue_price,
-			'silicone_release_paper'	=> $paper_price,
-			'pulp_board'				=> $board_price
-		];
+		switch ($fixing_id) {
+			case 'standard_string':
+				$d_rings		= $this->settings['d_rings'];
+				$string			= $this->settings['string'];
+				$plastic_bag	= $this->settings['plastic_bag'];
+
+				$d_rings_price		= number_format($d_rings / 100, 2);
+				$string_price		= number_format($string / 100, 2);
+				$plastic_bag_price	= number_format($plastic_bag / 100, 2);
+
+				return [
+					'd_rings'		=> $d_rings_price,
+					'string'		=> $string_price,
+					'plastic_bag'	=> $plastic_bag_price
+				];
+				
+			case 'invisible':
+				// TODO: need price for this
+				break;
+			
+			case 'picture_stand':
+				return [
+					'attach_picture_stand' => $this->labourCostInPounds($this->labour_config['attach_picture_stand'])
+				];
+		}
 	}
 	
-	private function getPulpBoardPrice($frame_width, $frame_height, $settings) {
+	private function getPulpBoardPrice() {
 		
 		// NOTE:
 		// If the frame is too big for the pulp board we need to use the jumbo mount board
 		// so get the jumbo mount board sizes and price
 		
-		$pulp_board				= $settings['pulp_board'];
-		$pulp_board_wastage		= $settings['pulp_board_wastage'];
-		$pulp_board_markup		= $settings['pulp_board_markup'];
+		$pulp_board				= $this->settings['pulp_board'];
+		$pulp_board_wastage		= $this->settings['pulp_board_wastage'];
+		$pulp_board_markup		= $this->settings['pulp_board_markup'];
 		
-		$mount_board			= $settings['jumbo_mount_board'];
-		$mount_board_wastage	= $settings['mount_board_wastage'];
-		$mount_board_markup		= $settings['mount_board_markup'];
+		$mount_board			= $this->settings['jumbo_mount_board'];
+		$mount_board_wastage	= $this->settings['mount_board_wastage'];
+		$mount_board_markup		= $this->settings['mount_board_markup'];
 		
 		$frame = [
-			'width'		=> $frame_width,
-			'height'	=> $frame_height
+			'width'		=> $this->glass_width,
+			'height'	=> $this->glass_height
 		];
 		
 		$mount_board_used = false;
@@ -302,29 +317,29 @@ class PriceController extends Controller {
 		return number_format($pulp_board_price / 100, 2);
 	}
 	
-	private function getSiliconeReleasePaperPrice($frame_width, $frame_height, $settings) {
-		$silicone_release_paper_price	= $settings['silicone_release_paper_price'];
+	private function getSiliconeReleasePaperPrice() {
+		$silicone_release_paper_price	= $this->settings['silicone_release_paper_price'];
 		return number_format($silicone_release_paper_price / 100, 2);
 	}
 	
-	private function getDryMountTissuePrice($frame_width, $frame_height, $settings) {
+	private function getDryMountTissuePrice() {
 		
 		$tissue_buffer = 10; // There needs to be a little extra tissue around the artwork (in mm)
 		
 		// Dry mount itssue
-		$dry_mount_tissue_width		= $settings['dry_mount_tissue_width'];
-		$dry_mount_tissue_price		= $settings['dry_mount_tissue_price']; // price per metre
+		$dry_mount_tissue_width		= $this->settings['dry_mount_tissue_width'];
+		$dry_mount_tissue_price		= $this->settings['dry_mount_tissue_price']; // price per metre
 		$dry_mount_tissue_price_mm	= $dry_mount_tissue_price / 1000; // price per mm
 		
 		// What length of the roll do we need?
 		// Check againt the longest side of the frame size first
 		// to see if that fits the width of the dry mount tissue roll
-		if ($frame_width > $frame_height && $frame_width <= $dry_mount_tissue_width - $tissue_buffer * 2) {
-			$tissue_length_needed = $frame_height + $tissue_buffer * 2;
+		if ($this->glass_width > $this->glass_height && $this->glass_width <= $dry_mount_tissue_width - $tissue_buffer * 2) {
+			$tissue_length_needed = $this->glass_height + $tissue_buffer * 2;
 			
 		// If the longest side of the frame is too long rotate it 90 degrees and check againt the short side
-		} else if ($frame_height <= $dry_mount_tissue_width - $tissue_buffer * 2) {
-			$tissue_length_needed = $frame_width + $tissue_buffer * 2;
+		} else if ($this->glass_height <= $dry_mount_tissue_width - $tissue_buffer * 2) {
+			$tissue_length_needed = $this->glass_width + $tissue_buffer * 2;
 		} else {
 			$tissue_length_needed = 'The frame is too big for the dry mount tissue paper';
 		}
@@ -341,9 +356,9 @@ class PriceController extends Controller {
 		return $tissue_price;
 	}
 
-	private function getBackingBoardPrice($settings) {
+	private function getBackingBoardPrice() {
 		
-		$backing_board = $settings['backing_board'];
+		$backing_board = $this->settings['backing_board'];
 		
 		$frame = [
 			'width'		=> $this->glass_width,
@@ -383,13 +398,13 @@ class PriceController extends Controller {
 		return number_format($backing_board_price / 100, 2);
 	}
 	
-	private function getGlazingPrice($glazing_id, $settings) {
+	private function getGlazingPrice($glazing_id) {
 		
 		// Get the glazing information from the cache by way of the selected ID
 		$glazing = Cache::get('glazing_' . $glazing_id);
 		
-		$wastage	= $settings['glass_wastage'];
-		$markup		= $settings['glass_markup'];
+		$wastage	= $this->settings['glass_wastage'];
+		$markup		= $this->settings['glass_markup'];
 		
 		$frame = [
 			'width'		=> $this->glass_width,
@@ -442,7 +457,7 @@ class PriceController extends Controller {
 		return number_format($glass_price / 100, 2);
 	}
 	
-	private function getMountPrice($mount, $settings) {
+	private function getMountPrice($mount) {
 		
 		$mount_type	= $mount->type;
 		
@@ -451,7 +466,7 @@ class PriceController extends Controller {
 			case 'circular':
 			case 'oval':
 				$top_mount = $mount->top;
-				$top_mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $settings);
+				$top_mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $this->settings);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard']);
@@ -462,8 +477,8 @@ class PriceController extends Controller {
 				$top_mount		= $mount->top;
 				$bottom_mount	= $mount->bottom;
 				
-				$top_mount_cost		= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $settings);
-				$bottom_mount_cost	= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $bottom_mount->colour, $settings);
+				$top_mount_cost		= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $this->settings);
+				$bottom_mount_cost	= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $bottom_mount->colour, $this->settings);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard'] * 2);
@@ -477,7 +492,7 @@ class PriceController extends Controller {
 				$num_apertures	= $mount->num_apertures;
 				$mount_colour	= $mount->colour;
 				
-				$mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $mount_colour, $settings);
+				$mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $mount_colour, $this->settings);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['multimount'] * $num_apertures);
@@ -486,10 +501,10 @@ class PriceController extends Controller {
 		}
 	}
 	
-	private function getCostOfMountboard($frame_width, $frame_height, $mount_colour, $settings) {
+	private function getCostOfMountboard($frame_width, $frame_height, $mount_colour) {
 		
-		$wastage	= $settings['mount_board_wastage'];
-		$markup		= $settings['mount_board_markup'];
+		$wastage	= $this->settings['mount_board_wastage'];
+		$markup		= $this->settings['mount_board_markup'];
 		
 		$mount_variant = Cache::tags(['mountboards'])->get($mount_colour);
 		

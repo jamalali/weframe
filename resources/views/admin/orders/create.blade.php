@@ -12,6 +12,9 @@
 			v-bind:mounts="{{ $mounts }}"
 			v-bind:foam_boards="{{ $foam_boards }}"
 			v-bind:moulds="{{ $moulds }}"
+			v-bind:job_types="{{ $job_types }}"
+			v-bind:fixings="{{ $fixings }}"
+			v-bind:artwork_mountings="{{ $artwork_mountings }}"
 		></price-calculator-admin>
     </div>
 	<div class="column is-one-third">

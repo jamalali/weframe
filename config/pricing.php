@@ -2,32 +2,44 @@
 
 return [
 	
+	'job_types' => [
+		'walk_in' => [
+			'label' => 'Walk-in'
+		],
+		'contract' => [
+			'label' => 'Contract'
+		],
+		'online' => [
+			'label' => 'Online'
+		],
+	],
+	
 	'fixings' => [
-		0 => [
+		'0' => [
 			'name' => 'None'
 		],
-		1 => [
+		'standard_string' => [
 			'name' => 'Standard string'
 		],
-		2 => [
+		'invisible' => [
 			'name' => 'Invisible'
 		],
-		3 => [
+		'picture_stand' => [
 			'name' => 'Picture stand'
 		],
 	],
 	
-	'artwork_mounting' => [
-		0 => [
+	'artwork_mountings' => [
+		'0' => [
 			'name' => 'None'
 		],
-		1 => [
+		'dry_mount' => [
 			'name' => 'Dry mount'
 		],
-		2 => [
+		'hinge_mount' => [
 			'name' => 'Hinge mount'
 		],
-		3 => [
+		'photo_mount' => [
 			'name' => 'Photo mount'
 		],
 	],

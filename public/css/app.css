@@ -17220,3 +17220,8 @@ form#price-calculator-admin .title.is-6 {
   margin-bottom: 8px;
 }
 
+ul.is-horizontal > li {
+  display: inline-block;
+  margin-right: 15px;
+}
+

@@ -39,33 +39,14 @@
 			
 			<hr />
 			
-			<div class="columns is-multiline">
-				<div class="field column is-one-third is-one-fifth-desktop">
-					<label class="label">
-						Job type
-					</label>
-					<div class="control">
-						<ul>
-							<li>
-								<label class="radio">
-									<input type="radio" value="walk_in" v-on:change="getPrice" v-model="job_type" checked>
-									Walk-in
-								</label>
-							</li>
-							<li>
-								<label class="radio">
-									<input type="radio" value="contract" v-on:change="getPrice" v-model="job_type">
-									Contract
-								</label>
-							</li>
-							<li>
-								<label class="radio">
-									<input type="radio" value="online" v-on:change="getPrice" v-model="job_type">
-									Online
-								</label>
-							</li>
-						</ul>
-					</div>
+			<div>
+				<label class="label">
+					Job type
+				</label>
+				<div class="buttons has-addons">
+					<button type="button" class="button" v-for="(type, typeKey) in job_types" v-on:click="setJobType(typeKey)" v-bind:class="{'is-info is-selected': job_type==typeKey}">
+						{{ type.label }}
+					</button>
 				</div>
 			</div>
 			
@@ -303,6 +284,54 @@
 			
 			<hr />
 			
+			<div class="columns">
+				<div class="field column is-half">
+					<label class="label" for="glazing">
+						Glazing
+					</label>
+					<div class="control">
+						<div class="select">
+							<select ref="glazing" id="glazing" v-on:change="getPrice">
+								<option value="0" selected>
+									None
+								</option>
+								<option v-for="glazing in glazings" :value="glazing.id">
+									{{ glazing.name }}
+								</option>
+							</select>
+						  </div>
+					</div>
+				</div>
+			</div>
+			
+			<hr />
+			
+			<div>
+				<label class="label">
+					Fixing
+				</label>
+				<div class="buttons has-addons">
+					<button type="button" class="button" v-for="(fixingOpt, fixingOptKey) in fixings" v-on:click="setFixingType(fixingOptKey)" v-bind:class="{'is-info is-selected': fixing==fixingOptKey}">
+						{{ fixingOpt.name }}
+					</button>
+				</div>
+			</div>
+			
+			<hr />
+			
+			<div>
+				<label class="label">
+					Artwork mounting
+				</label>
+				<div class="buttons has-addons">
+					<button type="button" class="button" v-for="(artworkMounting, artworkMountingKey) in artwork_mountings" v-on:click="setArtworkMounting(artworkMountingKey)" v-bind:class="{'is-info is-selected': artwork_mounting==artworkMountingKey}">
+						{{ artworkMounting.name }}
+					</button>
+				</div>
+			</div>
+			
+			<hr />
+			
 			<div class="columns is-multiline">
 				<div class="field column is-one-third is-one-fifth-desktop">
 					<label class="label">
@@ -346,82 +375,11 @@
 						</ul>
 					</div>
 				</div>
-				<div class="field column is-one-third is-one-fifth-desktop">
-					<label class="label">
-						Hinge Mount?
-					</label>
-					<div class="control">
-						<ul>
-							<li>
-								<label class="radio">
-									<input type="radio" value="0" v-on:change="getPrice" v-model="hinge_mount" checked>
-									No
-								</label>
-							</li>
-							<li>
-								<label class="radio">
-									<input type="radio" value="1" v-on:change="getPrice" v-model="hinge_mount">
-									Yes
-								</label>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="field column is-one-third is-one-fifth-desktop">
-					<label class="label">
-						Picture Stand?
-					</label>
-					<div class="control">
-						<ul>
-							<li>
-								<label class="radio">
-									<input type="radio" value="0" v-on:change="getPrice" v-model="picture_stand" checked>
-									No
-								</label>
-							</li>
-							<li>
-								<label class="radio">
-									<input type="radio" value="1" v-on:change="getPrice" v-model="picture_stand">
-									Yes
-								</label>
-							</li>
-						</ul>
-					</div>
-				</div>
 			</div>
-			
-			<hr />
-			
-			<label class="checkbox label">
-				<input type="checkbox" name="dry_mount_included" value="1" ref="dry_mount_included" v-on:change="getPrice">
-				Include a dry mount?
-			</label>
-			
-			<label class="checkbox label">
-				<input type="checkbox" name="fixings_included" value="1" ref="fixings_included" v-on:change="getPrice">
-				Include fixings?
-			</label>
 
 			<hr />
 
 			<div class="columns">
-				<div class="field column is-half">
-					<label class="label" for="glazing">
-						Glazing
-					</label>
-					<div class="control">
-						<div class="select">
-							<select ref="glazing" id="glazing" v-on:change="getPrice">
-								<option value="0" selected>
-									None
-								</option>
-								<option v-for="glazing in glazings" :value="glazing.id">
-									{{ glazing.name }}
-								</option>
-							</select>
-						  </div>
-					</div>
-				</div>
 				<div class="field column is-half">
 					<label class="label" for="foam_board">
 						Foam Board
@@ -449,21 +407,25 @@
     export default {
 		data() {
 			return {
-				job_type: 'walk_in',
-				artwork_supplied: 0,
-				hinge_mount: 0,
-				box_frame: 0,
-				picture_stand: 0,
-				mount: 'none',
-				top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
-				bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
+				job_type			: 'walk_in',
+				artwork_supplied	: 0,
+				box_frame			: 0,
+				mount				: 'none',
+				fixing				: '0',
+				artwork_mounting	: '0',
+				
+				top_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
+				bottom_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
 			}
 		},
 		props: {
-			mounts: '',
-			glazings: '',
-			foam_boards: '',
-			moulds: ''
+			mounts				: '',
+			glazings			: '',
+			foam_boards			: '',
+			moulds				: '',
+			job_types			: '',
+			fixings				: '',
+			artwork_mountings	: ''
 		},
 		computed: {
 			topMountColourTitle: function() {
@@ -474,6 +436,21 @@
 			}
 		},
 		methods: {
+			
+			setArtworkMounting: function(artworkMountingKey) {
+				this.artwork_mounting = artworkMountingKey
+				this.getPrice()
+			},
+			
+			setFixingType: function(fixingOptKey) {
+				this.fixing = fixingOptKey
+				this.getPrice()
+			},
+			
+			setJobType: function(jobTypeKey) {
+				this.job_type = jobTypeKey
+				this.getPrice()
+			},
 			
 			typingTimeout: function(event) {
 				
@@ -500,11 +477,11 @@
 					const mount = {}
 					
 					// Job type and other options
-					params.job_type			= this.job_type
-					params.artwork_supplied = this.artwork_supplied
-					params.hinge_mount		= this.hinge_mount
-					params.box_frame		= this.box_frame
-					params.picture_stand	= this.picture_stand
+					params.job_type				= this.job_type
+					params.artwork_supplied		= this.artwork_supplied
+					params.box_frame			= this.box_frame
+					params.fixing				= this.fixing
+					params.artwork_mounting		= this.artwork_mounting
 					
 					// Mould params
 					params.mould = this.$refs['mould']['value']
@@ -539,7 +516,7 @@
 					
 					params.mount = mount
 					
-					// Glass size
+					// Aerwork size
 					params.artwork_width = this.$refs['artwork_width']['value']
 					params.artwork_height = this.$refs['artwork_height']['value']
 					
@@ -548,12 +525,6 @@
 					
 					// Foam Board
 					params.foam_board = this.$refs['foam_board']['value']
-					
-					// Dry Mount
-					params.dry_mount_included = this.$refs['dry_mount_included']['checked']
-					
-					// Fixings
-					params.fixings_included = this.$refs['fixings_included']['checked']
 					
 					//console.log(params)
 				
