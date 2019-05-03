@@ -20,10 +20,20 @@
 		</div>
 		<div class="columns is-multiline" v-if="mountType == 'single' || mountType == 'double'">
 			<div class="column is-full">
-				<label class="checkbox">
-					<input type="checkbox" v-model="equal_mount_borders" :checked="equal_mount_borders">
-					Equal borders
-				</label>
+				<ul class="is-horizontal">
+					<li>
+						<label class="checkbox">
+							<input type="checkbox" v-model="equal_mount_borders" :checked="equal_mount_borders">
+							Equal borders
+						</label>
+					</li>
+					<li>
+						<label class="checkbox">
+							<input type="checkbox" v-model="oval_aperture" :checked="oval_aperture" v-on:change="returnMount">
+							Oval/circular aperture
+						</label>
+					</li>
+				</ul>
 			</div>
 			<div class="column is-half">
 				<h6 class="title is-6">
@@ -170,8 +180,9 @@
     export default {
 		data() {
 			return {
-				mountType			: 'single',
+				mountType			: 'none',
 				equal_mount_borders	: true,
+				oval_aperture		: false,
 				
 				top_mount_size_top		: 50,
 				top_mount_size_right	: 50,
@@ -239,6 +250,7 @@
 					
 					// Mount params
 					mount.type = this.mountType
+					mount.oval_aperture = this.oval_aperture
 					
 					if (this.mountType != 'none') {
 						mount.top = {

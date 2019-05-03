@@ -2357,11 +2357,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      mountType: 'single',
+      mountType: 'none',
       equal_mount_borders: true,
+      oval_aperture: false,
       top_mount_size_top: 50,
       top_mount_size_right: 50,
       top_mount_size_bottom: 50,
@@ -2434,6 +2445,7 @@ __webpack_require__.r(__webpack_exports__);
         var mount = {}; // Mount params
 
         mount.type = this.mountType;
+        mount.oval_aperture = this.oval_aperture;
 
         if (this.mountType != 'none') {
           mount.top = {
@@ -20897,46 +20909,98 @@ var render = function() {
     _vm.mountType == "single" || _vm.mountType == "double"
       ? _c("div", { staticClass: "columns is-multiline" }, [
           _c("div", { staticClass: "column is-full" }, [
-            _c("label", { staticClass: "checkbox" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.equal_mount_borders,
-                    expression: "equal_mount_borders"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: _vm.equal_mount_borders,
-                  checked: Array.isArray(_vm.equal_mount_borders)
-                    ? _vm._i(_vm.equal_mount_borders, null) > -1
-                    : _vm.equal_mount_borders
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.equal_mount_borders,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.equal_mount_borders = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.equal_mount_borders = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+            _c("ul", { staticClass: "is-horizontal" }, [
+              _c("li", [
+                _c("label", { staticClass: "checkbox" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.equal_mount_borders,
+                        expression: "equal_mount_borders"
                       }
-                    } else {
-                      _vm.equal_mount_borders = $$c
+                    ],
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      checked: _vm.equal_mount_borders,
+                      checked: Array.isArray(_vm.equal_mount_borders)
+                        ? _vm._i(_vm.equal_mount_borders, null) > -1
+                        : _vm.equal_mount_borders
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.equal_mount_borders,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              (_vm.equal_mount_borders = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.equal_mount_borders = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.equal_mount_borders = $$c
+                        }
+                      }
                     }
-                  }
-                }
-              }),
-              _vm._v("\n\t\t\t\t\tEqual borders\n\t\t\t\t")
+                  }),
+                  _vm._v("\n\t\t\t\t\t\t\tEqual borders\n\t\t\t\t\t\t")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", { staticClass: "checkbox" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.oval_aperture,
+                        expression: "oval_aperture"
+                      }
+                    ],
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      checked: _vm.oval_aperture,
+                      checked: Array.isArray(_vm.oval_aperture)
+                        ? _vm._i(_vm.oval_aperture, null) > -1
+                        : _vm.oval_aperture
+                    },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$a = _vm.oval_aperture,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.oval_aperture = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.oval_aperture = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.oval_aperture = $$c
+                          }
+                        },
+                        _vm.returnMount
+                      ]
+                    }
+                  }),
+                  _vm._v("\n\t\t\t\t\t\t\tOval/circular aperture\n\t\t\t\t\t\t")
+                ])
+              ])
             ])
           ]),
           _vm._v(" "),
