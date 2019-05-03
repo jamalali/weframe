@@ -2360,8 +2360,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      mountType: 'none',
+      mountType: 'single',
       equal_mount_borders: true,
+      top_mount_size_top: 50,
+      top_mount_size_right: 50,
+      top_mount_size_bottom: 50,
+      top_mount_size_left: 50,
+      bottom_mount_size: 5,
       top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
       bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
     };
@@ -2382,7 +2387,7 @@ __webpack_require__.r(__webpack_exports__);
       this.mountType = type;
       this.returnMount();
     },
-    typingTimeout: function typingTimeout(event) {
+    topMountDimensions: function topMountDimensions(position, event) {
       var _this = this;
 
       if (this.timer) {
@@ -2391,7 +2396,37 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.timer = setTimeout(function () {
+        if (_this.equal_mount_borders) {
+          if (position !== 'top') {
+            _this.top_mount_size_top = event.target.value;
+          }
+
+          if (position !== 'right') {
+            _this.top_mount_size_right = event.target.value;
+          }
+
+          if (position !== 'bottom') {
+            _this.top_mount_size_bottom = event.target.value;
+          }
+
+          if (position !== 'left') {
+            _this.top_mount_size_left = event.target.value;
+          }
+        }
+
         _this.returnMount();
+      }, 500);
+    },
+    typingTimeout: function typingTimeout(event) {
+      var _this2 = this;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(function () {
+        _this2.returnMount();
       }, 1000);
     },
     returnMount: function returnMount() {
@@ -2403,10 +2438,10 @@ __webpack_require__.r(__webpack_exports__);
         if (this.mountType != 'none') {
           mount.top = {
             sizes: {
-              top: this.$refs['top_mount_size_top']['value'],
-              right: this.$refs['top_mount_size_right']['value'],
-              bottom: this.$refs['top_mount_size_bottom']['value'],
-              left: this.$refs['top_mount_size_left']['value']
+              top: this.top_mount_size_top,
+              right: this.top_mount_size_right,
+              bottom: this.top_mount_size_bottom,
+              left: this.top_mount_size_left
             },
             colour: this.top_mount_colour
           };
@@ -2414,7 +2449,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (this.mountType == 'double') {
           mount.bottom = {
-            size: this.$refs['bottom_mount_size']['value'],
+            size: this.bottom_mount_size,
             colour: this.bottom_mount_colour
           };
         } //					if (this.mountType == 'multimount') {
@@ -20901,7 +20936,7 @@ var render = function() {
                   }
                 }
               }),
-              _vm._v("\n\t\t\t\t\tRemember me\n\t\t\t\t")
+              _vm._v("\n\t\t\t\t\tEqual borders\n\t\t\t\t")
             ])
           ]),
           _vm._v(" "),
@@ -20926,14 +20961,28 @@ var render = function() {
                 _c("div", { staticClass: "field" }, [
                   _c("div", { staticClass: "control" }, [
                     _c("input", {
-                      ref: "top_mount_size_top",
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.top_mount_size_top,
+                          expression: "top_mount_size_top"
+                        }
+                      ],
                       staticClass: "input",
-                      attrs: {
-                        value: "50",
-                        id: "top_mount_size_top",
-                        type: "text"
-                      },
-                      on: { keydown: _vm.typingTimeout }
+                      attrs: { id: "top_mount_size_top", type: "text" },
+                      domProps: { value: _vm.top_mount_size_top },
+                      on: {
+                        keydown: function($event) {
+                          return _vm.topMountDimensions("top", $event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.top_mount_size_top = $event.target.value
+                        }
+                      }
                     })
                   ])
                 ])
@@ -20952,14 +21001,28 @@ var render = function() {
                 _c("div", { staticClass: "field" }, [
                   _c("div", { staticClass: "control" }, [
                     _c("input", {
-                      ref: "top_mount_size_bottom",
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.top_mount_size_bottom,
+                          expression: "top_mount_size_bottom"
+                        }
+                      ],
                       staticClass: "input",
-                      attrs: {
-                        value: "50",
-                        id: "top_mount_size_bottom",
-                        type: "text"
-                      },
-                      on: { keydown: _vm.typingTimeout }
+                      attrs: { id: "top_mount_size_bottom", type: "text" },
+                      domProps: { value: _vm.top_mount_size_bottom },
+                      on: {
+                        keydown: function($event) {
+                          return _vm.topMountDimensions("bottom", $event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.top_mount_size_bottom = $event.target.value
+                        }
+                      }
                     })
                   ])
                 ])
@@ -20978,14 +21041,28 @@ var render = function() {
                 _c("div", { staticClass: "field" }, [
                   _c("div", { staticClass: "control" }, [
                     _c("input", {
-                      ref: "top_mount_size_right",
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.top_mount_size_right,
+                          expression: "top_mount_size_right"
+                        }
+                      ],
                       staticClass: "input",
-                      attrs: {
-                        value: "50",
-                        id: "top_mount_size_right",
-                        type: "text"
-                      },
-                      on: { keydown: _vm.typingTimeout }
+                      attrs: { id: "top_mount_size_right", type: "text" },
+                      domProps: { value: _vm.top_mount_size_right },
+                      on: {
+                        keydown: function($event) {
+                          return _vm.topMountDimensions("right", $event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.top_mount_size_right = $event.target.value
+                        }
+                      }
                     })
                   ])
                 ])
@@ -21004,14 +21081,28 @@ var render = function() {
                 _c("div", { staticClass: "field" }, [
                   _c("div", { staticClass: "control" }, [
                     _c("input", {
-                      ref: "top_mount_size_left",
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.top_mount_size_left,
+                          expression: "top_mount_size_left"
+                        }
+                      ],
                       staticClass: "input",
-                      attrs: {
-                        value: "50",
-                        id: "top_mount_size_left",
-                        type: "text"
-                      },
-                      on: { keydown: _vm.typingTimeout }
+                      attrs: { id: "top_mount_size_left", type: "text" },
+                      domProps: { value: _vm.top_mount_size_left },
+                      on: {
+                        keydown: function($event) {
+                          return _vm.topMountDimensions("left", $event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.top_mount_size_left = $event.target.value
+                        }
+                      }
                     })
                   ])
                 ])
@@ -21041,14 +21132,26 @@ var render = function() {
                     _c("div", { staticClass: "field" }, [
                       _c("div", { staticClass: "control" }, [
                         _c("input", {
-                          ref: "bottom_mount_size",
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.bottom_mount_size,
+                              expression: "bottom_mount_size"
+                            }
+                          ],
                           staticClass: "input",
-                          attrs: {
-                            value: "5",
-                            id: "bottom_mount_size",
-                            type: "text"
-                          },
-                          on: { keydown: _vm.typingTimeout }
+                          attrs: { id: "bottom_mount_size", type: "text" },
+                          domProps: { value: _vm.bottom_mount_size },
+                          on: {
+                            keydown: _vm.typingTimeout,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.bottom_mount_size = $event.target.value
+                            }
+                          }
                         })
                       ])
                     ])

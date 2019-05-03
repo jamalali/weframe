@@ -22,7 +22,7 @@
 			<div class="column is-full">
 				<label class="checkbox">
 					<input type="checkbox" v-model="equal_mount_borders" :checked="equal_mount_borders">
-					Remember me
+					Equal borders
 				</label>
 			</div>
 			<div class="column is-half">
@@ -38,7 +38,7 @@
 
 						<div class="field">
 							<div class="control">
-								<input value="50" ref="top_mount_size_top" v-on:keydown="typingTimeout" id="top_mount_size_top" class="input" type="text">
+								<input v-model="top_mount_size_top" v-on:keydown="topMountDimensions('top', $event)" id="top_mount_size_top" class="input" type="text">
 							</div>
 						</div>
 					</li>
@@ -50,7 +50,7 @@
 
 						<div class="field">
 							<div class="control">
-								<input value="50" ref="top_mount_size_bottom" v-on:keydown="typingTimeout" id="top_mount_size_bottom" class="input" type="text">
+								<input v-model="top_mount_size_bottom" v-on:keydown="topMountDimensions('bottom', $event)" id="top_mount_size_bottom" class="input" type="text">
 							</div>
 						</div>
 					</li>
@@ -62,7 +62,7 @@
 
 						<div class="field">
 							<div class="control">
-								<input value="50" ref="top_mount_size_right" v-on:keydown="typingTimeout" id="top_mount_size_right" class="input" type="text">
+								<input v-model="top_mount_size_right" v-on:keydown="topMountDimensions('right', $event)" id="top_mount_size_right" class="input" type="text">
 							</div>
 						</div>
 					</li>
@@ -74,7 +74,7 @@
 
 						<div class="field">
 							<div class="control">
-								<input value="50" ref="top_mount_size_left" v-on:keydown="typingTimeout" id="top_mount_size_left" class="input" type="text">
+								<input v-model="top_mount_size_left" v-on:keydown="topMountDimensions('left', $event)" id="top_mount_size_left" class="input" type="text">
 							</div>
 						</div>
 					</li>
@@ -92,7 +92,7 @@
 
 						<div class="field">
 							<div class="control">
-								<input value="5" ref="bottom_mount_size" v-on:keydown="typingTimeout" id="bottom_mount_size" class="input" type="text">
+								<input v-model="bottom_mount_size" v-on:keydown="typingTimeout" id="bottom_mount_size" class="input" type="text">
 							</div>
 						</div>
 					</li>
@@ -170,8 +170,15 @@
     export default {
 		data() {
 			return {
-				mountType			: 'none',
+				mountType			: 'single',
 				equal_mount_borders	: true,
+				
+				top_mount_size_top		: 50,
+				top_mount_size_right	: 50,
+				top_mount_size_bottom	: 50,
+				top_mount_size_left		: 50,
+				
+				bottom_mount_size : 5,
 				
 				top_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
 				bottom_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
@@ -192,6 +199,25 @@
 			setMountType: function(type) {
 				this.mountType = type
 				this.returnMount()
+			},
+			
+			topMountDimensions: function(position, event) {
+				
+				if (this.timer) {
+					clearTimeout(this.timer);
+					this.timer = null;
+				}
+				
+				this.timer = setTimeout(() => {
+					if (this.equal_mount_borders) {
+						if (position !== 'top')		{ this.top_mount_size_top = event.target.value }
+						if (position !== 'right')	{ this.top_mount_size_right = event.target.value }
+						if (position !== 'bottom')	{ this.top_mount_size_bottom = event.target.value }
+						if (position !== 'left')	{ this.top_mount_size_left = event.target.value }
+					}
+					
+					this.returnMount()
+				}, 500);
 			},
 			
 			typingTimeout: function(event) {
@@ -217,10 +243,10 @@
 					if (this.mountType != 'none') {
 						mount.top = {
 							sizes: {
-								top: this.$refs['top_mount_size_top']['value'],
-								right: this.$refs['top_mount_size_right']['value'],
-								bottom: this.$refs['top_mount_size_bottom']['value'],
-								left: this.$refs['top_mount_size_left']['value']
+								top		: this.top_mount_size_top,
+								right	: this.top_mount_size_right,
+								bottom	: this.top_mount_size_bottom,
+								left	: this.top_mount_size_left
 							},
 							colour: this.top_mount_colour
 						}
@@ -228,8 +254,8 @@
 					
 					if (this.mountType == 'double') {
 						mount.bottom = {
-							size: this.$refs['bottom_mount_size']['value'],
-							colour: this.bottom_mount_colour
+							size	: this.bottom_mount_size,
+							colour	: this.bottom_mount_colour
 						}
 					}
 					
