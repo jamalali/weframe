@@ -1836,19 +1836,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MountSelector.vue */ "./resources/js/components/PriceCalculator/MountSelector.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MouldingSelector.vue */ "./resources/js/components/PriceCalculator/MouldingSelector.vue");
 //
 //
 //
@@ -2046,9 +2034,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'mount-selector': _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'mount-selector': _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'moulding-selector': _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2059,7 +2049,8 @@ __webpack_require__.r(__webpack_exports__);
       artwork_mounting: '0',
       mount: {
         'type': 'none'
-      }
+      },
+      moulding: 0
     };
   },
   props: {
@@ -2072,6 +2063,10 @@ __webpack_require__.r(__webpack_exports__);
     artwork_mountings: ''
   },
   methods: {
+    setMoulding: function setMoulding(moulding_id) {
+      this.moulding = moulding_id;
+      this.getPrice();
+    },
     setMount: function setMount(data) {
       this.mount = data;
       this.getPrice();
@@ -2105,7 +2100,7 @@ __webpack_require__.r(__webpack_exports__);
         var _this2 = this;
 
         // Required options - check them
-        if (this.$refs['mould']['value'] == 0) {
+        if (this.moulding == 0) {
           alert('Please choose a moulding');
           return false;
         }
@@ -2116,9 +2111,9 @@ __webpack_require__.r(__webpack_exports__);
         params.artwork_supplied = this.artwork_supplied;
         params.box_frame = this.box_frame;
         params.fixing = this.fixing;
-        params.artwork_mounting = this.artwork_mounting; // Mould params
+        params.artwork_mounting = this.artwork_mounting; // Mould + moulding params - returned from child components
 
-        params.mould = this.$refs['mould']['value'];
+        params.moulding = this.moulding;
         params.mount = this.mount; // Aerwork size
 
         params.artwork_width = this.$refs['artwork_width']['value'];
@@ -2134,6 +2129,51 @@ __webpack_require__.r(__webpack_exports__);
           return _this2.$store.commit('updateCalculation', response.data);
         });
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  props: {
+    moulds: ''
+  },
+  methods: {
+    returnMoulding: function returnMoulding() {
+      var moulding = this.$refs['moulding']['value'];
+      this.$emit('setmoulding', moulding);
     }
   }
 });
@@ -20275,40 +20315,10 @@ var render = function() {
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label", attrs: { for: "mould" } }, [
-            _vm._v("\n\t\t\t\tMoulding\n\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select is-multiple" }, [
-              _c(
-                "select",
-                {
-                  ref: "mould",
-                  attrs: { id: "mould", size: "5", multiple: "" },
-                  on: { change: _vm.getPrice }
-                },
-                [
-                  _c("option", { attrs: { value: "0", selected: "" } }, [
-                    _vm._v("\n\t\t\t\t\t\t\tChoose one\n\t\t\t\t\t\t")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.moulds, function(mould, mouldIndex) {
-                    return _c("option", { domProps: { value: mouldIndex } }, [
-                      _vm._v(
-                        "\n\t\t\t\t\t\t\t" +
-                          _vm._s(mould.name) +
-                          "\n\t\t\t\t\t\t"
-                      )
-                    ])
-                  })
-                ],
-                2
-              )
-            ])
-          ])
-        ]),
+        _c("moulding-selector", {
+          attrs: { moulds: _vm.moulds },
+          on: { setmoulding: _vm.setMoulding }
+        }),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
@@ -20719,6 +20729,59 @@ var staticRenderFns = [
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "field" }, [
+    _c("label", { staticClass: "label", attrs: { for: "moulding" } }, [
+      _vm._v("\n\t\tMoulding\n\t")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "control" }, [
+      _c("div", { staticClass: "select is-multiple" }, [
+        _c(
+          "select",
+          {
+            ref: "moulding",
+            attrs: { id: "moulding", size: "5", multiple: "" },
+            on: { change: _vm.returnMoulding }
+          },
+          [
+            _c("option", { attrs: { value: "0", selected: "" } }, [
+              _vm._v("\n\t\t\t\t\tChoose one\n\t\t\t\t")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.moulds, function(mould, mouldIndex) {
+              return _c("option", { domProps: { value: mouldIndex } }, [
+                _vm._v("\n\t\t\t\t\t" + _vm._s(mould.name) + "\n\t\t\t\t")
+              ])
+            })
+          ],
+          2
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -21704,6 +21767,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MouldingSelector.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MouldingSelector.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MouldingSelector.vue?vue&type=template&id=3dd98525& */ "./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525&");
+/* harmony import */ var _MouldingSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MouldingSelector.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MouldingSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PriceCalculator/MouldingSelector.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MouldingSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./MouldingSelector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MouldingSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./MouldingSelector.vue?vue&type=template&id=3dd98525& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MouldingSelector_vue_vue_type_template_id_3dd98525___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

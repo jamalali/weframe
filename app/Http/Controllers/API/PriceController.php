@@ -35,7 +35,7 @@ class PriceController extends Controller {
 		
 		$this->job_type = $request->input('job_type');
 		
-		$mould_id = $request->input('mould');
+		$moulding_id = $request->input('moulding');
 		
 		$mount = json_decode($request->input('mount'));
 		
@@ -45,7 +45,7 @@ class PriceController extends Controller {
 		$artwork_mounting_id	= $request->input('artwork_mounting');
 		
 		// Get the prices, if we need to
-		$mould_price				= $this->getMouldPrice($mould_id);
+		$moulding_price				= $this->getMouldingPrice($moulding_id);
 		$glazing_price				= !empty($glazing_id) ? $this->getGlazingPrice($glazing_id) : false;
 		$foam_board_price			= !empty($foam_board_id) ? $this->getFoamBoardPrice($foam_board_id) : false;
 		$fixing_price				= !empty($fixing_id) ? $this->getFixingPrice($fixing_id) : false;
@@ -58,7 +58,7 @@ class PriceController extends Controller {
 		
 		// Build the response array
 		$response = [];
-		$response['mould'] = $mould_price;
+		$response['moulding'] = $moulding_price;
 		
 		if ($mount_price)	{ $response['mount'] = $mount_price; }
 		if ($glazing_price) { $response['glazing'] = $glazing_price; }
@@ -552,20 +552,20 @@ class PriceController extends Controller {
 		return number_format($mount_price / 100, 2);
 	}
 	
-	private function getMouldPrice($mould_id) {
+	private function getMouldingPrice($moulding_id) {
 		
-		$mould	= config('moulds.' . $mould_id);
+		$moulding	= config('moulds.' . $moulding_id);
 		
-		$mould_width = $mould['width'];
-		$mould_price = $mould['price'];
+		$moulding_width = $moulding['width'];
+		$moulding_price = $moulding['price'];
 		
-		$mould_cut_wastage = $this->wastage_config['mould'];
+		$moulding_cut_wastage = $this->wastage_config['mould'];
 		
-		$total_length = $this->glass_width * 2 + $this->glass_height * 2 + $mould_width * 8;
+		$total_length = $this->glass_width * 2 + $this->glass_height * 2 + $moulding_width * 8;
 		
-		$total_mould_cost = ($mould_price * $total_length) / 1000;
+		$total_moulding_cost = ($moulding_price * $total_length) / 1000;
 		
-		$total_mould_cost_plus_wastage = $total_mould_cost + ($total_mould_cost / 100 * $mould_cut_wastage);
+		$total_moulding_cost_plus_wastage = $total_moulding_cost + ($total_moulding_cost / 100 * $moulding_cut_wastage);
 		
 		// Labour costs
 		$this->labour_costs['cutting_frame'] = $this->labourCostInPounds($this->labour_config['cutting_frame']);
@@ -576,7 +576,7 @@ class PriceController extends Controller {
 			$this->labour_costs['pinning_frame'] = $this->labourCostInPounds($this->labour_config['pinning_frame']);
 		}
 		
-		return number_format($total_mould_cost_plus_wastage, 2);
+		return number_format($total_moulding_cost_plus_wastage, 2);
 	}
 	
 	private function labourCostInPounds($minutes) {

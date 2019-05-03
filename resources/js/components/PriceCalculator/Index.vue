@@ -18,23 +18,10 @@
 			
 			<hr />
 			
-			<div class="field">
-				<label class="label" for="mould">
-					Moulding
-				</label>
-				<div class="control">
-					<div class="select is-multiple">
-						<select ref="mould" id="mould" size="5" multiple v-on:change="getPrice">
-							<option value="0" selected>
-								Choose one
-							</option>
-							<option v-for="(mould, mouldIndex) in moulds" :value="mouldIndex">
-								{{ mould.name }}
-							</option>
-						</select>
-					</div>
-				</div>
-			</div>
+			<moulding-selector
+				v-bind:moulds="moulds"
+				v-on:setmoulding="setMoulding"
+			></moulding-selector>
 			
 			<hr />
 			
@@ -209,9 +196,11 @@
 
 <script>
 	import MountSelector from './MountSelector.vue';
+	import MouldingSelector from './MouldingSelector.vue';
     export default {
 		components: {
-			'mount-selector': MountSelector
+			'mount-selector': MountSelector,
+			'moulding-selector': MouldingSelector
 		},
 		data() {
 			return {
@@ -224,7 +213,9 @@
 				
 				mount: {
 					'type': 'none'
-				}
+				},
+				
+				moulding: 0
 			}
 		},
 		props: {
@@ -237,6 +228,11 @@
 			artwork_mountings	: ''
 		},
 		methods: {
+			
+			setMoulding: function(moulding_id) {
+				this.moulding = moulding_id
+				this.getPrice()
+			},
 			
 			setMount: function(data) {
 				this.mount = data
@@ -274,7 +270,7 @@
 				this.$nextTick(function () {
 					
 					// Required options - check them
-					if (this.$refs['mould']['value'] == 0) {
+					if (this.moulding == 0) {
 						alert('Please choose a moulding')
 						return false
 					}
@@ -288,9 +284,8 @@
 					params.fixing				= this.fixing
 					params.artwork_mounting		= this.artwork_mounting
 					
-					// Mould params
-					params.mould = this.$refs['mould']['value']
-					
+					// Mould + moulding params - returned from child components
+					params.moulding = this.moulding
 					params.mount = this.mount
 					
 					// Aerwork size
