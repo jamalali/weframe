@@ -81,10 +81,10 @@
 			
 			<hr />
 			
-			<mountboard-selector
+			<mount-selector
 				v-bind:mounts="mounts"
 				v-on:setmount="setMount"
-			></mountboard-selector>
+			></mount-selector>
 			
 			<hr />
 			
@@ -208,10 +208,10 @@
 </template>
 
 <script>
-	import MountboardSelector from './MountboardSelector.vue';
+	import MountSelector from './MountSelector.vue';
     export default {
 		components: {
-			'mountboard-selector': MountboardSelector
+			'mount-selector': MountSelector
 		},
 		data() {
 			return {
