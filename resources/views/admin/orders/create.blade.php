@@ -18,14 +18,7 @@
 		></price-calculator>
     </div>
 	<div class="column is-one-third">
-		<div class="basket-container">
-			<h4 class="title is-4">
-				Basket
-			</h4>
-			<p>
-				empty
-			</p>
-		</div>
+		<basket></basket>
 		<hr />
 		<calculation-display-admin></calculation-display-admin>
     </div>

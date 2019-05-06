@@ -64,9 +64,13 @@
 				this.$emit('setmoulding', result_id)
 			},
 			
-			onChange() {
-				this.isOpen = true;
-				this.filterResults()
+			onChange(event) {
+				if (event.target.value.length > 0) {
+					this.isOpen = true
+					this.filterResults()
+				} else {
+					this.isOpen = false
+				}
 			},
 			
 			filterResults() {
