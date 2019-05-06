@@ -2,7 +2,7 @@
 
 return [
 	
-	1 => [
+	'1' => [
 		'name' => 'Moulding – Create 40x30mm White Closed Grain – CR4030WH',
 		
 		'supplier_code' => 'CR4030WH',
@@ -13,7 +13,7 @@ return [
 		
 		'price' => '9.99'
 	],
-	2 => [
+	'2' => [
 		'name' => 'Roma Moulding – 25x30mm – Black – 6200BK',
 		
 		'supplier_code' => '6200BK',
@@ -24,7 +24,7 @@ return [
 		
 		'price' => '9.99'
 	],
-	3 => [
+	'3' => [
 		'name' => 'Moulding – Create 20x33mm Black Closed Grain – CR0989BK',
 		
 		'supplier_code' => 'CR0989BK',
@@ -35,7 +35,7 @@ return [
 		
 		'price' => '9.99'
 	],
-	4 => [
+	'4' => [
 		'name' => 'LJC Coastal Woods Moulding',
 		
 		'supplier_code' => '453000127',
@@ -46,7 +46,7 @@ return [
 		
 		'price' => '1.55'
 	],
-	5 => [
+	'5' => [
 		'name' => 'LJC Lincoln Moulding',
 		
 		'supplier_code' => '471000127',
@@ -57,7 +57,7 @@ return [
 		
 		'price' => '2.11'
 	],
-	6 => [
+	'6' => [
 		'name' => 'LJC Barefaced Oak Moulding',
 		
 		'supplier_code' => '113200000',
@@ -68,7 +68,7 @@ return [
 		
 		'price' => '1.62'
 	],
-	7 => [
+	'7' => [
 		'name' => 'LJE Moulding',
 		
 		'supplier_code' => '253403000',
@@ -79,7 +79,7 @@ return [
 		
 		'price' => '2.39'
 	],
-	8 => [
+	'8' => [
 		'name' => 'LJE Moulding',
 		
 		'supplier_code' => '253406000',
@@ -90,7 +90,7 @@ return [
 		
 		'price' => '2.39'
 	],
-	9 => [
+	'9' => [
 		'name' => 'LJC Barefaced Oak Moulding',
 		
 		'supplier_code' => '103200000',

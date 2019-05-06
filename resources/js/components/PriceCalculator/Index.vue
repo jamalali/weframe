@@ -222,7 +222,7 @@
 			mounts				: '',
 			glazings			: '',
 			foam_boards			: '',
-			moulds				: '',
+			moulds				: {},
 			job_types			: '',
 			fixings				: '',
 			artwork_mountings	: ''

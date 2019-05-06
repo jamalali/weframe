@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Glazing;
 use App\Models\Mount;
+use Illuminate\Support\Arr;
 
 class AdminOrdersController extends Controller {
 
@@ -22,6 +23,12 @@ class AdminOrdersController extends Controller {
 		$job_types			= config('pricing.job_types');
 		$fixings			= config('pricing.fixings');
 		$artwork_mountings	= config('pricing.artwork_mountings');
+		
+		//dd($moulds);
+		
+		//$moulds = Arr::only($moulds, 'name');
+		
+		//dd($moulds);
 		
         return view('admin.orders.create', [
 			'mounts'			=> $mounts,
