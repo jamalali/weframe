@@ -3,17 +3,35 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+function orderItemDefaults() {
+	return {
+		jobType: 'walk_in',
+		mount: {
+			type: 'none'
+		},
+		glazing: '0',
+		fixing: '0',
+		artworkMounting: '0',
+		artworkSupplied: '0',
+		boxFrame: '0',
+		foamBoard: '0'
+	}
+}
+
 export const store = new Vuex.Store({
 	state: {
-		calculation: {}
+		orderItem: orderItemDefaults(),
+		basket: [],
+		orderItemPrice: {}
 	},
 	getters: {
-		calculationTotal: state => {
+		
+		orderItemTotal: state => {
 			
 			let total = 0
 			
-			for (const key in state.calculation) {
-				let value = state.calculation[key]
+			for (const key in state.orderItemPrice) {
+				let value = state.orderItemPrice[key]
 				
 				if (typeof value == 'object') {
 					
@@ -40,9 +58,46 @@ export const store = new Vuex.Store({
 			return total.toFixed(2);
 		}
 	},
+	
+	actions: {
+		updateOrderItem ({commit}, orderItem) {
+			commit('orderItem', orderItem)
+			commit('orderItemPrice')
+		},
+		
+		addToBasket ({state, getters, commit}) {
+			state.orderItem.total = getters.orderItemTotal
+			commit('basket', state.orderItem)
+			
+			// clear the current orderItem
+			commit('resetOrderItem')
+			commit('resetOrderItemPrice')
+		}
+	},
+	
 	mutations: {
-		updateCalculation (state, updatedCalculation) {
-			state.calculation = updatedCalculation
+		orderItem (state, orderItem) {
+			state.orderItem = orderItem
+		},
+		
+		resetOrderItem (state) {
+			state.orderItem = orderItemDefaults()
+		},
+		
+		orderItemPrice (state) {
+			axios.get('http://weframe.local/api/price', {
+				params: state.orderItem
+			}).then(response => (
+				state.orderItemPrice = response.data
+			))
+		},
+		
+		resetOrderItemPrice (state) {
+			state.orderItemPrice = {}
+		},
+		
+		basket (state, item) {
+			state.basket.push(item)
 		}
 	}
 })

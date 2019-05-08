@@ -20,6 +20,7 @@
 			
 			<moulding-selector
 				v-bind:moulds="moulds"
+				v-bind:moulding="orderItem.moulding"
 				v-on:setmoulding="setMoulding"
 			></moulding-selector>
 			
@@ -30,7 +31,7 @@
 					Job type
 				</label>
 				<div class="buttons has-addons">
-					<button class="button" v-for="(type, typeKey) in job_types" v-on:click.prevent="setJobType(typeKey)" v-bind:class="{'is-info is-selected': job_type==typeKey}">
+					<button class="button" v-for="(type, typeKey) in job_types" v-on:click.prevent="setJobType(typeKey)" v-bind:class="{'is-info is-selected': orderItem.jobType==typeKey}">
 						{{ type.label }}
 					</button>
 				</div>
@@ -49,7 +50,7 @@
 						</label>
 						<div class="field">
 							<div class="control">
-								<input ref="artwork_width" v-on:keydown="typingTimeout" id="artwork_width" class="input" type="text">
+								<input v-model="orderItem.artworkWidth" v-on:keydown="typingTimeout" id="artwork_width" class="input" type="text">
 							</div>
 						</div>
 					</div>
@@ -59,7 +60,7 @@
 						</label>
 						<div class="field">
 							<div class="control">
-								<input ref="artwork_height" v-on:keydown="typingTimeout" id="artwork_height" class="input" type="text">
+								<input v-model="orderItem.artworkHeight" v-on:keydown="typingTimeout" id="artwork_height" class="input" type="text">
 							</div>
 						</div>
 					</div>
@@ -82,8 +83,8 @@
 					</label>
 					<div class="control">
 						<div class="select">
-							<select ref="glazing" id="glazing" v-on:change="getPrice">
-								<option value="0" selected>
+							<select v-model="orderItem.glazing" id="glazing" v-on:change="getPrice">
+								<option value="0">
 									None
 								</option>
 								<option v-for="glazing in glazings" :value="glazing.id">
@@ -102,7 +103,7 @@
 					Fixing
 				</label>
 				<div class="buttons has-addons">
-					<button class="button" v-for="(fixingOpt, fixingOptKey) in fixings" v-on:click.prevent="setFixingType(fixingOptKey)" v-bind:class="{'is-info is-selected': fixing==fixingOptKey}">
+					<button class="button" v-for="(fixingOpt, fixingOptKey) in fixings" v-on:click.prevent="setFixingType(fixingOptKey)" v-bind:class="{'is-info is-selected': orderItem.fixing==fixingOptKey}">
 						{{ fixingOpt.name }}
 					</button>
 				</div>
@@ -115,8 +116,8 @@
 					Artwork mounting
 				</label>
 				<div class="buttons has-addons">
-					<button class="button" v-for="(artworkMounting, artworkMountingKey) in artwork_mountings" v-on:click.prevent="setArtworkMounting(artworkMountingKey)" v-bind:class="{'is-info is-selected': artwork_mounting==artworkMountingKey}">
-						{{ artworkMounting.name }}
+					<button class="button" v-for="(artworkMountingValue, artworkMountingKey) in artwork_mountings" v-on:click.prevent="setArtworkMounting(artworkMountingKey)" v-bind:class="{'is-info is-selected': orderItem.artworkMounting==artworkMountingKey}">
+						{{ artworkMountingValue.name }}
 					</button>
 				</div>
 			</div>
@@ -132,13 +133,13 @@
 						<ul>
 							<li>
 								<label class="radio">
-									<input type="radio" value="0" v-on:change="getPrice" v-model="artwork_supplied" checked>
+									<input type="radio" value="0" v-on:change="getPrice" v-model="orderItem.artworkSupplied" checked>
 									No
 								</label>
 							</li>
 							<li>
 								<label class="radio">
-									<input type="radio" value="1" v-on:change="getPrice" v-model="artwork_supplied">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="orderItem.artworkSupplied">
 									Yes
 								</label>
 							</li>
@@ -153,13 +154,13 @@
 						<ul>
 							<li>
 								<label class="radio">
-									<input type="radio" value="0" v-on:change="getPrice" v-model="box_frame" checked>
+									<input type="radio" value="0" v-on:change="getPrice" v-model="orderItem.boxFrame" checked>
 									No
 								</label>
 							</li>
 							<li>
 								<label class="radio">
-									<input type="radio" value="1" v-on:change="getPrice" v-model="box_frame">
+									<input type="radio" value="1" v-on:change="getPrice" v-model="orderItem.boxFrame">
 									Yes
 								</label>
 							</li>
@@ -177,8 +178,8 @@
 					</label>
 					<div class="control">
 						<div class="select">
-							<select ref="foam_board" id="foam_board" v-on:change="getPrice">
-								<option value="0" selected>
+							<select v-model="orderItem.foamBoard" id="foam_board" v-on:change="getPrice">
+								<option value="0">
 									None
 								</option>
 								<option v-for="(board, boardName) in foam_boards" :value="boardName">
@@ -197,26 +198,14 @@
 <script>
 	import MountSelector from './MountSelector.vue';
 	import MouldingSelector from './MouldingSelector.vue';
+	import { mapState } from 'vuex'
     export default {
 		components: {
 			'mount-selector': MountSelector,
 			'moulding-selector': MouldingSelector
 		},
 		data() {
-			return {
-				job_type: 'walk_in',
-				
-				artwork_supplied	: 0,
-				box_frame			: 0,
-				fixing				: '0',
-				artwork_mounting	: '0',
-				
-				mount: {
-					'type': 'none'
-				},
-				
-				moulding: 0
-			}
+			return {}
 		},
 		props: {
 			mounts				: '',
@@ -230,27 +219,27 @@
 		methods: {
 			
 			setMoulding: function(moulding_id) {
-				this.moulding = moulding_id
+				this.orderItem.moulding = moulding_id
 				this.getPrice()
 			},
 			
 			setMount: function(data) {
-				this.mount = data
+				this.orderItem.mount = data
 				this.getPrice()
 			},
 			
 			setArtworkMounting: function(artworkMountingKey) {
-				this.artwork_mounting = artworkMountingKey
+				this.orderItem.artworkMounting = artworkMountingKey
 				this.getPrice()
 			},
 			
 			setFixingType: function(fixingOptKey) {
-				this.fixing = fixingOptKey
+				this.orderItem.fixing = fixingOptKey
 				this.getPrice()
 			},
 			
 			setJobType: function(jobTypeKey) {
-				this.job_type = jobTypeKey
+				this.orderItem.jobType = jobTypeKey
 				this.getPrice()
 			},
 			
@@ -261,6 +250,7 @@
 					this.timer = null;
 				}
 				this.timer = setTimeout(() => {
+					//console.log(this.orderItem)
 					this.getPrice()
 				}, 1000);
 			},
@@ -270,44 +260,19 @@
 				this.$nextTick(function () {
 					
 					// Required options - check them
-					if (this.moulding == 0) {
+					if (this.orderItem.moulding == 0) {
 						alert('Please choose a moulding')
 						return false
 					}
 					
-					const params = {}
-					
-					// Job type and other options
-					params.job_type				= this.job_type
-					params.artwork_supplied		= this.artwork_supplied
-					params.box_frame			= this.box_frame
-					params.fixing				= this.fixing
-					params.artwork_mounting		= this.artwork_mounting
-					
-					// Mould + moulding params - returned from child components
-					params.moulding = this.moulding
-					params.mount = this.mount
-					
-					// Aerwork size
-					params.artwork_width = this.$refs['artwork_width']['value']
-					params.artwork_height = this.$refs['artwork_height']['value']
-					
-					// Glazing
-					params.glazing = this.$refs['glazing']['value']
-					
-					// Foam Board
-					params.foam_board = this.$refs['foam_board']['value']
-					
-					//console.log(params)
-				
-					axios.get('http://weframe.local/api/price', {
-						params: params
-					}).then(response => (
-						this.$store.commit('updateCalculation', response.data)
-					))
+					this.$store.dispatch('updateOrderItem', this.orderItem)
 				})
-				
 			}
+		},
+		computed: {
+			...mapState({
+				orderItem: state => state.orderItem
+			})
 		}
     }
 </script>

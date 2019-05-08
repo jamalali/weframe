@@ -20,7 +20,7 @@
 	<div class="column is-one-third">
 		<basket></basket>
 		<hr />
-		<calculation-display-admin></calculation-display-admin>
+		<order-item-breakdown></order-item-breakdown>
     </div>
 </div>
 

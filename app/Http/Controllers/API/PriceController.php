@@ -33,16 +33,16 @@ class PriceController extends Controller {
 		
 		$this->settings = Cache::get('settings_pricing');
 		
-		$this->job_type = $request->input('job_type');
+		$this->job_type = $request->input('jobType');
 		
 		$moulding_id = $request->input('moulding');
 		
 		$mount = json_decode($request->input('mount'));
 		
 		$glazing_id				= $request->input('glazing');
-		$foam_board_id			= $request->input('foam_board');
+		$foam_board_id			= $request->input('foamBoard');
 		$fixing_id				= $request->input('fixing');
-		$artwork_mounting_id	= $request->input('artwork_mounting');
+		$artwork_mounting_id	= $request->input('artworkMounting');
 		
 		// Get the prices, if we need to
 		$moulding_price				= $this->getMouldingPrice($moulding_id);
@@ -85,8 +85,8 @@ class PriceController extends Controller {
 		
 		//die(print_r($mount));
 		
-		$artwork_width	= $request->input('artwork_width');
-		$artwork_height = $request->input('artwork_height');
+		$artwork_width	= $request->input('artworkWidth');
+		$artwork_height = $request->input('artworkHeight');
 		
 		$this->glass_width		= $artwork_width;
 		$this->glass_height		= $artwork_height;
@@ -163,8 +163,8 @@ class PriceController extends Controller {
 				break;
 		}
 		
-		$artwork_supplied	= $request->input('artwork_supplied');
-		$box_frame			= $request->input('box_frame');
+		$artwork_supplied	= $request->input('artworkSupplied');
+		$box_frame			= $request->input('boxFrame');
 		
 		if (filter_var($artwork_supplied, FILTER_VALIDATE_BOOLEAN)) {
 			$this->labour_costs['mount_supplied_artwork'] = $this->labourCostInPounds($this->labour_config['atg_tape_mounting']);

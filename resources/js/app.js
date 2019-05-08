@@ -25,7 +25,7 @@ require('./bulma.js');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('price-calculator', require('./components/PriceCalculator/Index.vue').default);
-Vue.component('calculation-display-admin', require('./components/CalculationDisplayAdmin.vue').default);
+Vue.component('order-item-breakdown', require('./components/OrderItemBreakdown.vue').default);
 Vue.component('mount-variants', require('./components/MountVariants.vue').default);
 Vue.component('basket', require('./components/Basket.vue').default);
 
