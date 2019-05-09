@@ -1894,7 +1894,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MountSelector.vue */ "./resources/js/components/PriceCalculator/MountSelector.vue");
 /* harmony import */ var _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MouldingSelector.vue */ "./resources/js/components/PriceCalculator/MouldingSelector.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _JobTypeSelector_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./JobTypeSelector.vue */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2087,26 +2088,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'mount-selector': _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'moulding-selector': _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'moulding-selector': _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'job-type-selector': _JobTypeSelector_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      orderType: ''
+    };
   },
   props: {
     mounts: '',
@@ -2116,6 +2111,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     job_types: '',
     fixings: '',
     artwork_mountings: ''
+  },
+  watch: {
+    orderType: function orderType(newOrderType) {
+      this.orderItem.jobType = newOrderType;
+    }
   },
   methods: {
     setMoulding: function setMoulding(moulding_id) {
@@ -2163,11 +2163,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])({
     orderItem: function orderItem(state) {
       return state.orderItem;
     }
   }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  model: {
+    prop: 'orderType',
+    event: 'clicked'
+  },
+  props: {
+    orderTypes: {},
+    orderType: String
+  },
+  methods: {
+    setOrderType: function setOrderType(typeKey) {
+      this.$emit('clicked', typeKey);
+    }
+  }
 });
 
 /***/ }),
@@ -21153,532 +21197,503 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      { attrs: { id: "price-calculator-admin" } },
-      [
-        _c("div", { staticClass: "field is-horizontal" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "field-body" }, [
+  return _c(
+    "div",
+    { attrs: { id: "price-calculator" } },
+    [
+      _c("job-type-selector", {
+        attrs: { orderTypes: _vm.job_types },
+        model: {
+          value: _vm.orderType,
+          callback: function($$v) {
+            _vm.orderType = $$v
+          },
+          expression: "orderType"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "field is-horizontal" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "field-body" }, [
+          _c("div", { staticClass: "field" }, [
+            _c("p", { staticClass: "control" }, [
+              _c("input", {
+                ref: "artwork_description",
+                staticClass: "input",
+                attrs: { type: "text", id: "artwork_description" }
+              })
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("moulding-selector", {
+        attrs: { moulds: _vm.moulds, moulding: _vm.orderItem.moulding },
+        on: { setmoulding: _vm.setMoulding }
+      }),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "field" }, [
+        _c("label", { staticClass: "label" }, [
+          _vm._v("\n\t\t\tArtwork size\n\t\t")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "field column is-one-quarter" }, [
+            _c(
+              "label",
+              {
+                staticClass: "label is-size-7 has-text-weight-normal",
+                attrs: { for: "artwork_width" }
+              },
+              [_vm._v("\n\t\t\t\t\tWidth (mm)\n\t\t\t\t")]
+            ),
+            _vm._v(" "),
             _c("div", { staticClass: "field" }, [
-              _c("p", { staticClass: "control" }, [
+              _c("div", { staticClass: "control" }, [
                 _c("input", {
-                  ref: "artwork_description",
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderItem.artworkWidth,
+                      expression: "orderItem.artworkWidth"
+                    }
+                  ],
                   staticClass: "input",
-                  attrs: { type: "text", id: "artwork_description" }
+                  attrs: { id: "artwork_width", type: "text" },
+                  domProps: { value: _vm.orderItem.artworkWidth },
+                  on: {
+                    keydown: _vm.typingTimeout,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.orderItem,
+                        "artworkWidth",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field column is-one-quarter" }, [
+            _c(
+              "label",
+              {
+                staticClass: "label is-size-7 has-text-weight-normal",
+                attrs: { for: "artwork_height" }
+              },
+              [_vm._v("\n\t\t\t\t\tHeight (mm)\n\t\t\t\t")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderItem.artworkHeight,
+                      expression: "orderItem.artworkHeight"
+                    }
+                  ],
+                  staticClass: "input",
+                  attrs: { id: "artwork_height", type: "text" },
+                  domProps: { value: _vm.orderItem.artworkHeight },
+                  on: {
+                    keydown: _vm.typingTimeout,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.orderItem,
+                        "artworkHeight",
+                        $event.target.value
+                      )
+                    }
+                  }
                 })
               ])
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("moulding-selector", {
-          attrs: { moulds: _vm.moulds, moulding: _vm.orderItem.moulding },
-          on: { setmoulding: _vm.setMoulding }
-        }),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\tJob type\n\t\t\t")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("mount-selector", {
+        attrs: { mounts: _vm.mounts, mount: _vm.orderItem.mount },
+        on: { setmount: _vm.setMount }
+      }),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "field column is-half" }, [
+          _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
+            _vm._v("\n\t\t\t\tGlazing\n\t\t\t")
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "buttons has-addons" },
-            _vm._l(_vm.job_types, function(type, typeKey) {
-              return _c(
-                "button",
-                {
-                  staticClass: "button",
-                  class: {
-                    "is-info is-selected": _vm.orderItem.jobType == typeKey
-                  },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.setJobType(typeKey)
-                    }
-                  }
-                },
-                [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
-              )
-            }),
-            0
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\tArtwork size\n\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "field column is-one-quarter" }, [
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select" }, [
               _c(
-                "label",
+                "select",
                 {
-                  staticClass: "label is-size-7 has-text-weight-normal",
-                  attrs: { for: "artwork_width" }
-                },
-                [_vm._v("\n\t\t\t\t\t\tWidth (mm)\n\t\t\t\t\t")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "field" }, [
-                _c("div", { staticClass: "control" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.orderItem.artworkWidth,
-                        expression: "orderItem.artworkWidth"
-                      }
-                    ],
-                    staticClass: "input",
-                    attrs: { id: "artwork_width", type: "text" },
-                    domProps: { value: _vm.orderItem.artworkWidth },
-                    on: {
-                      keydown: _vm.typingTimeout,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.orderItem,
-                          "artworkWidth",
-                          $event.target.value
-                        )
-                      }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderItem.glazing,
+                      expression: "orderItem.glazing"
                     }
-                  })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "field column is-one-quarter" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "label is-size-7 has-text-weight-normal",
-                  attrs: { for: "artwork_height" }
-                },
-                [_vm._v("\n\t\t\t\t\t\tHeight (mm)\n\t\t\t\t\t")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "field" }, [
-                _c("div", { staticClass: "control" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.orderItem.artworkHeight,
-                        expression: "orderItem.artworkHeight"
-                      }
-                    ],
-                    staticClass: "input",
-                    attrs: { id: "artwork_height", type: "text" },
-                    domProps: { value: _vm.orderItem.artworkHeight },
-                    on: {
-                      keydown: _vm.typingTimeout,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.orderItem,
-                          "artworkHeight",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("mount-selector", {
-          attrs: { mounts: _vm.mounts, mount: _vm.orderItem.mount },
-          on: { setmount: _vm.setMount }
-        }),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "field column is-half" }, [
-            _c("label", { staticClass: "label", attrs: { for: "glazing" } }, [
-              _vm._v("\n\t\t\t\t\tGlazing\n\t\t\t\t")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("div", { staticClass: "select" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.orderItem.glazing,
-                        expression: "orderItem.glazing"
-                      }
-                    ],
-                    attrs: { id: "glazing" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.orderItem,
-                            "glazing",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.glazings, function(glazing) {
-                      return _c("option", { domProps: { value: glazing.id } }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\t" +
-                            _vm._s(glazing.name) +
-                            "\n\t\t\t\t\t\t\t"
-                        )
-                      ])
-                    })
                   ],
-                  2
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\tFixing\n\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "buttons has-addons" },
-            _vm._l(_vm.fixings, function(fixingOpt, fixingOptKey) {
-              return _c(
-                "button",
-                {
-                  staticClass: "button",
-                  class: {
-                    "is-info is-selected": _vm.orderItem.fixing == fixingOptKey
-                  },
+                  attrs: { id: "glazing" },
                   on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.setFixingType(fixingOptKey)
-                    }
-                  }
-                },
-                [_vm._v("\n\t\t\t\t\t" + _vm._s(fixingOpt.name) + "\n\t\t\t\t")]
-              )
-            }),
-            0
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("\n\t\t\t\tArtwork mounting\n\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "buttons has-addons" },
-            _vm._l(_vm.artwork_mountings, function(
-              artworkMountingValue,
-              artworkMountingKey
-            ) {
-              return _c(
-                "button",
-                {
-                  staticClass: "button",
-                  class: {
-                    "is-info is-selected":
-                      _vm.orderItem.artworkMounting == artworkMountingKey
-                  },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.setArtworkMounting(artworkMountingKey)
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.orderItem,
+                          "glazing",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.getPrice
+                    ]
                   }
                 },
                 [
-                  _vm._v(
-                    "\n\t\t\t\t\t" +
-                      _vm._s(artworkMountingValue.name) +
-                      "\n\t\t\t\t"
-                  )
-                ]
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.glazings, function(glazing) {
+                    return _c("option", { domProps: { value: glazing.id } }, [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(glazing.name) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                ],
+                2
               )
-            }),
-            0
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "columns is-multiline" }, [
-          _c(
-            "div",
-            { staticClass: "field column is-one-third is-one-fifth-desktop" },
-            [
-              _c("label", { staticClass: "label" }, [
-                _vm._v("\n\t\t\t\t\tArtwork Supplied?\n\t\t\t\t")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control" }, [
-                _c("ul", [
-                  _c("li", [
-                    _c("label", { staticClass: "radio" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.orderItem.artworkSupplied,
-                            expression: "orderItem.artworkSupplied"
-                          }
-                        ],
-                        attrs: { type: "radio", value: "0", checked: "" },
-                        domProps: {
-                          checked: _vm._q(_vm.orderItem.artworkSupplied, "0")
-                        },
-                        on: {
-                          change: [
-                            function($event) {
-                              return _vm.$set(
-                                _vm.orderItem,
-                                "artworkSupplied",
-                                "0"
-                              )
-                            },
-                            _vm.getPrice
-                          ]
-                        }
-                      }),
-                      _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("label", { staticClass: "radio" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.orderItem.artworkSupplied,
-                            expression: "orderItem.artworkSupplied"
-                          }
-                        ],
-                        attrs: { type: "radio", value: "1" },
-                        domProps: {
-                          checked: _vm._q(_vm.orderItem.artworkSupplied, "1")
-                        },
-                        on: {
-                          change: [
-                            function($event) {
-                              return _vm.$set(
-                                _vm.orderItem,
-                                "artworkSupplied",
-                                "1"
-                              )
-                            },
-                            _vm.getPrice
-                          ]
-                        }
-                      }),
-                      _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
-                    ])
-                  ])
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "field column is-one-third is-one-fifth-desktop" },
-            [
-              _c("label", { staticClass: "label" }, [
-                _vm._v("\n\t\t\t\t\tBox Frame?\n\t\t\t\t")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control" }, [
-                _c("ul", [
-                  _c("li", [
-                    _c("label", { staticClass: "radio" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.orderItem.boxFrame,
-                            expression: "orderItem.boxFrame"
-                          }
-                        ],
-                        attrs: { type: "radio", value: "0", checked: "" },
-                        domProps: {
-                          checked: _vm._q(_vm.orderItem.boxFrame, "0")
-                        },
-                        on: {
-                          change: [
-                            function($event) {
-                              return _vm.$set(_vm.orderItem, "boxFrame", "0")
-                            },
-                            _vm.getPrice
-                          ]
-                        }
-                      }),
-                      _vm._v("\n\t\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t\t")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("label", { staticClass: "radio" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.orderItem.boxFrame,
-                            expression: "orderItem.boxFrame"
-                          }
-                        ],
-                        attrs: { type: "radio", value: "1" },
-                        domProps: {
-                          checked: _vm._q(_vm.orderItem.boxFrame, "1")
-                        },
-                        on: {
-                          change: [
-                            function($event) {
-                              return _vm.$set(_vm.orderItem, "boxFrame", "1")
-                            },
-                            _vm.getPrice
-                          ]
-                        }
-                      }),
-                      _vm._v("\n\t\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t\t")
-                    ])
-                  ])
-                ])
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "field column is-half" }, [
-            _c(
-              "label",
-              { staticClass: "label", attrs: { for: "foam_board" } },
-              [_vm._v("\n\t\t\t\t\tFoam Board\n\t\t\t\t")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("div", { staticClass: "select" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.orderItem.foamBoard,
-                        expression: "orderItem.foamBoard"
-                      }
-                    ],
-                    attrs: { id: "foam_board" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.orderItem,
-                            "foamBoard",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        _vm.getPrice
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("\n\t\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t\t")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.foam_boards, function(board, boardName) {
-                      return _c("option", { domProps: { value: boardName } }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\t" +
-                            _vm._s(boardName) +
-                            "\n\t\t\t\t\t\t\t"
-                        )
-                      ])
-                    })
-                  ],
-                  2
-                )
-              ])
             ])
           ])
         ])
-      ],
-      1
-    )
-  ])
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", [
+        _c("label", { staticClass: "label" }, [_vm._v("\n\t\t\tFixing\n\t\t")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "buttons has-addons" },
+          _vm._l(_vm.fixings, function(fixingOpt, fixingOptKey) {
+            return _c(
+              "button",
+              {
+                staticClass: "button",
+                class: {
+                  "is-info is-selected": _vm.orderItem.fixing == fixingOptKey
+                },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setFixingType(fixingOptKey)
+                  }
+                }
+              },
+              [_vm._v("\n\t\t\t\t" + _vm._s(fixingOpt.name) + "\n\t\t\t")]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", [
+        _c("label", { staticClass: "label" }, [
+          _vm._v("\n\t\t\tArtwork mounting\n\t\t")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "buttons has-addons" },
+          _vm._l(_vm.artwork_mountings, function(
+            artworkMountingValue,
+            artworkMountingKey
+          ) {
+            return _c(
+              "button",
+              {
+                staticClass: "button",
+                class: {
+                  "is-info is-selected":
+                    _vm.orderItem.artworkMounting == artworkMountingKey
+                },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setArtworkMounting(artworkMountingKey)
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n\t\t\t\t" + _vm._s(artworkMountingValue.name) + "\n\t\t\t"
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns is-multiline" }, [
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\tArtwork Supplied?\n\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.orderItem.artworkSupplied,
+                          expression: "orderItem.artworkSupplied"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: {
+                        checked: _vm._q(_vm.orderItem.artworkSupplied, "0")
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            return _vm.$set(
+                              _vm.orderItem,
+                              "artworkSupplied",
+                              "0"
+                            )
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.orderItem.artworkSupplied,
+                          expression: "orderItem.artworkSupplied"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: {
+                        checked: _vm._q(_vm.orderItem.artworkSupplied, "1")
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            return _vm.$set(
+                              _vm.orderItem,
+                              "artworkSupplied",
+                              "1"
+                            )
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field column is-one-third is-one-fifth-desktop" },
+          [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("\n\t\t\t\tBox Frame?\n\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.orderItem.boxFrame,
+                          expression: "orderItem.boxFrame"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "0", checked: "" },
+                      domProps: {
+                        checked: _vm._q(_vm.orderItem.boxFrame, "0")
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            return _vm.$set(_vm.orderItem, "boxFrame", "0")
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\tNo\n\t\t\t\t\t\t")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("label", { staticClass: "radio" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.orderItem.boxFrame,
+                          expression: "orderItem.boxFrame"
+                        }
+                      ],
+                      attrs: { type: "radio", value: "1" },
+                      domProps: {
+                        checked: _vm._q(_vm.orderItem.boxFrame, "1")
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            return _vm.$set(_vm.orderItem, "boxFrame", "1")
+                          },
+                          _vm.getPrice
+                        ]
+                      }
+                    }),
+                    _vm._v("\n\t\t\t\t\t\t\tYes\n\t\t\t\t\t\t")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "field column is-half" }, [
+          _c("label", { staticClass: "label", attrs: { for: "foam_board" } }, [
+            _vm._v("\n\t\t\t\tFoam Board\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderItem.foamBoard,
+                      expression: "orderItem.foamBoard"
+                    }
+                  ],
+                  attrs: { id: "foam_board" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.orderItem,
+                          "foamBoard",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.getPrice
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("\n\t\t\t\t\t\t\tNone\n\t\t\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.foam_boards, function(board, boardName) {
+                    return _c("option", { domProps: { value: boardName } }, [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(boardName) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -21698,12 +21713,71 @@ var staticRenderFns = [
             staticClass: "label has-text-left",
             attrs: { for: "artwork_description" }
           },
-          [_vm._v("\n\t\t\t\t\tArtwork description\n\t\t\t\t")]
+          [_vm._v("\n\t\t\t\tArtwork description\n\t\t\t")]
         )
       ]
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "modal", class: { "is-active": this.orderType == "" } },
+    [
+      _c("div", { staticClass: "modal-background" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-card" }, [
+        _c("section", { staticClass: "modal-card-body" }, [
+          _c("h4", { staticClass: "title is-4 has-text-centered" }, [
+            _vm._v("\n\t\t\t\tChoose the order type\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "buttons has-addons is-centered" },
+            _vm._l(_vm.orderTypes, function(type, typeKey) {
+              return _c(
+                "button",
+                {
+                  staticClass: "button",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.setOrderType(typeKey)
+                    }
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
+              )
+            }),
+            0
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22921,6 +22995,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JobTypeSelector.vue?vue&type=template&id=4bda1c12& */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&");
+/* harmony import */ var _JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JobTypeSelector.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PriceCalculator/JobTypeSelector.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./JobTypeSelector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./JobTypeSelector.vue?vue&type=template&id=4bda1c12& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
