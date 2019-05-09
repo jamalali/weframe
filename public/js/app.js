@@ -2233,13 +2233,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: {
-    moulds: {}
+    moulds: {},
+    moulding: 0
+  },
+  watch: {
+    moulding: function moulding(newMoulding) {
+      if (newMoulding == 0) {
+        this.search = '';
+      }
+    }
   },
   methods: {
     setResult: function setResult(result, result_id) {
       this.search = result.name;
-      this.isOpen = false; //console.log(result_id)
-
+      this.isOpen = false;
       this.$emit('setmoulding', result_id);
     },
     onChange: function onChange(event) {
@@ -2247,6 +2254,7 @@ __webpack_require__.r(__webpack_exports__);
         this.isOpen = true;
         this.filterResults();
       } else {
+        this.$emit('setmoulding', 0);
         this.isOpen = false;
       }
     },
@@ -23083,6 +23091,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 function orderItemDefaults() {
   return {
     jobType: 'walk_in',
+    moulding: 0,
     mount: {
       type: 'none'
     },

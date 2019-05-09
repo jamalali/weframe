@@ -52,15 +52,20 @@
 			}
 		},
 		props: {
-			moulds: {}
+			moulds: {},
+			moulding: 0
+		},
+		watch: {
+			moulding: function(newMoulding) {
+				if (newMoulding == 0) {
+					this.search = ''
+				}
+			}
 		},
 		methods: {
 			setResult(result, result_id) {
 				this.search = result.name
 				this.isOpen = false
-				
-				//console.log(result_id)
-				
 				this.$emit('setmoulding', result_id)
 			},
 			
@@ -69,6 +74,7 @@
 					this.isOpen = true
 					this.filterResults()
 				} else {
+					this.$emit('setmoulding', 0)
 					this.isOpen = false
 				}
 			},

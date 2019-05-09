@@ -6,6 +6,7 @@ Vue.use(Vuex);
 function orderItemDefaults() {
 	return {
 		jobType: 'walk_in',
+		moulding: 0,
 		mount: {
 			type: 'none'
 		},
