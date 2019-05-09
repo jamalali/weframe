@@ -71,6 +71,7 @@
 			
 			<mount-selector
 				v-bind:mounts="mounts"
+				v-bind:mount="orderItem.mount"
 				v-on:setmount="setMount"
 			></mount-selector>
 			

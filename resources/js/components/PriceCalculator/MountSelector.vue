@@ -135,14 +135,14 @@
 				</h6>
 
 				<div class="columns is-multiline">
-					<div class="column is-half" v-for="(mount, mountsIndex) in mounts" style="margin-bottom:20px;">
+					<div class="column is-half" v-for="mountVal in mounts" style="margin-bottom:20px;">
 						<strong>
-							{{ mount.name }}
+							{{ mountVal.name }}
 						</strong>
 
-						<div v-for="(variant, variantsIndex) in mount.variants">
+						<div v-for="(variant, variantsIndex) in mountVal.variants">
 							<label class="radio">
-								  <input type="radio" name="top_mount_colour" v-model="top_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="returnMount">
+								  <input type="radio" name="top_mount_colour" v-model="top_mount_colour" :value="mountVal.id + '-' + variant.id" v-on:change="returnMount">
 								  {{ variant.colour }}
 							</label>
 						</div>
@@ -158,14 +158,14 @@
 				</h6>
 
 				<div class="columns is-multiline">
-					<div class="column is-half" v-for="mount in mounts" style="margin-bottom:20px;">
+					<div class="column is-half" v-for="mountVal in mounts" style="margin-bottom:20px;">
 						<strong>
-							{{ mount.name }}
+							{{ mountVal.name }}
 						</strong>
 
-						<div v-for="variant in mount.variants">
+						<div v-for="variant in mountVal.variants">
 							<label class="radio">
-								  <input type="radio" name="bottom_mount_colour" v-model="bottom_mount_colour" :value="mount.id + '-' + variant.id" v-on:change="returnMount">
+								  <input type="radio" name="bottom_mount_colour" v-model="bottom_mount_colour" :value="mountVal.id + '-' + variant.id" v-on:change="returnMount">
 								  {{ variant.colour }}
 							</label>
 						</div>
@@ -177,26 +177,38 @@
 	</div>
 </template>
 <script>
+	function dataDefaults(mounts) {
+		return {
+			mountType			: 'none',
+			equal_mount_borders	: true,
+			oval_aperture		: false,
+
+			top_mount_size_top		: 50,
+			top_mount_size_right	: 50,
+			top_mount_size_bottom	: 50,
+			top_mount_size_left		: 50,
+
+			bottom_mount_size : 5,
+
+			top_mount_colour		: mounts[0]['id'] + '-' + mounts[0].variants[0]['id'],
+			bottom_mount_colour		: mounts[0]['id'] + '-' + mounts[0].variants[0]['id']
+		}
+	}
+	
     export default {
 		data() {
-			return {
-				mountType			: 'none',
-				equal_mount_borders	: true,
-				oval_aperture		: false,
-				
-				top_mount_size_top		: 50,
-				top_mount_size_right	: 50,
-				top_mount_size_bottom	: 50,
-				top_mount_size_left		: 50,
-				
-				bottom_mount_size : 5,
-				
-				top_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
-				bottom_mount_colour		: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
-			}
+			return dataDefaults(this.mounts)
 		},
 		props: {
 			mounts: '',
+			mount: {}
+		},
+		watch: {
+			mount: function(newMount) {
+				if (newMount.type == 'none') {
+					Object.assign(this.$data, dataDefaults(this.mounts))
+				}
+			}
 		},
 		computed: {
 			topMountColourTitle: function() {
@@ -246,14 +258,14 @@
 				
 				this.$nextTick(function () {
 					
-					const mount = {}
+					const newMount = {}
 					
 					// Mount params
-					mount.type = this.mountType
-					mount.oval_aperture = this.oval_aperture
+					newMount.type = this.mountType
+					newMount.oval_aperture = this.oval_aperture
 					
 					if (this.mountType != 'none') {
-						mount.top = {
+						newMount.top = {
 							sizes: {
 								top		: this.top_mount_size_top,
 								right	: this.top_mount_size_right,
@@ -265,21 +277,21 @@
 					}
 					
 					if (this.mountType == 'double') {
-						mount.bottom = {
+						newMount.bottom = {
 							size	: this.bottom_mount_size,
 							colour	: this.bottom_mount_colour
 						}
 					}
 					
 //					if (this.mountType == 'multimount') {
-//						mount.num_apertures = this.$refs['num_apertures']['value']
-//						mount.gap_size = this.$refs['gap_size']['value']
-//						mount.colour = this.top_mount_colour
+//						newMount.num_apertures = this.$refs['num_apertures']['value']
+//						newMount.gap_size = this.$refs['gap_size']['value']
+//						newMount.colour = this.top_mount_colour
 //					}
 					
-					this.$emit('setmount', mount)
+					this.$emit('setmount', newMount)
 					
-					//console.log(mount)
+					//console.log(newMount)
 				})
 			}
 		}

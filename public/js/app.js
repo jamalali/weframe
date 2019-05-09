@@ -2096,6 +2096,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2464,23 +2465,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+function dataDefaults(mounts) {
+  return {
+    mountType: 'none',
+    equal_mount_borders: true,
+    oval_aperture: false,
+    top_mount_size_top: 50,
+    top_mount_size_right: 50,
+    top_mount_size_bottom: 50,
+    top_mount_size_left: 50,
+    bottom_mount_size: 5,
+    top_mount_colour: mounts[0]['id'] + '-' + mounts[0].variants[0]['id'],
+    bottom_mount_colour: mounts[0]['id'] + '-' + mounts[0].variants[0]['id']
+  };
+}
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      mountType: 'none',
-      equal_mount_borders: true,
-      oval_aperture: false,
-      top_mount_size_top: 50,
-      top_mount_size_right: 50,
-      top_mount_size_bottom: 50,
-      top_mount_size_left: 50,
-      bottom_mount_size: 5,
-      top_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id'],
-      bottom_mount_colour: this.mounts[0]['id'] + '-' + this.mounts[0].variants[0]['id']
-    };
+    return dataDefaults(this.mounts);
   },
   props: {
-    mounts: ''
+    mounts: '',
+    mount: {}
+  },
+  watch: {
+    mount: function mount(newMount) {
+      if (newMount.type == 'none') {
+        Object.assign(this.$data, dataDefaults(this.mounts));
+      }
+    }
   },
   computed: {
     topMountColourTitle: function topMountColourTitle() {
@@ -2539,13 +2552,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     returnMount: function returnMount() {
       this.$nextTick(function () {
-        var mount = {}; // Mount params
+        var newMount = {}; // Mount params
 
-        mount.type = this.mountType;
-        mount.oval_aperture = this.oval_aperture;
+        newMount.type = this.mountType;
+        newMount.oval_aperture = this.oval_aperture;
 
         if (this.mountType != 'none') {
-          mount.top = {
+          newMount.top = {
             sizes: {
               top: this.top_mount_size_top,
               right: this.top_mount_size_right,
@@ -2557,18 +2570,18 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (this.mountType == 'double') {
-          mount.bottom = {
+          newMount.bottom = {
             size: this.bottom_mount_size,
             colour: this.bottom_mount_colour
           };
         } //					if (this.mountType == 'multimount') {
-        //						mount.num_apertures = this.$refs['num_apertures']['value']
-        //						mount.gap_size = this.$refs['gap_size']['value']
-        //						mount.colour = this.top_mount_colour
+        //						newMount.num_apertures = this.$refs['num_apertures']['value']
+        //						newMount.gap_size = this.$refs['gap_size']['value']
+        //						newMount.colour = this.top_mount_colour
         //					}
 
 
-        this.$emit('setmount', mount); //console.log(mount)
+        this.$emit('setmount', newMount); //console.log(newMount)
       });
     }
   }
@@ -21297,7 +21310,7 @@ var render = function() {
         _c("hr"),
         _vm._v(" "),
         _c("mount-selector", {
-          attrs: { mounts: _vm.mounts },
+          attrs: { mounts: _vm.mounts, mount: _vm.orderItem.mount },
           on: { setmount: _vm.setMount }
         }),
         _vm._v(" "),
@@ -22186,7 +22199,7 @@ var render = function() {
             _c(
               "div",
               { staticClass: "columns is-multiline" },
-              _vm._l(_vm.mounts, function(mount, mountsIndex) {
+              _vm._l(_vm.mounts, function(mountVal) {
                 return _c(
                   "div",
                   {
@@ -22197,12 +22210,12 @@ var render = function() {
                     _c("strong", [
                       _vm._v(
                         "\n\t\t\t\t\t\t\t" +
-                          _vm._s(mount.name) +
+                          _vm._s(mountVal.name) +
                           "\n\t\t\t\t\t\t"
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._l(mount.variants, function(variant, variantsIndex) {
+                    _vm._l(mountVal.variants, function(variant, variantsIndex) {
                       return _c("div", [
                         _c("label", { staticClass: "radio" }, [
                           _c("input", {
@@ -22216,17 +22229,17 @@ var render = function() {
                             ],
                             attrs: { type: "radio", name: "top_mount_colour" },
                             domProps: {
-                              value: mount.id + "-" + variant.id,
+                              value: mountVal.id + "-" + variant.id,
                               checked: _vm._q(
                                 _vm.top_mount_colour,
-                                mount.id + "-" + variant.id
+                                mountVal.id + "-" + variant.id
                               )
                             },
                             on: {
                               change: [
                                 function($event) {
                                   _vm.top_mount_colour =
-                                    mount.id + "-" + variant.id
+                                    mountVal.id + "-" + variant.id
                                 },
                                 _vm.returnMount
                               ]
@@ -22260,7 +22273,7 @@ var render = function() {
             _c(
               "div",
               { staticClass: "columns is-multiline" },
-              _vm._l(_vm.mounts, function(mount) {
+              _vm._l(_vm.mounts, function(mountVal) {
                 return _c(
                   "div",
                   {
@@ -22271,12 +22284,12 @@ var render = function() {
                     _c("strong", [
                       _vm._v(
                         "\n\t\t\t\t\t\t\t" +
-                          _vm._s(mount.name) +
+                          _vm._s(mountVal.name) +
                           "\n\t\t\t\t\t\t"
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._l(mount.variants, function(variant) {
+                    _vm._l(mountVal.variants, function(variant) {
                       return _c("div", [
                         _c("label", { staticClass: "radio" }, [
                           _c("input", {
@@ -22293,17 +22306,17 @@ var render = function() {
                               name: "bottom_mount_colour"
                             },
                             domProps: {
-                              value: mount.id + "-" + variant.id,
+                              value: mountVal.id + "-" + variant.id,
                               checked: _vm._q(
                                 _vm.bottom_mount_colour,
-                                mount.id + "-" + variant.id
+                                mountVal.id + "-" + variant.id
                               )
                             },
                             on: {
                               change: [
                                 function($event) {
                                   _vm.bottom_mount_colour =
-                                    mount.id + "-" + variant.id
+                                    mountVal.id + "-" + variant.id
                                 },
                                 _vm.returnMount
                               ]
