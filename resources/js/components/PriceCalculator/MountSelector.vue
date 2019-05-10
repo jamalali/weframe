@@ -230,16 +230,22 @@
 					clearTimeout(this.timer);
 					this.timer = null;
 				}
-				
+
 				this.timer = setTimeout(() => {
-					if (this.equal_mount_borders) {
-						if (position !== 'top')		{ this.top_mount_size_top = event.target.value }
-						if (position !== 'right')	{ this.top_mount_size_right = event.target.value }
-						if (position !== 'bottom')	{ this.top_mount_size_bottom = event.target.value }
-						if (position !== 'left')	{ this.top_mount_size_left = event.target.value }
+
+					let value = event.target.value
+
+					if (value.length > 0) {
+
+						if (this.equal_mount_borders) {
+							if (position !== 'top')		{ this.top_mount_size_top = value }
+							if (position !== 'right')	{ this.top_mount_size_right = value }
+							if (position !== 'bottom')	{ this.top_mount_size_bottom = value }
+							if (position !== 'left')	{ this.top_mount_size_left = value }
+						}
+
+						this.returnMount()
 					}
-					
-					this.returnMount()
 				}, 500);
 			},
 			

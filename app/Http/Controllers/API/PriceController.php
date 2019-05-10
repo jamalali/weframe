@@ -99,8 +99,17 @@ class PriceController extends Controller {
 			case 'oval':
 				$top_mount = $mount->top;
 				
-				$this->glass_width	= $artwork_width + $top_mount->sizes->left + $top_mount->sizes->right;
-				$this->glass_height = $artwork_height + $top_mount->sizes->top + $top_mount->sizes->bottom;
+				$glass_width = $artwork_width;
+				$glass_height = $artwork_height;
+				
+				if (is_numeric($top_mount->sizes->left))	{ $glass_width = $glass_width + $top_mount->sizes->left; }
+				if (is_numeric($top_mount->sizes->right))	{ $glass_width = $glass_width + $top_mount->sizes->right; }
+				
+				if (is_numeric($top_mount->sizes->top))		{ $glass_height	= $glass_height + $top_mount->sizes->top; }
+				if (is_numeric($top_mount->sizes->bottom))	{ $glass_height	= $glass_height + $top_mount->sizes->bottom; }
+				
+				$this->glass_width	= $glass_width;
+				$this->glass_height = $glass_height;
 				
 				break;
 			

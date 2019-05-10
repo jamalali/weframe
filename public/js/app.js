@@ -2561,25 +2561,29 @@ function dataDefaults(mounts) {
       }
 
       this.timer = setTimeout(function () {
-        if (_this.equal_mount_borders) {
-          if (position !== 'top') {
-            _this.top_mount_size_top = event.target.value;
+        var value = event.target.value;
+
+        if (value.length > 0) {
+          if (_this.equal_mount_borders) {
+            if (position !== 'top') {
+              _this.top_mount_size_top = value;
+            }
+
+            if (position !== 'right') {
+              _this.top_mount_size_right = value;
+            }
+
+            if (position !== 'bottom') {
+              _this.top_mount_size_bottom = value;
+            }
+
+            if (position !== 'left') {
+              _this.top_mount_size_left = value;
+            }
           }
 
-          if (position !== 'right') {
-            _this.top_mount_size_right = event.target.value;
-          }
-
-          if (position !== 'bottom') {
-            _this.top_mount_size_bottom = event.target.value;
-          }
-
-          if (position !== 'left') {
-            _this.top_mount_size_left = event.target.value;
-          }
+          _this.returnMount();
         }
-
-        _this.returnMount();
       }, 500);
     },
     typingTimeout: function typingTimeout(event) {
