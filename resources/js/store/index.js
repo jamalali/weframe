@@ -6,6 +6,7 @@ Vue.use(Vuex);
 function orderItemDefaults() {
 	return {
 		jobType: 'walk_in',
+		artworkDescription: '',
 		moulding: 0,
 		mount: {
 			type: 'none'
@@ -26,6 +27,24 @@ export const store = new Vuex.Store({
 		orderItemPrice: {}
 	},
 	getters: {
+		
+		basketTotal: state => {
+			
+			let total = 0
+			
+			for (const key in state.basket) {
+				let line = state.basket[key]
+				let lineTotal = line.total
+				
+				lineTotal = parseFloat(lineTotal)
+				
+				if (!isNaN(lineTotal)) {
+					total = total + lineTotal
+				}
+			}
+			
+			return total.toFixed(2);
+		},
 		
 		orderItemTotal: state => {
 			

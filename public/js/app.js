@@ -1703,6 +1703,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {},
@@ -1710,7 +1718,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     basket: function basket(state) {
       return state.basket;
     }
-  }))
+  }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['basketTotal']))
 });
 
 /***/ }),
@@ -1871,7 +1879,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     addToBasket: function addToBasket() {
-      this.$store.dispatch('addToBasket');
+      if (this.$store.state.orderItem.artworkDescription.length == 0) {
+        alert('Please enter the artwork description');
+        return false;
+      } else {
+        this.$store.dispatch('addToBasket');
+      }
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
@@ -20916,19 +20929,39 @@ var render = function() {
           _c(
             "div",
             { staticClass: "columns is-multiline" },
-            _vm._l(_vm.basket, function(line, key) {
-              return _c("div", { staticClass: "column is-full" }, [
-                _vm._v("\n\t\t\t\t" + _vm._s(key) + "\n\t\t\t\t"),
-                _c("span", { staticClass: "is-pulled-right" }, [
+            [
+              _vm._l(_vm.basket, function(line, key) {
+                return _c("div", { staticClass: "column is-full" }, [
+                  _vm._v(
+                    "\n\t\t\t\t" +
+                      _vm._s(line.artworkDescription) +
+                      "\n\t\t\t\t"
+                  ),
+                  _c("span", { staticClass: "is-pulled-right" }, [
+                    _vm._v(
+                      "\n\t\t\t\t\t" +
+                        _vm._s(_vm._f("currency")(line.total)) +
+                        "\n\t\t\t\t"
+                    )
+                  ])
+                ])
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "column is-full" }, [
+                _c("span", { staticClass: "title is-5" }, [
+                  _vm._v("\n\t\t\t\t\tTotal\n\t\t\t\t")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "title is-5 is-pulled-right" }, [
                   _vm._v(
                     "\n\t\t\t\t\t" +
-                      _vm._s(_vm._f("currency")(line.total)) +
+                      _vm._s(_vm._f("currency")(_vm.basketTotal)) +
                       "\n\t\t\t\t"
                   )
                 ])
               ])
-            }),
-            0
+            ],
+            2
           )
         ])
       : _c("p", [_vm._v("\n\t\tempty\n\t")])
@@ -21223,9 +21256,29 @@ var render = function() {
           _c("div", { staticClass: "field" }, [
             _c("p", { staticClass: "control" }, [
               _c("input", {
-                ref: "artwork_description",
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.orderItem.artworkDescription,
+                    expression: "orderItem.artworkDescription"
+                  }
+                ],
                 staticClass: "input",
-                attrs: { type: "text", id: "artwork_description" }
+                attrs: { type: "text", id: "artwork_description" },
+                domProps: { value: _vm.orderItem.artworkDescription },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.orderItem,
+                      "artworkDescription",
+                      $event.target.value
+                    )
+                  }
+                }
               })
             ])
           ])
@@ -23251,6 +23304,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 function orderItemDefaults() {
   return {
     jobType: 'walk_in',
+    artworkDescription: '',
     moulding: 0,
     mount: {
       type: 'none'
@@ -23271,6 +23325,21 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     orderItemPrice: {}
   },
   getters: {
+    basketTotal: function basketTotal(state) {
+      var total = 0;
+
+      for (var key in state.basket) {
+        var line = state.basket[key];
+        var lineTotal = line.total;
+        lineTotal = parseFloat(lineTotal);
+
+        if (!isNaN(lineTotal)) {
+          total = total + lineTotal;
+        }
+      }
+
+      return total.toFixed(2);
+    },
     orderItemTotal: function orderItemTotal(state) {
       var total = 0;
 

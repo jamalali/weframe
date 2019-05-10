@@ -15,7 +15,7 @@
 			<div class="field-body">
 				<div class="field">
 					<p class="control">
-						<input class="input" type="text" ref="artwork_description" id="artwork_description">
+						<input class="input" type="text" v-model="orderItem.artworkDescription" id="artwork_description">
 					</p>
 				</div>
 			</div>

@@ -38,7 +38,12 @@
     export default {
 		methods: {
 			addToBasket: function() {
-				this.$store.dispatch('addToBasket')
+				if (this.$store.state.orderItem.artworkDescription.length == 0) {
+					alert('Please enter the artwork description')
+					return false
+				} else {
+					this.$store.dispatch('addToBasket')
+				}
 			}
 		},
 		computed: {
