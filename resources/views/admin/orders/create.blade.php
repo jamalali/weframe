@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
+<order-type-selector
+	v-bind:order_types="{{ $order_types }}"
+></order-type-selector>
+
 <h1 class="title is-1">
 	New order
 </h1>
@@ -12,7 +16,6 @@
 			v-bind:mounts="{{ $mounts }}"
 			v-bind:foam_boards="{{ $foam_boards }}"
 			v-bind:moulds="{{ $moulds }}"
-			v-bind:job_types="{{ $job_types }}"
 			v-bind:fixings="{{ $fixings }}"
 			v-bind:artwork_mountings="{{ $artwork_mountings }}"
 		></price-calculator>

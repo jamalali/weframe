@@ -1,11 +1,6 @@
 <template>
 	<div id="price-calculator">
 		
-		<job-type-selector
-			v-bind:orderTypes="job_types"
-			v-model="orderType"
-		></job-type-selector>
-		
 		<div class="field is-horizontal">
 			<div class="field-label is-normal" style="flex-grow: 2;">
 				<label class="label has-text-left" for="artwork_description">
@@ -185,21 +180,17 @@
 		</div>
 	</div>
 </template>
-
 <script>
 	import MountSelector from './MountSelector.vue';
 	import MouldingSelector from './MouldingSelector.vue';
-	import JobTypeSelector from './JobTypeSelector.vue';
 	import { mapState } from 'vuex'
     export default {
 		components: {
 			'mount-selector': MountSelector,
-			'moulding-selector': MouldingSelector,
-			'job-type-selector': JobTypeSelector
+			'moulding-selector': MouldingSelector
 		},
 		data() {
 			return {
-				orderType: ''
 			}
 		},
 		props: {
@@ -207,14 +198,8 @@
 			glazings			: '',
 			foam_boards			: '',
 			moulds				: {},
-			job_types			: '',
 			fixings				: '',
 			artwork_mountings	: ''
-		},
-		watch: {
-			orderType: function(newOrderType) {
-				this.orderItem.jobType = newOrderType
-			}
 		},
 		methods: {
 			setMoulding: function(moulding_id) {
@@ -237,11 +222,6 @@
 				this.getPrice()
 			},
 			
-			setJobType: function(jobTypeKey) {
-				this.orderItem.jobType = jobTypeKey
-				this.getPrice()
-			},
-			
 			typingTimeout: function(event) {
 				
 				if (this.timer) {
@@ -256,7 +236,7 @@
 			
 			getPrice: function() {
 				
-				this.$nextTick(function () {
+				this.$nextTick(function() {
 					
 					// Required options - check them
 					if (this.orderItem.moulding == 0) {

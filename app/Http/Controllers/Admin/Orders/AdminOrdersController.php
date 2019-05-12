@@ -20,7 +20,7 @@ class AdminOrdersController extends Controller {
 		$glazings			= Glazing::all();
 		$foam_boards		= config('pricing.foam_board');
 		$moulds				= config('moulds');
-		$job_types			= config('pricing.job_types');
+		$order_types		= config('pricing.order_types');
 		$fixings			= config('pricing.fixings');
 		$artwork_mountings	= config('pricing.artwork_mountings');
 		
@@ -35,7 +35,7 @@ class AdminOrdersController extends Controller {
 			'glazings'			=> $glazings,
 			'foam_boards'		=> json_encode($foam_boards),
 			'moulds'			=> json_encode($moulds),
-			'job_types'			=> json_encode($job_types),
+			'order_types'			=> json_encode($order_types),
 			'fixings'			=> json_encode($fixings),
 			'artwork_mountings'	=> json_encode($artwork_mountings)
 		]);

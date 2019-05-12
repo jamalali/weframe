@@ -4,12 +4,12 @@
 			Moulding
 		</label>
 		<div class="control autocomplete">
-			<input class="input" type="text" v-model="search" @input="onChange" />
+			<input class="input" type="text" id="moulding" v-model="search" @input="onChange" />
 			<ul v-show="isOpen" class="autocomplete-results">
 				<li class="autocomplete-result" v-for="(result, i) in results" :key="i" @click="setResult(result, i)">
 					{{ result.name }}
 				</li>
-			  </ul>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -89,7 +89,6 @@
 					
 					if (name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
 						filtered[key] = obj
-						//filtered.push(obj)
 					}
 				}
 				

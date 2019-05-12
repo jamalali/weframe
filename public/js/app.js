@@ -1711,9 +1711,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {},
+  methods: {
+    createOrder: function createOrder() {
+      this.$store.dispatch('createOrder');
+    }
+  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     basket: function basket(state) {
       return state.basket;
@@ -1896,6 +1904,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    order_types: ''
+  },
+  methods: {
+    setOrderType: function setOrderType(typeKey) {
+      this.$store.dispatch('setOrderType', typeKey);
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    orderType: function orderType(state) {
+      return state.orderType;
+    }
+  }))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/Index.vue?vue&type=script&lang=js& ***!
@@ -1907,8 +1965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MountSelector.vue */ "./resources/js/components/PriceCalculator/MountSelector.vue");
 /* harmony import */ var _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MouldingSelector.vue */ "./resources/js/components/PriceCalculator/MouldingSelector.vue");
-/* harmony import */ var _JobTypeSelector_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./JobTypeSelector.vue */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2095,40 +2152,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     'mount-selector': _MountSelector_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'moulding-selector': _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'job-type-selector': _JobTypeSelector_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'moulding-selector': _MouldingSelector_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
-    return {
-      orderType: ''
-    };
+    return {};
   },
   props: {
     mounts: '',
     glazings: '',
     foam_boards: '',
     moulds: {},
-    job_types: '',
     fixings: '',
     artwork_mountings: ''
-  },
-  watch: {
-    orderType: function orderType(newOrderType) {
-      this.orderItem.jobType = newOrderType;
-    }
   },
   methods: {
     setMoulding: function setMoulding(moulding_id) {
@@ -2145,10 +2186,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     setFixingType: function setFixingType(fixingOptKey) {
       this.orderItem.fixing = fixingOptKey;
-      this.getPrice();
-    },
-    setJobType: function setJobType(jobTypeKey) {
-      this.orderItem.jobType = jobTypeKey;
       this.getPrice();
     },
     typingTimeout: function typingTimeout(event) {
@@ -2176,55 +2213,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])({
     orderItem: function orderItem(state) {
       return state.orderItem;
     }
   }))
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  model: {
-    prop: 'orderType',
-    event: 'clicked'
-  },
-  props: {
-    orderTypes: {},
-    orderType: String
-  },
-  methods: {
-    setOrderType: function setOrderType(typeKey) {
-      this.$emit('clicked', typeKey);
-    }
-  }
 });
 
 /***/ }),
@@ -2324,7 +2317,7 @@ __webpack_require__.r(__webpack_exports__);
         var name = obj.name;
 
         if (name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-          filtered[key] = obj; //filtered.push(obj)
+          filtered[key] = obj;
         }
       }
 
@@ -20959,6 +20952,17 @@ var render = function() {
                       "\n\t\t\t\t"
                   )
                 ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "column is-full" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button is-success",
+                    on: { click: _vm.createOrder }
+                  },
+                  [_vm._v("\n\t\t\t\t\tCreate order\n\t\t\t\t")]
+                )
               ])
             ],
             2
@@ -21219,6 +21223,65 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "modal", class: { "is-active": _vm.orderType == "0" } },
+    [
+      _c("div", { staticClass: "modal-background" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-card" }, [
+        _c("section", { staticClass: "modal-card-body" }, [
+          _c("h4", { staticClass: "title is-4 has-text-centered" }, [
+            _vm._v("\n\t\t\t\tChoose the order type\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "buttons has-addons is-centered" },
+            _vm._l(_vm.order_types, function(type) {
+              return _c(
+                "button",
+                {
+                  staticClass: "button",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.setOrderType(type.id)
+                    }
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
+              )
+            }),
+            0
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/Index.vue?vue&type=template&id=325a8a73& ***!
@@ -21238,17 +21301,6 @@ var render = function() {
     "div",
     { attrs: { id: "price-calculator" } },
     [
-      _c("job-type-selector", {
-        attrs: { orderTypes: _vm.job_types },
-        model: {
-          value: _vm.orderType,
-          callback: function($$v) {
-            _vm.orderType = $$v
-          },
-          expression: "orderType"
-        }
-      }),
-      _vm._v(" "),
       _c("div", { staticClass: "field is-horizontal" }, [
         _vm._m(0),
         _vm._v(" "),
@@ -21782,65 +21834,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&":
-/*!**********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12& ***!
-  \**********************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "modal", class: { "is-active": this.orderType == "" } },
-    [
-      _c("div", { staticClass: "modal-background" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "modal-card" }, [
-        _c("section", { staticClass: "modal-card-body" }, [
-          _c("h4", { staticClass: "title is-4 has-text-centered" }, [
-            _vm._v("\n\t\t\t\tChoose the order type\n\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "buttons has-addons is-centered" },
-            _vm._l(_vm.orderTypes, function(type, typeKey) {
-              return _c(
-                "button",
-                {
-                  staticClass: "button",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.setOrderType(typeKey)
-                    }
-                  }
-                },
-                [_vm._v("\n\t\t\t\t\t" + _vm._s(type.label) + "\n\t\t\t\t")]
-              )
-            }),
-            0
-          )
-        ])
-      ])
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PriceCalculator/MouldingSelector.vue?vue&type=template&id=3dd98525& ***!
@@ -21872,7 +21865,7 @@ var render = function() {
           }
         ],
         staticClass: "input",
-        attrs: { type: "text" },
+        attrs: { type: "text", id: "moulding" },
         domProps: { value: _vm.search },
         on: {
           input: [
@@ -22691,6 +22684,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('price-calculator', __webpa
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('order-item-breakdown', __webpack_require__(/*! ./components/OrderItemBreakdown.vue */ "./resources/js/components/OrderItemBreakdown.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('mount-variants', __webpack_require__(/*! ./components/MountVariants.vue */ "./resources/js/components/MountVariants.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('basket', __webpack_require__(/*! ./components/Basket.vue */ "./resources/js/components/Basket.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('order-type-selector', __webpack_require__(/*! ./components/OrderTypeSelector.vue */ "./resources/js/components/OrderTypeSelector.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('keyToLabel', function (value) {
   if (!value) return '';
   value = value.toString();
@@ -22988,6 +22982,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/OrderTypeSelector.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/OrderTypeSelector.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderTypeSelector.vue?vue&type=template&id=6a04054c& */ "./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c&");
+/* harmony import */ var _OrderTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderTypeSelector.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _OrderTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/OrderTypeSelector.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./OrderTypeSelector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OrderTypeSelector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./OrderTypeSelector.vue?vue&type=template&id=6a04054c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OrderTypeSelector.vue?vue&type=template&id=6a04054c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderTypeSelector_vue_vue_type_template_id_6a04054c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/PriceCalculator/Index.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/PriceCalculator/Index.vue ***!
@@ -23052,75 +23115,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_325a8a73___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue":
-/*!*********************************************************************!*\
-  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JobTypeSelector.vue?vue&type=template&id=4bda1c12& */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&");
-/* harmony import */ var _JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JobTypeSelector.vue?vue&type=script&lang=js& */ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/PriceCalculator/JobTypeSelector.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./JobTypeSelector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&":
-/*!****************************************************************************************************!*\
-  !*** ./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12& ***!
-  \****************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./JobTypeSelector.vue?vue&type=template&id=4bda1c12& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PriceCalculator/JobTypeSelector.vue?vue&type=template&id=4bda1c12&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JobTypeSelector_vue_vue_type_template_id_4bda1c12___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -23303,7 +23297,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
 function orderItemDefaults() {
   return {
-    jobType: 'walk_in',
     artworkDescription: '',
     moulding: 0,
     mount: {
@@ -23322,7 +23315,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     orderItem: orderItemDefaults(),
     basket: [],
-    orderItemPrice: {}
+    orderItemPrice: {},
+    orderType: '0'
   },
   getters: {
     basketTotal: function basketTotal(state) {
@@ -23368,23 +23362,42 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     }
   },
   actions: {
-    updateOrderItem: function updateOrderItem(_ref, orderItem) {
+    setOrderType: function setOrderType(_ref, orderType) {
       var commit = _ref.commit;
+      commit('orderType', orderType);
+    },
+    updateOrderItem: function updateOrderItem(_ref2, orderItem) {
+      var state = _ref2.state,
+          commit = _ref2.commit;
+      state.orderItem.orderType = state.orderType;
       commit('orderItem', orderItem);
       commit('orderItemPrice');
     },
-    addToBasket: function addToBasket(_ref2) {
-      var state = _ref2.state,
-          getters = _ref2.getters,
-          commit = _ref2.commit;
+    addToBasket: function addToBasket(_ref3) {
+      var state = _ref3.state,
+          getters = _ref3.getters,
+          commit = _ref3.commit;
       state.orderItem.total = getters.orderItemTotal;
       commit('basket', state.orderItem); // clear the current orderItem
 
       commit('resetOrderItem');
       commit('resetOrderItemPrice');
+    },
+    createOrder: function createOrder(_ref4) {
+      var state = _ref4.state;
+      console.log(state.basket);
+      axios.post('http://weframe.local/api/order', {
+        order_type: state.orderType,
+        lines: state.basket
+      }).then(function (response) {
+        return console.log(response.data);
+      });
     }
   },
   mutations: {
+    orderType: function orderType(state, _orderType) {
+      state.orderType = _orderType;
+    },
     orderItem: function orderItem(state, _orderItem) {
       state.orderItem = _orderItem;
     },

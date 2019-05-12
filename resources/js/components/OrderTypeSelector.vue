@@ -1,5 +1,5 @@
 <template>
-	<div class="modal" v-bind:class="{'is-active': this.orderType==''}">
+	<div class="modal" v-bind:class="{'is-active': orderType=='0'}">
 		<div class="modal-background"></div>
 		<div class="modal-card">
 			<section class="modal-card-body">
@@ -7,7 +7,7 @@
 					Choose the order type
 				</h4>
 				<div class="buttons has-addons is-centered">
-					<button class="button" v-for="(type, typeKey) in orderTypes" v-on:click.prevent="setOrderType(typeKey)">
+					<button class="button" v-for="type in order_types" v-on:click.prevent="setOrderType(type.id)">
 						{{ type.label }}
 					</button>
 				</div>
@@ -16,19 +16,20 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex'
     export default {
-		model: {
-			prop: 'orderType',
-			event: 'clicked'
-		},
 		props: {
-			orderTypes: {},
-			orderType: String
+			order_types: ''
 		},
 		methods: {
-			setOrderType: function(typeKey) {				
-				this.$emit('clicked', typeKey)
+			setOrderType: function(typeKey) {
+				this.$store.dispatch('setOrderType', typeKey)
 			}
+		},
+		computed: {
+			...mapState({
+				orderType: state => state.orderType
+			})
 		}
     }
 </script>

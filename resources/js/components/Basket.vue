@@ -19,6 +19,11 @@
 						{{ basketTotal | currency }}
 					</span>
 				</div>
+				<div class="column is-full">
+					<button class="button is-success" @click="createOrder">
+						Create order
+					</button>
+				</div>
 			</div>
 		</div>
 		<p v-else>
@@ -26,11 +31,13 @@
 		</p>
 	</div>
 </template>
-
 <script>
 	import { mapState, mapGetters } from 'vuex'
     export default {
 		methods: {
+			createOrder: function() {
+				this.$store.dispatch('createOrder')
+			}
 		},
 		computed: {
 			...mapState({

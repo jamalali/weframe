@@ -5,27 +5,29 @@ Vue.use(Vuex);
 
 function orderItemDefaults() {
 	return {
-		jobType: 'walk_in',
-		artworkDescription: '',
-		moulding: 0,
+		artworkDescription	: '',
+		moulding			: 0,
 		mount: {
 			type: 'none'
 		},
-		glazing: '0',
-		fixing: '0',
-		artworkMounting: '0',
-		artworkSupplied: '0',
-		boxFrame: '0',
-		foamBoard: '0'
+		glazing			: '0',
+		fixing			: '0',
+		artworkMounting	: '0',
+		artworkSupplied	: '0',
+		boxFrame		: '0',
+		foamBoard		: '0'
 	}
 }
 
 export const store = new Vuex.Store({
+	
 	state: {
-		orderItem: orderItemDefaults(),
-		basket: [],
-		orderItemPrice: {}
+		orderItem		: orderItemDefaults(),
+		basket			: [],
+		orderItemPrice	: {},
+		orderType		: '0',
 	},
+	
 	getters: {
 		
 		basketTotal: state => {
@@ -80,7 +82,14 @@ export const store = new Vuex.Store({
 	},
 	
 	actions: {
-		updateOrderItem ({commit}, orderItem) {
+		setOrderType ({commit}, orderType) {
+			commit('orderType', orderType)
+		},
+		
+		updateOrderItem ({state, commit}, orderItem) {
+			
+			state.orderItem.orderType = state.orderType
+			
 			commit('orderItem', orderItem)
 			commit('orderItemPrice')
 		},
@@ -92,10 +101,26 @@ export const store = new Vuex.Store({
 			// clear the current orderItem
 			commit('resetOrderItem')
 			commit('resetOrderItemPrice')
+		},
+		
+		createOrder ({state}) {
+			
+			console.log(state.basket)
+			
+			axios.post('http://weframe.local/api/order', {
+				order_type: state.orderType,
+				lines: state.basket
+			}).then(response => (
+				console.log(response.data)
+			))
 		}
 	},
 	
 	mutations: {
+		orderType (state, orderType) {
+			state.orderType = orderType
+		},
+		
 		orderItem (state, orderItem) {
 			state.orderItem = orderItem
 		},

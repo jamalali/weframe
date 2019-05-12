@@ -2,14 +2,17 @@
 
 return [
 	
-	'job_types' => [
-		'walk_in' => [
+	'order_types' => [
+		'1' => [
+			'id'	=> '1',
 			'label' => 'Walk-in'
 		],
-		'contract' => [
+		'2' => [
+			'id'	=> '2',
 			'label' => 'Contract'
 		],
-		'online' => [
+		'3' => [
+			'id'	=> '3',
 			'label' => 'Online'
 		],
 	],
@@ -84,5 +87,16 @@ return [
 	
 	'wastage' => [
 		'mould' => 25 // %
+	],
+	
+	'payment_methods' => [
+		'1' => [
+			'id'	=> '1',
+			'name'	=> 'Cash'
+		],
+		'2' => [
+			'id'	=> '2',
+			'name'	=> 'Card'
+		],
 	]
 ];

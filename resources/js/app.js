@@ -28,6 +28,7 @@ Vue.component('price-calculator', require('./components/PriceCalculator/Index.vu
 Vue.component('order-item-breakdown', require('./components/OrderItemBreakdown.vue').default);
 Vue.component('mount-variants', require('./components/MountVariants.vue').default);
 Vue.component('basket', require('./components/Basket.vue').default);
+Vue.component('order-type-selector', require('./components/OrderTypeSelector.vue').default);
 
 Vue.filter('keyToLabel', function (value) {
 	if (!value) return ''

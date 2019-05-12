@@ -17,7 +17,7 @@ class PriceController extends Controller {
 	
 	private $settings = null;
 	
-	private $job_type = '';
+	private $order_type = 0;
 	
 	private $glass_width	= 0;
 	private $glass_height	= 0;
@@ -33,7 +33,7 @@ class PriceController extends Controller {
 		
 		$this->settings = Cache::get('settings_pricing');
 		
-		$this->job_type = $request->input('jobType');
+		$this->order_type = $request->input('orderType');
 		
 		$moulding_id = $request->input('moulding');
 		
@@ -166,8 +166,8 @@ class PriceController extends Controller {
 	
 	private function setLabourCosts($request) {
 		
-		switch ($this->job_type) {
-			case 'walk_in':
+		switch ($this->order_type) {
+			case '1': // Walk-in
 				$this->labour_costs['sealing'] = $this->labourCostInPounds($this->labour_config['sealing']);
 				break;
 		}
