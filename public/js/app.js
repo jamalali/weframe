@@ -23384,13 +23384,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       commit('resetOrderItemPrice');
     },
     createOrder: function createOrder(_ref4) {
-      var state = _ref4.state;
-      console.log(state.basket);
+      var state = _ref4.state,
+          getters = _ref4.getters;
       axios.post('http://weframe.local/api/order', {
-        order_type: state.orderType,
+        type_id: state.orderType,
+        total: getters.basketTotal,
         lines: state.basket
       }).then(function (response) {
-        return console.log(response.data);
+        return window.location.href = '/admin/orders/' + response.data.order_id;
       });
     }
   },

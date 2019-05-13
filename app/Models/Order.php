@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model {
 	
 	protected $fillable = [
-        'order_type_id',
+        'type_id',
         'customer_id',
         'total',
         'payment_method_id',

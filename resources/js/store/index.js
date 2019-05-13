@@ -87,7 +87,6 @@ export const store = new Vuex.Store({
 		},
 		
 		updateOrderItem ({state, commit}, orderItem) {
-			
 			state.orderItem.orderType = state.orderType
 			
 			commit('orderItem', orderItem)
@@ -103,15 +102,13 @@ export const store = new Vuex.Store({
 			commit('resetOrderItemPrice')
 		},
 		
-		createOrder ({state}) {
-			
-			console.log(state.basket)
-			
+		createOrder ({state, getters}) {
 			axios.post('http://weframe.local/api/order', {
-				order_type: state.orderType,
-				lines: state.basket
+				type_id	: state.orderType,
+				total	: getters.basketTotal,
+				lines	: state.basket
 			}).then(response => (
-				console.log(response.data)
+				window.location.href = '/admin/orders/' + response.data.order_id
 			))
 		}
 	},

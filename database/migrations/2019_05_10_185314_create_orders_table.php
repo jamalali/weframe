@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->integer('order_type_id');
+			$table->integer('type_id');
 			$table->integer('customer_id')->nullable();
 			$table->double('total');
 			$table->string('payment_method_id')->default(0);
