@@ -19,7 +19,9 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
     Route::get('/', 'Admin\AdminController@index')->name('index');
 	
 	// Orders Routes
-	Route::resource('orders', 'Admin\Orders\AdminOrdersController');
+	Route::resource('orders', 'Admin\Orders\AdminOrdersController')->except([
+		'store'
+	]);
 	
 	// Mounts, Mount Variants
 	Route::resource('mounts', 'Admin\Mounts\AdminMountsController');

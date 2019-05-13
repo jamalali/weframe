@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Glazing;
 use App\Models\Mount;
-use Illuminate\Support\Arr;
+use App\Models\Order;
 
 class AdminOrdersController extends Controller {
 
     public function index() {
-        return view('admin.orders.index');
+        $orders = Order::orderBy('id', 'desc')->get();
+        
+        return view('admin.orders.index', [
+            'orders' => $orders
+        ]);
     }
 
     public function create() {
@@ -41,7 +45,9 @@ class AdminOrdersController extends Controller {
 		]);
     }
 
-    public function store(Request $request) {
-        dd($request);
+	public function show(Order $order) {
+		return view('admin.orders.show', [
+            'order' => $order
+        ]);
     }
 }

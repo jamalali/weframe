@@ -5,7 +5,7 @@
 	v-bind:order_types="{{ $order_types }}"
 ></order-type-selector>
 
-<h1 class="title is-1">
+<h1 class="title is-3">
 	New order
 </h1>
 
