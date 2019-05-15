@@ -2174,7 +2174,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     setMoulding: function setMoulding(moulding_id) {
       this.orderItem.moulding = moulding_id;
-      this.getPrice();
+
+      if (moulding_id != 0) {
+        this.getPrice();
+      }
     },
     setMount: function setMount(data) {
       this.orderItem.mount = data;
@@ -2275,6 +2278,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2295,6 +2301,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    clearInput: function clearInput() {
+      this.search = '';
+      this.isOpen = false;
+      this.$emit('setmoulding', 0);
+    },
     setResult: function setResult(result, result_id) {
       this.search = result.name;
       this.isOpen = false;
@@ -21849,67 +21860,76 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "field" }, [
-    _c("label", { staticClass: "label", attrs: { for: "moulding" } }, [
-      _vm._v("\n\t\tMoulding\n\t")
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "control autocomplete" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.search,
-            expression: "search"
-          }
-        ],
-        staticClass: "input",
-        attrs: { type: "text", id: "moulding" },
-        domProps: { value: _vm.search },
-        on: {
-          input: [
-            function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            },
-            _vm.onChange
-          ]
-        }
-      }),
+  return _c("div", { attrs: { id: "moulding-selector" } }, [
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label", attrs: { for: "moulding" } }, [
+        _vm._v("\n\t\t\tMoulding\n\t\t")
+      ]),
       _vm._v(" "),
-      _c(
-        "ul",
-        {
+      _c("div", { staticClass: "control autocomplete" }, [
+        _c("input", {
           directives: [
             {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.isOpen,
-              expression: "isOpen"
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
             }
           ],
-          staticClass: "autocomplete-results"
-        },
-        _vm._l(_vm.results, function(result, i) {
-          return _c(
-            "li",
-            {
-              key: i,
-              staticClass: "autocomplete-result",
-              on: {
-                click: function($event) {
-                  return _vm.setResult(result, i)
+          staticClass: "input",
+          attrs: { type: "text", id: "moulding" },
+          domProps: { value: _vm.search },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              }
-            },
-            [_vm._v("\n\t\t\t\t" + _vm._s(result.name) + "\n\t\t\t")]
-          )
+                _vm.search = $event.target.value
+              },
+              _vm.onChange
+            ]
+          }
         }),
-        0
-      )
+        _vm._v(" "),
+        _vm.search != ""
+          ? _c("a", {
+              staticClass: "delete is-small",
+              on: { click: _vm.clearInput }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isOpen,
+                expression: "isOpen"
+              }
+            ],
+            staticClass: "autocomplete-results"
+          },
+          _vm._l(_vm.results, function(result, i) {
+            return _c(
+              "li",
+              {
+                key: i,
+                staticClass: "autocomplete-result",
+                on: {
+                  click: function($event) {
+                    return _vm.setResult(result, i)
+                  }
+                }
+              },
+              [_vm._v("\n\t\t\t\t\t" + _vm._s(result.name) + "\n\t\t\t\t")]
+            )
+          }),
+          0
+        )
+      ])
     ])
   ])
 }
@@ -21935,7 +21955,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { attrs: { id: "mount-selector" } }, [
     _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "field column" }, [
         _c("label", { staticClass: "label" }, [

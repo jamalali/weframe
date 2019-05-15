@@ -204,7 +204,9 @@
 		methods: {
 			setMoulding: function(moulding_id) {
 				this.orderItem.moulding = moulding_id
-				this.getPrice()
+				if (moulding_id != 0) {
+					this.getPrice()
+				}
 			},
 			
 			setMount: function(data) {

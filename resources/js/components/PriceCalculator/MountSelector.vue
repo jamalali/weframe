@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="mount-selector">
 		<div class="columns">
 			<div class="field column">
 				<label class="label">

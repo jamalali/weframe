@@ -58,6 +58,70 @@
 				</td>
 			</tr>
 		</table>
+		
+		@isset($order->lines)
+			<h2 class="title is-4">
+				Order items
+			</h2>
+		
+			<table class="table is-striped is-hoverable is-fullwidth">
+				<thead>
+					<tr>
+						<th>
+							Description
+						</th>
+						<th>
+							Mould
+						</th>
+						<th class="has-text-centered">
+							Glass size
+						</th>
+						<th class="has-text-centered">
+							Status
+						</th>
+						<th class="has-text-right">
+							Price
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($order->lines as $line)
+						<tr>
+							<td>
+								{{ $line->item_params->artworkDescription }}
+							</td>
+							<td>
+								{{ config('moulds.' . $line->item_params->moulding)['name'] }}
+							</td>
+							<td class="has-text-centered">
+								{{ $line->glass_size }}
+							</td>
+							<td class="has-text-centered">
+								Not started
+							</td>
+							<td class="has-text-right">
+								&pound;{{ $line->total }}
+							</td>
+							<td class="text-right">
+								<a href="{{ route('admin.orders.lines.show', [$order->id, $line->id]) }}">
+									view
+								</a>
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+			<table class="table is-fullwidth">
+				<tfoot>
+					<tr>
+						<td class="has-text-right has-text-weight-bold">
+							Total: &pound;{{ $order->total }}
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		@endisset
 
         
     </div>

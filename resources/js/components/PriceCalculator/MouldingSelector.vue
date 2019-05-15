@@ -1,15 +1,18 @@
 <template>
-	<div class="field">
-		<label class="label" for="moulding">
-			Moulding
-		</label>
-		<div class="control autocomplete">
-			<input class="input" type="text" id="moulding" v-model="search" @input="onChange" />
-			<ul v-show="isOpen" class="autocomplete-results">
-				<li class="autocomplete-result" v-for="(result, i) in results" :key="i" @click="setResult(result, i)">
-					{{ result.name }}
-				</li>
-			</ul>
+	<div id="moulding-selector">
+		<div class="field">
+			<label class="label" for="moulding">
+				Moulding
+			</label>
+			<div class="control autocomplete">
+				<input class="input" type="text" id="moulding" v-model="search" @input="onChange" />
+				<a class="delete is-small" v-if="search!=''" @click="clearInput"></a>
+				<ul v-show="isOpen" class="autocomplete-results">
+					<li class="autocomplete-result" v-for="(result, i) in results" :key="i" @click="setResult(result, i)">
+						{{ result.name }}
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </template>
@@ -63,6 +66,12 @@
 			}
 		},
 		methods: {
+			clearInput() {
+				this.search = ''
+				this.isOpen = false
+				this.$emit('setmoulding', 0)
+			},
+			
 			setResult(result, result_id) {
 				this.search = result.name
 				this.isOpen = false

@@ -1,0 +1,9 @@
+#mount-selector {
+	
+	ul.mount-sizes {
+		
+		@include tablet {
+			columns: 2;
+		}
+	}
+}

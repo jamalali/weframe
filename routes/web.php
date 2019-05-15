@@ -22,6 +22,7 @@ Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function
 	Route::resource('orders', 'Admin\Orders\AdminOrdersController')->except([
 		'store'
 	]);
+	Route::resource('orders.lines', 'Admin\Orders\Lines\AdminOrdersLinesController');
 	
 	// Mounts, Mount Variants
 	Route::resource('mounts', 'Admin\Mounts\AdminMountsController');
