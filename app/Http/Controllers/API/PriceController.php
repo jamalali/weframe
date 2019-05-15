@@ -409,6 +409,8 @@ class PriceController extends Controller {
 	
 	private function getGlazingPrice($glazing_id) {
 		
+		$glass_price = 0;
+		
 		// Get the glazing information from the cache by way of the selected ID
 		$glazing = Cache::get('glazing_' . $glazing_id);
 		
@@ -420,7 +422,7 @@ class PriceController extends Controller {
 			'height'	=> $this->glass_height
 		];
 		
-		// If standard float glass or mirror glass get the "Oversized" sizes
+		// Get the "Oversized" sizes
 		$jumbo_peice = false;
 		
 		if (isset($glazing['oversized_width']) && isset($glazing['oversized_height']) && isset($glazing['oversized_price'])) {
@@ -431,28 +433,27 @@ class PriceController extends Controller {
 			];
 		}
 		
-		// The glass sizes i.e. full, half & quarter
 		$full_peice = [
 			'width'		=> $glazing['width'],
 			'height'	=> $glazing['height'],
 			'price'		=> $glazing['price']
 		];
 		
-		// Cut the full size in her half to get the half size
-		$half_peice		= $this->cutInHalf($full_peice);
-		
-		// Cut the half size in her half to get the quarter size
-		$quarter_peice	= $this->cutInHalf($half_peice);
-		
 		// Now check which size glass peice the customers frame size fits into
-		// and use that price
-		if ($this->fits($frame, $quarter_peice))					{ $glass_price = $quarter_peice['price'];} 
-		else if ($this->fits($frame, $half_peice))					{ $glass_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))					{ $glass_price = $full_peice['price'];}
-		else if ($jumbo_peice && $this->fits($frame, $jumbo_peice)) { $glass_price = $jumbo_peice['price'];}
+		if ($this->fits($frame, $full_peice))						{ $size_to_use = 'full';}
+		else if ($jumbo_peice && $this->fits($frame, $jumbo_peice)) { $size_to_use = 'jumbo';}
 		
-		if (!isset($glass_price)) {
+		if (!isset($size_to_use)) {
 			return 'Frame too big for glazing';
+		}
+		
+		switch ($size_to_use) {
+			case 'full':
+				$glass_price = $this->getSqMetrePrice($full_peice);
+				break;
+			case 'jumbo':
+				$glass_price = $this->getSqMetrePrice($jumbo_peice);
+				break;
 		}
 		
 		// Add the percentage wastage
@@ -464,6 +465,20 @@ class PriceController extends Controller {
 		}
 		
 		return number_format($glass_price / 100, 2);
+	}
+	
+	private function getSqMetrePrice($sheet) {
+		
+		// calculate the cost of this sheet for 1 square metre
+		$sheet_square_metre_cost = $sheet['price'] / ($sheet['width'] / 1000 * $sheet['height'] / 1000); // we divide by 1000 because width & height are millimetres
+		
+		// calculate the glass size in square metres
+		$glass_square_metres = $this->glass_width / 1000 * $this->glass_height / 1000;
+		
+		// calculate the cost by way of the glass size and the cost per 1 metre
+		$price = $sheet_square_metre_cost * $glass_square_metres;
+		
+		return $price;
 	}
 	
 	private function getMountPrice($mount) {
