@@ -23,9 +23,60 @@ export const store = new Vuex.Store({
 	
 	state: {
 		orderItem		: orderItemDefaults(),
-		basket			: [],
+		basket			: [{
+			artworkDescription: "Painting",
+			artworkHeight: "322",
+			artworkMounting: "0",
+			artworkSupplied: "0",
+			artworkWidth: "522",
+			boxFrame: "0",
+			fixing: "0",
+			foamBoard: "0",
+			glazing: 3,
+			moulding: "1",
+			mount: { 
+				type: "none" 
+			},
+			orderType: "1",
+			total: "40.55",
+		},{
+			artworkDescription: "London Scene",
+			artworkHeight: "322",
+			artworkMounting: "0",
+			artworkSupplied: "0",
+			artworkWidth: "522",
+			boxFrame: "0",
+			fixing: "0",
+			foamBoard: "0",
+			glazing: 3,
+			moulding: "1",
+			mount: { 
+				type: "none" 
+			},
+			orderType: "1",
+			total: "40.55",
+		},{
+			artworkDescription: "Road map",
+			artworkHeight: "322",
+			artworkMounting: "0",
+			artworkSupplied: "0",
+			artworkWidth: "522",
+			boxFrame: "0",
+			fixing: "0",
+			foamBoard: "0",
+			glazing: 3,
+			moulding: "1",
+			mount: { 
+				type: "none" 
+			},
+			orderType: "1",
+			total: "40.55",
+		}],
 		orderItemPrice	: {},
-		orderType		: '0',
+		orderType		: '1',
+		
+		showBasketItem	: false,
+		showBasketItems	: false,
 	},
 	
 	getters: {
@@ -82,6 +133,16 @@ export const store = new Vuex.Store({
 	},
 	
 	actions: {
+		closeBasketViewer ({state}) {
+			state.showBasketItem = false
+			state.showBasketItems = false
+		},
+		
+		viewBasketItem ({state}, key) {
+			state.showBasketItem = key
+			state.showBasketItems = true
+		},
+		
 		setOrderType ({commit}, orderType) {
 			commit('orderType', orderType)
 		},
@@ -103,13 +164,16 @@ export const store = new Vuex.Store({
 		},
 		
 		createOrder ({state, getters}) {
-			axios.post('http://weframe.local/api/order', {
-				type_id	: state.orderType,
-				total	: getters.basketTotal,
-				lines	: state.basket
-			}).then(response => (
-				window.location.href = '/admin/orders/' + response.data.order_id
-			))
+			
+			console.log(state.basket)
+			
+//			axios.post('http://weframe.local/api/order', {
+//				type_id	: state.orderType,
+//				total	: getters.basketTotal,
+//				lines	: state.basket
+//			}).then(response => (
+//				window.location.href = '/admin/orders/' + response.data.order_id
+//			))
 		}
 	},
 	

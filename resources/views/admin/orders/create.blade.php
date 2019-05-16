@@ -5,6 +5,10 @@
 	v-bind:order_types="{{ $order_types }}"
 ></order-type-selector>
 
+<basket-items-viewer
+	v-bind:moulds="{{ $moulds }}"
+></basket-items-viewer>
+
 <h1 class="title is-3">
 	New order
 </h1>

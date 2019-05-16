@@ -6,7 +6,9 @@
 		<div v-if="Object.keys(basket).length">
 			<div class="columns is-multiline">
 				<div class="column is-full" v-for="(line, key) in basket">
-					{{ line.artworkDescription }}
+					<a @click="viewItem(key)">
+						{{ line.artworkDescription }}
+					</a>
 					<span class="is-pulled-right">
 						{{ line.total | currency }}
 					</span>
@@ -35,7 +37,10 @@
 	import { mapState, mapGetters } from 'vuex'
     export default {
 		methods: {
-			createOrder: function() {
+			viewItem: function(key) {
+				this.$store.dispatch('viewBasketItem', key)
+			},
+			createOrder: function() {		
 				this.$store.dispatch('createOrder')
 			}
 		},
