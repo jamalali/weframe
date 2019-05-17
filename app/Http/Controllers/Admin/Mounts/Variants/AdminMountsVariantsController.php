@@ -37,18 +37,14 @@ class AdminMountsVariantsController extends Controller {
 		
 		$variant = MountVariant::create($input);
 		
-		Cache::tags(['mounts'])->forever($variant->id, [
-			'mount'		=> $mount,
-			'variant'	=> $variant
-		]);
+		Cache::tags(['mountboard_variant'])->forever($variant->id, $variant);
 		
 		return redirect()->route('admin.mounts.variants.edit', [$mount->id, $variant->id])->with('success', 'Variant added successfully');
     }
 	
     public function show($mount_id, $variant) {
 		
-		$key = $mount_id . '-' . $variant->id;
-		$CachedVariant = Cache::tags(['mountboards'])->get($key);
+		$CachedVariant = Cache::tags(['mountboard_variant'])->get($variant->id);
 		
 		dd($CachedVariant);
     }
@@ -70,7 +66,7 @@ class AdminMountsVariantsController extends Controller {
 		$variant->update($input);
 		
 		// Store in cache
-		$this->storeInCache($mount, $variant);
+		Cache::tags(['mountboard_variant'])->forever($variant->id, $variant);
 		
 		return redirect()->route('admin.mounts.variants.edit', [$mount->id, $variant->id])->with('success', 'Variant has been updated successfully');
     }
@@ -82,34 +78,4 @@ class AdminMountsVariantsController extends Controller {
 		
 		return redirect()->route('admin.mounts.edit', [$mount_id])->with('success', 'Variant has been deleted succcesfully');
     }
-	
-	private function storeInCache($mount, $variant) {
-		
-		$key = $mount->id . '-' .$variant->id;
-		
-		$value = [
-			'name'		=> $mount->name,
-			'width'		=> $mount->width,
-			'height'	=> $mount->height,
-			'price'		=> $mount->price,
-			'colour'	=> $variant->colour,
-			'sku'		=> $variant->sku
-		];
-		
-		// If the variant has a price we use that price instead of the price of the parent mountboard
-		if (null !== $variant->price) {
-			$value['price'] = $variant->price;
-		}
-		
-		// If has jumbo size
-		if (null !== $mount->oversized_width && null !== $mount->oversized_height && null !== $mount->oversized_price) {
-			$value['oversized'] = [
-				'width'		=> $mount->oversized_width,
-				'height'	=> $mount->oversized_height,
-				'price'		=> $mount->oversized_height
-			];
-		}
-		
-		Cache::tags(['mountboards'])->forever($key, $value);
-	}
 }

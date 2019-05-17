@@ -1886,6 +1886,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1900,22 +1909,26 @@ __webpack_require__.r(__webpack_exports__);
       var new_colour = this.$refs['new-variant-colour']['value'];
       var new_inventory = this.$refs['new-variant-inventory']['value'];
       var new_price = this.$refs['new-variant-price']['value'];
+      var new_oversized_price = this.$refs['new-variant-oversized-price']['value'];
       this.$set(this.variantsList, index, {
         sku: '',
         colour: '',
         inventory: '',
-        price: ''
+        price: '',
+        oversized_price: ''
       });
       this.$set(this.variantsList[index], 'sku', new_sku);
       this.$set(this.variantsList[index], 'colour', new_colour);
       this.$set(this.variantsList[index], 'inventory', new_inventory);
       this.$set(this.variantsList[index], 'price', new_price);
+      this.$set(this.variantsList[index], 'oversized_price', new_oversized_price);
       this.variantsCount = Object.keys(this.variantsList).length;
       this.newIndex = this.variantsCount++;
       this.$refs['new-variant-sku']['value'] = '';
       this.$refs['new-variant-colour']['value'] = '';
       this.$refs['new-variant-inventory']['value'] = '';
       this.$refs['new-variant-price']['value'] = '';
+      this.$refs['new-variant-oversized-price']['value'] = '';
     }
   }
 });
@@ -2624,8 +2637,8 @@ function dataDefaults(mounts) {
     top_mount_size_bottom: 50,
     top_mount_size_left: 50,
     bottom_mount_size: 5,
-    top_mount_colour: mounts[0]['id'] + '-' + mounts[0].variants[0]['id'],
-    bottom_mount_colour: mounts[0]['id'] + '-' + mounts[0].variants[0]['id']
+    top_mount_colour: mounts[0].variants[0]['id'],
+    bottom_mount_colour: mounts[0].variants[0]['id']
   };
 }
 
@@ -21251,6 +21264,14 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("td", [
+            _c("input", {
+              ref: "new-variant-oversized-price",
+              staticClass: "input",
+              attrs: { type: "text" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("td", [
             _c(
               "button",
               {
@@ -21307,6 +21328,17 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                staticClass: "input",
+                attrs: {
+                  type: "text",
+                  name: "variants[" + index + "][oversized_price]"
+                },
+                domProps: { value: _vm.variantsList[index].oversized_price }
+              })
+            ]),
+            _vm._v(" "),
             _c("td")
           ])
         })
@@ -21329,6 +21361,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("\n\t\t\t\t\tInventory\n\t\t\t\t")]),
         _vm._v(" "),
         _c("th", [_vm._v("\n\t\t\t\t\tPrice\n\t\t\t\t")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("\n\t\t\t\t\tOversized Price\n\t\t\t\t")]),
         _vm._v(" "),
         _c("th")
       ])
@@ -22579,17 +22613,13 @@ var render = function() {
                             ],
                             attrs: { type: "radio", name: "top_mount_colour" },
                             domProps: {
-                              value: mountVal.id + "-" + variant.id,
-                              checked: _vm._q(
-                                _vm.top_mount_colour,
-                                mountVal.id + "-" + variant.id
-                              )
+                              value: variant.id,
+                              checked: _vm._q(_vm.top_mount_colour, variant.id)
                             },
                             on: {
                               change: [
                                 function($event) {
-                                  _vm.top_mount_colour =
-                                    mountVal.id + "-" + variant.id
+                                  _vm.top_mount_colour = variant.id
                                 },
                                 _vm.returnMount
                               ]
@@ -22656,17 +22686,16 @@ var render = function() {
                               name: "bottom_mount_colour"
                             },
                             domProps: {
-                              value: mountVal.id + "-" + variant.id,
+                              value: variant.id,
                               checked: _vm._q(
                                 _vm.bottom_mount_colour,
-                                mountVal.id + "-" + variant.id
+                                variant.id
                               )
                             },
                             on: {
                               change: [
                                 function($event) {
-                                  _vm.bottom_mount_colour =
-                                    mountVal.id + "-" + variant.id
+                                  _vm.bottom_mount_colour = variant.id
                                 },
                                 _vm.returnMount
                               ]

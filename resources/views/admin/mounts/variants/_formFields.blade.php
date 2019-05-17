@@ -22,6 +22,12 @@
 		'id'		=> 'price',
 		'values'	=> $variant
 	])@endhorizontaltextinput
+	
+	@horizontaltextinput([
+		'label'		=> 'Oversized price',
+		'id'		=> 'oversized_price',
+		'values'	=> $variant
+	])@endhorizontaltextinput
 </div>
 
 <div>

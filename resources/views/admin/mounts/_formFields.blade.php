@@ -156,6 +156,9 @@
 					<th class="has-text-centered">
 						Price
 					</th>
+					<th class="has-text-centered">
+						Oversized Price
+					</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -173,6 +176,9 @@
 						</td>
 						<td class="has-text-centered">
 							{{ $variant->price }}
+						</td>
+						<td class="has-text-centered">
+							{{ $variant->oversized_price }}
 						</td>
 						<td class="has-text-right">
 							<a href="{{ route('admin.mounts.variants.edit', [$mount->id, $variant->id]) }}">

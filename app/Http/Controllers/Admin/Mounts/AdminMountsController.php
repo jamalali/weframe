@@ -32,6 +32,8 @@ class AdminMountsController extends Controller {
         
         $mount = Mount::create($input);
 		
+		Cache::tags(['mountboard'])->forever($mount->id, $mount);
+		
 		// Store all the variants if we have any
 		if ($variants) {
 			foreach ($variants as $variant) {
@@ -40,10 +42,7 @@ class AdminMountsController extends Controller {
 				$mountVariant = MountVariant::create($variant);
 
 				// Store in cache
-				Cache::tags(['mounts'])->forever($mountVariant->id, [
-					'mount'		=> $mount,
-					'variant'	=> $mountVariant
-				]);
+				Cache::tags(['mountboard_variant'])->forever($mountVariant->id, $mountVariant);
 			}
 		}
         
@@ -52,7 +51,10 @@ class AdminMountsController extends Controller {
 	
     public function show($mount_id) {
 		$mount = Mount::with('variants')->where('id', $mount_id)->first();
-		dd($mount);
+		
+		$CachedMountboard = Cache::tags(['mountboard'])->get($mount_id);
+		
+		dd($CachedMountboard);
 		//return view('admin.mounts.edit', ['mount' => $mount]);
     }
 	
@@ -66,6 +68,8 @@ class AdminMountsController extends Controller {
 		$input = $request->except(['_token', '_method']);
         
         $mount->update($input);
+		
+		Cache::tags(['mountboard'])->forever($mount->id, $mount);
         
         return redirect()->route('admin.mounts.edit', $mount->id)->with('success', 'Mount updated successfully');
     }

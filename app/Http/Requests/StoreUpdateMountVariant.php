@@ -23,10 +23,11 @@ class StoreUpdateMountVariant extends FormRequest
     public function rules() {
 		
         return [
-			'colour'	=> 'required',
-			'sku'		=> 'required|alpha_num',
-			'inventory'	=> 'nullable|integer',
-			'price'		=> 'nullable|numeric'
+			'colour'			=> 'required',
+			'sku'				=> 'required|alpha_num',
+			'inventory'			=> 'nullable|integer',
+			'price'				=> 'nullable|numeric',
+			'oversized_price'	=> 'nullable|numeric',
         ];
     }
 }

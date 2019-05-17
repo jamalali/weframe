@@ -18,7 +18,8 @@ class MountVariant extends Model {
         'colour',
 		'sku',
         'inventory',
-        'price'
+        'price',
+        'oversized_price',
     ];
 	
 	protected $attributes = [

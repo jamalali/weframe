@@ -153,9 +153,9 @@ class PriceController extends Controller {
 		
 		// Now check which size glass peice the customers frame size fits into
 		// and use that price
-		if ($this->fits($frame, $quarter_peice))	{ $foam_board_price = $quarter_peice['price'];} 
-		else if ($this->fits($frame, $half_peice))	{ $foam_board_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))	{ $foam_board_price = $full_peice['price'];}
+		if ($this->fits($quarter_peice))	{ $foam_board_price = $quarter_peice['price'];} 
+		else if ($this->fits($half_peice))	{ $foam_board_price = $half_peice['price'];}
+		else if ($this->fits($full_peice))	{ $foam_board_price = $full_peice['price'];}
 		
 		if (!isset($foam_board_price)) {
 			return 'Frame too big for glazing';
@@ -308,10 +308,10 @@ class PriceController extends Controller {
 		
 		// Now check which size peice the customers frame size fits into
 		// and use that price
-		if ($this->fits($frame, $quarter_peice))			{ $pulp_board_price = $quarter_peice['price'];}
-		else if ($this->fits($frame, $half_peice))			{ $pulp_board_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))			{ $pulp_board_price = $full_peice['price'];}
-		else if ($this->fits($frame, $mount_board_peice))	{ $pulp_board_price = $mount_board_peice['price']; $mount_board_used = true;}
+		if ($this->fits($quarter_peice))			{ $pulp_board_price = $quarter_peice['price'];}
+		else if ($this->fits($half_peice))			{ $pulp_board_price = $half_peice['price'];}
+		else if ($this->fits($full_peice))			{ $pulp_board_price = $full_peice['price'];}
+		else if ($this->fits($mount_board_peice))	{ $pulp_board_price = $mount_board_peice['price']; $mount_board_used = true;}
 		
 		// Add the percentage wastage
 		$wastage = $mount_board_used ? $mount_board_wastage : $pulp_board_wastage;
@@ -392,10 +392,10 @@ class PriceController extends Controller {
 		
 		// Now check which size peice the customers frame size fits into
 		// and use that price
-		if ($this->fits($frame, $quarter_peice))		{ $backing_board_price = $quarter_peice['price'];} 
-		else if ($this->fits($frame, $half_peice))		{ $backing_board_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))		{ $backing_board_price = $full_peice['price'];}
-		else if ($this->fits($frame, $double_peice))	{ $backing_board_price = $double_peice['price'];}
+		if ($this->fits($quarter_peice))		{ $backing_board_price = $quarter_peice['price'];} 
+		else if ($this->fits($half_peice))		{ $backing_board_price = $half_peice['price'];}
+		else if ($this->fits($full_peice))		{ $backing_board_price = $full_peice['price'];}
+		else if ($this->fits($double_peice))	{ $backing_board_price = $double_peice['price'];}
 		
 		if (!isset($backing_board_price)) {
 			return 'Frame too big for backing board';
@@ -440,8 +440,8 @@ class PriceController extends Controller {
 		];
 		
 		// Now check which size glass peice the customers frame size fits into
-		if ($this->fits($frame, $full_peice))						{ $size_to_use = 'full';}
-		else if ($jumbo_peice && $this->fits($frame, $jumbo_peice)) { $size_to_use = 'jumbo';}
+		if ($this->fits($full_peice))						{ $size_to_use = 'full';}
+		else if ($jumbo_peice && $this->fits($jumbo_peice)) { $size_to_use = 'jumbo';}
 		
 		if (!isset($size_to_use)) {
 			return 'Frame too big for glazing';
@@ -490,7 +490,7 @@ class PriceController extends Controller {
 			case 'circular':
 			case 'oval':
 				$top_mount = $mount->top;
-				$top_mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $this->settings);
+				$top_mount_cost = $this->getCostOfMountboard($top_mount->colour);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard']);
@@ -501,8 +501,8 @@ class PriceController extends Controller {
 				$top_mount		= $mount->top;
 				$bottom_mount	= $mount->bottom;
 				
-				$top_mount_cost		= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $top_mount->colour, $this->settings);
-				$bottom_mount_cost	= $this->getCostOfMountboard($this->glass_width, $this->glass_height, $bottom_mount->colour, $this->settings);
+				$top_mount_cost		= $this->getCostOfMountboard($top_mount->colour);
+				$bottom_mount_cost	= $this->getCostOfMountboard($bottom_mount->colour);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['cutting_mountboard'] * 2);
@@ -516,7 +516,7 @@ class PriceController extends Controller {
 				$num_apertures	= $mount->num_apertures;
 				$mount_colour	= $mount->colour;
 				
-				$mount_cost = $this->getCostOfMountboard($this->glass_width, $this->glass_height, $mount_colour, $this->settings);
+				$mount_cost = $this->getCostOfMountboard($mount_colour);
 				
 				// Labour costs
 				$this->labour_costs['cutting_mountboard'] = $this->labourCostInPounds($this->labour_config['multimount'] * $num_apertures);
@@ -525,44 +525,46 @@ class PriceController extends Controller {
 		}
 	}
 	
-	private function getCostOfMountboard($frame_width, $frame_height, $mount_colour) {
+	private function getCostOfMountboard($mount_colour) {
 		
 		$wastage	= $this->settings['mount_board_wastage'];
 		$markup		= $this->settings['mount_board_markup'];
 		
-		$mount_variant = Cache::tags(['mountboards'])->get($mount_colour);
-		
-		$frame = [
-			'width'		=> $frame_width,
-			'height'	=> $frame_height
-		];
+		$mount_variant	= Cache::tags(['mountboard_variant'])->get($mount_colour);
+		$mount			= Cache::tags(['mountboard'])->get($mount_variant->mount_id);
 		
 		$jumbo_peice = false;
 		
-		if (isset($mount_variant['oversized'])) {
+		if (isset($mount['oversized_width']) && isset($mount['oversized_height']) && isset($mount['oversized_price'])) {
 			$jumbo_peice = [
-				'width'		=> $mount_variant['oversized']['width'],
-				'height'	=> $mount_variant['oversized']['height'],
-				'price'		=> $mount_variant['oversized']['price']
+				'width'		=> $mount['oversized_width'],
+				'height'	=> $mount['oversized_height'],
+				'price'		=> $mount_variant['oversized_price'] ? $mount_variant['oversized_price'] : $mount['oversized_price']
+				// if the variant has a price this will override its parent mounr price
 			];
 		}
 		
 		$full_peice = [
-			'width'		=> $mount_variant['width'],
-			'height'	=> $mount_variant['height'],
-			'price'		=> $mount_variant['price']
+			'width'		=> $mount['width'],
+			'height'	=> $mount['height'],
+			'price'		=> $mount_variant['price'] ? $mount_variant['price'] : $mount['price'],
+			// if the variant has a price this will override its parent mounr price
 		];
 		
-		$half_peice = $this->cutInHalf($full_peice);
-		$quarter_peice = $this->cutInHalf($half_peice);
+		if ($this->fits($full_peice))						{ $size_to_use = 'full';}
+		else if ($jumbo_peice && $this->fits($jumbo_peice))	{ $size_to_use = 'jumbo';}
 		
-		if ($this->fits($frame, $quarter_peice))	{ $mount_price = $quarter_peice['price'];} 
-		else if ($this->fits($frame, $half_peice))	{ $mount_price = $half_peice['price'];}
-		else if ($this->fits($frame, $full_peice))	{ $mount_price = $full_peice['price'];}
-		else if ($this->fits($frame, $jumbo_peice))	{ $mount_price = $jumbo_peice['price'];}
-		
-		if (!isset($mount_price)) {
+		if (!isset($size_to_use)) {
 			return 'Frame too big for mount';
+		}
+		
+		switch ($size_to_use) {
+			case 'full':
+				$mount_price = $this->getSqMetrePrice($full_peice);
+				break;
+			case 'jumbo':
+				$mount_price = $this->getSqMetrePrice($jumbo_peice);
+				break;
 		}
 		
 		// Add the percentage wastage
@@ -608,9 +610,9 @@ class PriceController extends Controller {
 		return number_format($cost, 2);
 	}
 	
-	private function fits($frame, $peice) {
+	private function fits($peice) {
 		// we need to check both portrait and landscape orientation
-		return $frame['width'] <= $peice['width'] && $frame['height'] <= $peice['height'] || $frame['height'] <= $peice['width'] && $frame['width'] <= $peice['height'];
+		return $this->glass_width <= $peice['width'] && $this->glass_height <= $peice['height'] || $this->glass_height <= $peice['width'] && $this->glass_width <= $peice['height'];
 	}
 	
 	private function doubleUp($peice) {

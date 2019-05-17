@@ -39,7 +39,7 @@ class AdminOrdersController extends Controller {
 			'glazings'			=> $glazings,
 			'foam_boards'		=> json_encode($foam_boards),
 			'moulds'			=> json_encode($moulds),
-			'order_types'			=> json_encode($order_types),
+			'order_types'		=> json_encode($order_types),
 			'fixings'			=> json_encode($fixings),
 			'artwork_mountings'	=> json_encode($artwork_mountings)
 		]);
