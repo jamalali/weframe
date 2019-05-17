@@ -417,11 +417,6 @@ class PriceController extends Controller {
 		$wastage	= $this->settings['glass_wastage'];
 		$markup		= $this->settings['glass_markup'];
 		
-		$frame = [
-			'width'		=> $this->glass_width,
-			'height'	=> $this->glass_height
-		];
-		
 		// Get the "Oversized" sizes
 		$jumbo_peice = false;
 		

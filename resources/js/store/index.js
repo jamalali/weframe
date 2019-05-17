@@ -41,7 +41,7 @@ export const store = new Vuex.Store({
 			total: "40.55",
 		},{
 			artworkDescription: "London Scene",
-			artworkHeight: "322",
+			artworkHeight: "922",
 			artworkMounting: "0",
 			artworkSupplied: "0",
 			artworkWidth: "522",
@@ -57,7 +57,7 @@ export const store = new Vuex.Store({
 			total: "40.55",
 		},{
 			artworkDescription: "Road map",
-			artworkHeight: "322",
+			artworkHeight: "363",
 			artworkMounting: "0",
 			artworkSupplied: "0",
 			artworkWidth: "522",
@@ -76,10 +76,15 @@ export const store = new Vuex.Store({
 		orderType		: '1',
 		
 		showBasketItem	: false,
-		showBasketItems	: false,
 	},
 	
 	getters: {
+		
+		showBasketItem: state => {
+			
+			return state.showBasketItem
+			
+		},
 		
 		basketTotal: state => {
 			
@@ -135,12 +140,10 @@ export const store = new Vuex.Store({
 	actions: {
 		closeBasketViewer ({state}) {
 			state.showBasketItem = false
-			state.showBasketItems = false
 		},
 		
 		viewBasketItem ({state}, key) {
 			state.showBasketItem = key
-			state.showBasketItems = true
 		},
 		
 		setOrderType ({commit}, orderType) {
@@ -204,6 +207,10 @@ export const store = new Vuex.Store({
 		
 		basket (state, item) {
 			state.basket.push(item)
+		},
+		
+		showBasketItem (state, itemKey) {
+			state.showBasketItem = itemKey
 		}
 	}
 })

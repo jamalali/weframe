@@ -29,7 +29,7 @@ Vue.component('order-item-breakdown', require('./components/OrderItemBreakdown.v
 Vue.component('mount-variants', require('./components/MountVariants.vue').default);
 Vue.component('basket', require('./components/Basket.vue').default);
 Vue.component('order-type-selector', require('./components/OrderTypeSelector.vue').default);
-Vue.component('basket-items-viewer', require('./components/BasketItemsViewer.vue').default);
+Vue.component('basket-items-viewer', require('./components/BasketItemsViewer/Index.vue').default);
 
 Vue.filter('camelToKebab', function(value) {
 	return value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
