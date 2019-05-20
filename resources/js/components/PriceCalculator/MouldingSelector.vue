@@ -1,19 +1,27 @@
 <template>
 	<div id="moulding-selector">
-		<div class="field">
-			<label class="label" for="moulding">
-				Moulding
-			</label>
-			<div class="control autocomplete">
-				<input class="input" type="text" id="moulding" v-model="search" @input="onChange" />
-				<a class="delete is-small" v-if="search!=''" @click="clearInput"></a>
-				<ul v-show="isOpen" class="autocomplete-results">
-					<li class="autocomplete-result" v-for="(result, i) in results" :key="i" @click="setResult(result, i)">
-						{{ result.name }}
-					</li>
-				</ul>
+		
+		<div class="field is-horizontal">
+			<div class="field-label" style="flex-grow: 2;">
+				<label class="label has-text-left" for="moulding">
+					Moulding
+				</label>
+			</div>
+			<div class="field-body">
+				<div class="field">
+					<div class="control autocomplete">
+						<input class="input" type="text" id="moulding" v-model="search" @input="onChange" />
+						<a class="delete is-small" v-if="search!=''" @click="clearInput"></a>
+						<ul v-show="isOpen" class="autocomplete-results">
+							<li class="autocomplete-result" v-for="(result, i) in results" :key="i" @click="setResult(result, i)">
+								{{ result.name }}
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
+		
 	</div>
 </template>
 <style>

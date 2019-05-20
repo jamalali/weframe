@@ -21,14 +21,14 @@ class AdminOrdersController extends Controller {
     public function create() {
 		
 		$mounts				= Mount::with('variants')->get();
-		$glazings			= Glazing::all();
+		$glazings			= config('glazings');
 		$foam_boards		= config('pricing.foam_board');
 		$moulds				= config('moulds');
 		$order_types		= config('pricing.order_types');
 		$fixings			= config('pricing.fixings');
 		$artwork_mountings	= config('pricing.artwork_mountings');
 		
-		//dd($moulds);
+		//dd($glazing);
 		
 		//$moulds = Arr::only($moulds, 'name');
 		
@@ -36,7 +36,7 @@ class AdminOrdersController extends Controller {
 		
         return view('admin.orders.create', [
 			'mounts'			=> $mounts,
-			'glazings'			=> $glazings,
+			'glazings'			=> json_encode($glazings),
 			'foam_boards'		=> json_encode($foam_boards),
 			'moulds'			=> json_encode($moulds),
 			'order_types'		=> json_encode($order_types),

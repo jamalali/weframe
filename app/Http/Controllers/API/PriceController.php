@@ -133,11 +133,6 @@ class PriceController extends Controller {
 		
 		$foam_board	= config('pricing.foam_board.' . $foam_board_id);
 		
-		$frame = [
-			'width'		=> $this->glass_width,
-			'height'	=> $this->glass_height
-		];
-		
 		// The glass sizes i.e. full, half & quarter
 		$full_peice = [
 			'width'		=> $foam_board['width'],
@@ -145,19 +140,9 @@ class PriceController extends Controller {
 			'price'		=> $foam_board['price']
 		];
 		
-		// Cut the full size in her half to get the half size
-		$half_peice		= $this->cutInHalf($full_peice);
-		
-		// Cut the half size in her half to get the quarter size
-		$quarter_peice	= $this->cutInHalf($half_peice);
-		
-		// Now check which size glass peice the customers frame size fits into
-		// and use that price
-		if ($this->fits($quarter_peice))	{ $foam_board_price = $quarter_peice['price'];} 
-		else if ($this->fits($half_peice))	{ $foam_board_price = $half_peice['price'];}
-		else if ($this->fits($full_peice))	{ $foam_board_price = $full_peice['price'];}
-		
-		if (!isset($foam_board_price)) {
+		if ($this->fits($full_peice)) {
+			$foam_board_price = $this->getSqMetrePrice($full_peice);
+		} else {
 			return 'Frame too big for glazing';
 		}
 		
@@ -271,26 +256,23 @@ class PriceController extends Controller {
 		
 		// NOTE:
 		// If the frame is too big for the pulp board we need to use the jumbo mount board
-		// so get the jumbo mount board sizes and price
+		// so get the jumbo mount board size and price
+		// we will use the standard whitecore jumbo one
 		
 		$pulp_board				= $this->settings['pulp_board'];
 		$pulp_board_wastage		= $this->settings['pulp_board_wastage'];
 		$pulp_board_markup		= $this->settings['pulp_board_markup'];
 		
-		$mount_board			= $this->settings['jumbo_mount_board'];
+		$mount_board			= Cache::tags(['mountboard'])->get(3);
+		
 		$mount_board_wastage	= $this->settings['mount_board_wastage'];
 		$mount_board_markup		= $this->settings['mount_board_markup'];
 		
-		$frame = [
-			'width'		=> $this->glass_width,
-			'height'	=> $this->glass_height
-		];
-		
 		$mount_board_used = false;
 		$mount_board_peice = [
-			'width'		=> $mount_board['width'],
-			'height'	=> $mount_board['height'],
-			'price'		=> $mount_board['price']
+			'width'		=> $mount_board->oversized_width,
+			'height'	=> $mount_board->oversized_height,
+			'price'		=> $mount_board->oversized_price
 		];
 		
 		// The sheet sizes i.e. full, half & quarter
@@ -300,18 +282,17 @@ class PriceController extends Controller {
 			'price'		=> $pulp_board['price']
 		];
 		
-		// Cut the full size in her half to get the half size
-		$half_peice		= $this->cutInHalf($full_peice);
+		if ($this->fits($full_peice))				{ $size_to_use = 'full';}
+		else if ($this->fits($mount_board_peice))	{ $size_to_use = 'jumbo'; $mount_board_used = true;}
 		
-		// Cut the half size in her half to get the quarter size
-		$quarter_peice	= $this->cutInHalf($half_peice);
-		
-		// Now check which size peice the customers frame size fits into
-		// and use that price
-		if ($this->fits($quarter_peice))			{ $pulp_board_price = $quarter_peice['price'];}
-		else if ($this->fits($half_peice))			{ $pulp_board_price = $half_peice['price'];}
-		else if ($this->fits($full_peice))			{ $pulp_board_price = $full_peice['price'];}
-		else if ($this->fits($mount_board_peice))	{ $pulp_board_price = $mount_board_peice['price']; $mount_board_used = true;}
+		switch ($size_to_use) {
+			case 'full':
+				$pulp_board_price = $this->getSqMetrePrice($full_peice);
+				break;
+			case 'jumbo':
+				$pulp_board_price = $this->getSqMetrePrice($mount_board_peice);
+				break;
+		}
 		
 		// Add the percentage wastage
 		$wastage = $mount_board_used ? $mount_board_wastage : $pulp_board_wastage;
@@ -369,35 +350,15 @@ class PriceController extends Controller {
 		
 		$backing_board = $this->settings['backing_board'];
 		
-		$frame = [
-			'width'		=> $this->glass_width,
-			'height'	=> $this->glass_height
-		];
-		
-		// The glass sizes i.e. double, full, half & quarter
-		// We don't a seperate jumbo sized backing board so we just double the standard one
-		$double_peice	= $this->doubleUp($backing_board);
-		
 		$full_peice = [
 			'width'		=> $backing_board['width'],
 			'height'	=> $backing_board['height'],
 			'price'		=> $backing_board['price']
 		];
 		
-		// Cut the full size in her half to get the half size
-		$half_peice		= $this->cutInHalf($full_peice);
-		
-		// Cut the half size in her half to get the quarter size
-		$quarter_peice	= $this->cutInHalf($half_peice);
-		
-		// Now check which size peice the customers frame size fits into
-		// and use that price
-		if ($this->fits($quarter_peice))		{ $backing_board_price = $quarter_peice['price'];} 
-		else if ($this->fits($half_peice))		{ $backing_board_price = $half_peice['price'];}
-		else if ($this->fits($full_peice))		{ $backing_board_price = $full_peice['price'];}
-		else if ($this->fits($double_peice))	{ $backing_board_price = $double_peice['price'];}
-		
-		if (!isset($backing_board_price)) {
+		if ($this->fits($full_peice)) {
+			$backing_board_price = $this->getSqMetrePrice($full_peice);
+		} else {
 			return 'Frame too big for backing board';
 		}
 		
@@ -411,8 +372,25 @@ class PriceController extends Controller {
 		
 		$glass_price = 0;
 		
-		// Get the glazing information from the cache by way of the selected ID
-		$glazing = Cache::get('glazing_' . $glazing_id);
+		// Get the glazing information from the config file by way of the selected (2-part in some cases) ID
+		$glazing_id_parts = explode('-', $glazing_id);
+		
+		$glazing_category	= $glazing_id_parts[0];
+		
+		$glazing = config('glazings.' . $glazing_category);
+		
+		if (isset($glazing['options'])) {
+			
+			// If glazing catgory has options the option should have been selected
+			
+			if (isset($glazing_id_parts[1])) {
+				$glazing_option = $glazing_id_parts[1];
+			} else {
+				return 'Glazing option not seleted';
+			}
+			
+			$glazing = $glazing['options'][$glazing_option];
+		}
 		
 		$wastage	= $this->settings['glass_wastage'];
 		$markup		= $this->settings['glass_markup'];
@@ -420,18 +398,18 @@ class PriceController extends Controller {
 		// Get the "Oversized" sizes
 		$jumbo_peice = false;
 		
-		if (isset($glazing['oversized_width']) && isset($glazing['oversized_height']) && isset($glazing['oversized_price'])) {
+		if (isset($glazing['sheet']['oversized'])) {
 			$jumbo_peice = [
-				'width'		=> $glazing['oversized_width'],
-				'height'	=> $glazing['oversized_height'],
-				'price'		=> $glazing['oversized_price']
+				'width'		=> $glazing['sheet']['oversized']['width'],
+				'height'	=> $glazing['sheet']['oversized']['height'],
+				'price'		=> $glazing['sheet']['oversized']['price']
 			];
 		}
 		
 		$full_peice = [
-			'width'		=> $glazing['width'],
-			'height'	=> $glazing['height'],
-			'price'		=> $glazing['price']
+			'width'		=> $glazing['sheet']['width'],
+			'height'	=> $glazing['sheet']['height'],
+			'price'		=> $glazing['sheet']['price']
 		];
 		
 		// Now check which size glass peice the customers frame size fits into
