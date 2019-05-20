@@ -10,6 +10,8 @@
 		<title>{{ config('app.name', 'Laravel') }}</title>
 
 		<!-- Scripts -->
+		<script src="{{ asset('js/manifest.js') }}" defer></script>
+		<script src="{{ asset('js/vendor.js') }}" defer></script>
 		<script src="{{ asset('js/app.js') }}" defer></script>
 
 		<!-- Fonts -->
@@ -24,7 +26,7 @@
 			<nav class="navbar is-primary">
 				
 				<div class="navbar-brand">
-					<a class="navbar-item" href="{{ url('/') }}">
+					<a class="navbar-item" href="{{ route('index') }}">
 						<strong>
 							{{ config('app.name', 'Laravel') }}
 						</strong>
@@ -55,9 +57,32 @@
 								</a>
 							@endif
 						@else
+							<a class="navbar-item" href="{{ route('orders.index') }}">
+							   Orders
+							</a>
+							<a class="navbar-item" href="{{ route('mounts.index') }}">
+							   Mounts
+							</a>
+							<a class="navbar-item" href="{{ route('moulds.index') }}">
+							   Moulds
+							</a>
+							<div class="navbar-item has-dropdown is-hoverable">
+								<a class="navbar-link is-arrowless" href="{{ route('settings.index') }}">
+								   Settings
+								</a>
+								
+								<div class="navbar-dropdown is-right">
+									<a class="navbar-item" href="{{ route('settings.pricing.index') }}">
+										{{ __('Pricing') }}
+									</a>
+									<a class="navbar-item" href="{{ route('settings.glazings.index') }}">
+										{{ __('Glazings') }}
+									</a>
+								</div>
+							</div>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<a class="navbar-link is-arrowless" href="#">
-									{{ Auth::user()->name }}
+									Me
 								</a>
 
 								<div class="navbar-dropdown is-right">
@@ -80,7 +105,7 @@
 			</nav>
 
 			<section class="section main">
-				<div class="container is-fluid">
+				<div class="container is-fullhd">
 					@yield('content')
 				</div>
 			</section>

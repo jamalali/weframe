@@ -170,7 +170,7 @@ export const store = new Vuex.Store({
 			
 			console.log(state.basket)
 			
-//			axios.post('http://weframe.local/api/order', {
+//			axios.post('http://admin.weframe.local/api/order', {
 //				type_id	: state.orderType,
 //				total	: getters.basketTotal,
 //				lines	: state.basket
@@ -194,7 +194,7 @@ export const store = new Vuex.Store({
 		},
 		
 		orderItemPrice (state) {
-			axios.get('http://weframe.local/api/price', {
+			axios.get('http://admin.weframe.local/api/price', {
 				params: state.orderItem
 			}).then(response => (
 				state.orderItemPrice = response.data

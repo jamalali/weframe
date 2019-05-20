@@ -24312,7 +24312,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     createOrder: function createOrder(_ref6) {
       var state = _ref6.state,
           getters = _ref6.getters;
-      console.log(state.basket); //			axios.post('http://weframe.local/api/order', {
+      console.log(state.basket); //			axios.post('http://admin.weframe.local/api/order', {
       //				type_id	: state.orderType,
       //				total	: getters.basketTotal,
       //				lines	: state.basket
@@ -24332,7 +24332,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       state.orderItem = orderItemDefaults();
     },
     orderItemPrice: function orderItemPrice(state) {
-      axios.get('http://weframe.local/api/price', {
+      axios.get('http://admin.weframe.local/api/price', {
         params: state.orderItem
       }).then(function (response) {
         return state.orderItemPrice = response.data;
@@ -24370,8 +24370,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\vhosts\weframe\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\vhosts\weframe\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\vhosts\weframe.admin\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\vhosts\weframe.admin\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

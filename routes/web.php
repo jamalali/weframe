@@ -1,74 +1,30 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-//*******************************//
-//     Back-end Admin Routes     //
-//*******************************//
-Route::middleware('role:staff')->name('admin.')->prefix('admin')->group(function() {
-    
-    Route::get('/', 'Admin\AdminController@index')->name('index');
+Route::middleware('role:staff')->group(function() {
+	
+	Route::get('/', 'IndexController@index')->name('index');
 	
 	// Orders Routes
-	Route::resource('orders', 'Admin\Orders\AdminOrdersController')->except([
+	Route::resource('orders', 'Orders\OrdersController')->except([
 		'store'
 	]);
-	Route::resource('orders.lines', 'Admin\Orders\Lines\AdminOrdersLinesController');
+	Route::resource('orders.lines', 'Orders\Lines\OrdersLinesController');
 	
 	// Mounts, Mount Variants
-	Route::resource('mounts', 'Admin\Mounts\AdminMountsController');
-	Route::resource('mounts.variants', 'Admin\Mounts\Variants\AdminMountsVariantsController');
+	Route::resource('mounts', 'Mounts\MountsController');
+	Route::resource('mounts.variants', 'Mounts\Variants\MountsVariantsController');
 	
 	// Moulds
-	Route::resource('moulds', 'Admin\Moulds\AdminMouldsController');
+	Route::resource('moulds', 'Moulds\MouldsController');
 	
 	// Settings Routes
 	Route::name('settings.')->prefix('settings')->group(function() {
-        Route::get('/', 'Admin\Settings\AdminSettingsController@index')->name('index');
+        Route::get('/', 'Settings\SettingsController@index')->name('index');
 		
-		Route::resource('pricing', 'Admin\Settings\Pricing\AdminSettingsPricingController')->only(['index', 'store']);
-		Route::resource('glazings', 'Admin\Settings\Glazings\AdminSettingsGlazingsController');
+		Route::resource('pricing', 'Settings\Pricing\SettingsPricingController')->only(['index', 'store']);
+		Route::resource('glazings', 'Settings\Glazings\SettingsGlazingsController');
     });
     
-    // Discounts Routes
-    //Route::resource('discounts', 'Admin\Discounts\AdminDiscountsController');
-    
-    // Customers Routes
-//    Route::name('customers.')->prefix('customers')->group(function() {
-//        Route::get('/', 'Admin\Customers\AdminCustomersController@index')->name('index');
-//        
-//        // Warranty Routes
-//        Route::name('warranty.')->prefix('warranty')->group(function() {
-//            Route::get('/', 'Admin\Customers\Warranty\AdminCustomersWarrantyController@index')->name('index');
-//            
-//            Route::get('/{warrantySubmission}', 'Admin\Customers\Warranty\AdminCustomersWarrantyController@show')->name('show');
-//        });
-//    });
-    
-    // Orders Routes
-//    Route::name('orders.')->prefix('orders')->group(function() {
-//        Route::get('/', 'Admin\Orders\AdminOrdersController@index')->name('index');
-//        
-//        Route::get('/{order}/{orderUuid}', 'Admin\Orders\AdminOrdersController@show')->name('show');
-//        Route::get('/status-history/{order}/{orderUuid}', 'Admin\Orders\AdminOrdersController@statusHistory')->name('status_history');
-//    });
-    
-    // Staff Routes
-    //Route::resource('staff', 'Admin\Staff\AdminStaffController');
-    
-    //Route::get('/import', 'ImportController@index')->name('import');
-    //Route::post('/import-process', 'ImportController@processImport')->name('import.process');
 });
-
-Route::get('/', 'HomeController@index')->name('index');
 
 Auth::routes(['register' => false]);
