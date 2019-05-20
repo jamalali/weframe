@@ -11,7 +11,7 @@ return [
 		'width'		=> '40',
 		'height'	=> '30',
 		
-		'price' => '9.99'
+		'price' => '4.94'
 	],
 	'2' => [
 		'name' => 'Roma Moulding – 25x30mm – Black – 6200BK',
@@ -22,7 +22,7 @@ return [
 		'width'		=> '25',
 		'height'	=> '30',
 		
-		'price' => '9.99'
+		'price' => '5.40'
 	],
 	'3' => [
 		'name' => 'Moulding – Create 20x33mm Black Closed Grain – CR0989BK',
@@ -33,7 +33,7 @@ return [
 		'width'		=> '20',
 		'height'	=> '33',
 		
-		'price' => '9.99'
+		'price' => '3.44'
 	],
 	'4' => [
 		'name' => 'LJC Coastal Woods Moulding',
@@ -101,5 +101,4 @@ return [
 		
 		'price' => '2.72'
 	],
-	
 ];
