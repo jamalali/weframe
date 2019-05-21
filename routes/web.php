@@ -17,6 +17,9 @@ Route::middleware('role:staff')->group(function() {
 	// Moulds
 	Route::resource('moulds', 'Moulds\MouldsController');
 	
+	// Customer
+	Route::resource('customers', 'Customers\CustomersController');
+	
 	// Settings Routes
 	Route::name('settings.')->prefix('settings')->group(function() {
         Route::get('/', 'Settings\SettingsController@index')->name('index');

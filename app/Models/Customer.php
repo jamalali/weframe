@@ -11,15 +11,16 @@ class Customer extends Model {
 	
 	protected $fillable = [
         'user_id',
-        'firstname',
-        'surname',
+        'first_name',
+        'last_name',
 		'email',
         'phone_number',
+        'accepts_marketing',
     ];
 	
 	protected $encryptable = [
-        'firstname',
-        'surname',
+        'first_name',
+        'last_name',
         'email',
 		'phone_number',
     ];
@@ -34,5 +35,9 @@ class Customer extends Model {
 	
 	public function orders() {
         return $this->hasMany('App\Models\Order');
+    }
+	
+	public function getNameAttribute() {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }
 }

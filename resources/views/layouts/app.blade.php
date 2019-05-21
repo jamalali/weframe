@@ -60,6 +60,9 @@
 							<a class="navbar-item" href="{{ route('orders.index') }}">
 							   Orders
 							</a>
+							<a class="navbar-item" href="{{ route('customers.index') }}">
+							   Customers
+							</a>
 							<a class="navbar-item" href="{{ route('mounts.index') }}">
 							   Mounts
 							</a>

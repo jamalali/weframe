@@ -11,8 +11,9 @@ class Address extends Model {
 	
 	protected $fillable = [
         'customer_id',
-        'firstname',
-        'surname',
+        'first_name',
+        'last_name',
+        'company',
         'address_1',
         'address_2',
         'town',
@@ -23,8 +24,9 @@ class Address extends Model {
     ];
 	
 	protected $encryptable = [
-        'firstname',
-        'surname',
+		'first_name',
+        'last_name',
+        'company',
         'address_1',
         'address_2',
         'town',

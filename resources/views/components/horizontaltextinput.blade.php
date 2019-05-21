@@ -7,7 +7,9 @@
 @endphp
 
 <div class="field is-horizontal">
-	<div class="field-label is-normal">
+	<div class="field-label is-normal" @isset($grow_label)
+		 style="flex-grow: 2;"
+		 @endisset>
 		<label class="label" for="{{ $id }}">
 			{{ $label }}
 		</label>
