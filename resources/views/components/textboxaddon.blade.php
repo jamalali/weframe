@@ -4,6 +4,10 @@
 	} else if (isset($values) && isset($values[$id])) {
 		$value = $values[$id];
 	}
+	
+	if (!isset($old)) {
+		$old = $id;
+	}
 @endphp
 
 <div class="field">
@@ -15,7 +19,7 @@
 			 has-addons
 			 @endisset">
 		<div class="control">
-			<input value="@isset($value){{ $value }}@else{{ old($id) }}@endisset" id="{{ $id }}" name="{{ $id }}" class="input" type="text" placeholder="">
+			<input value="@isset($value){{ $value }}@else{{ old($old) }}@endisset" id="{{ $id }}" name="{{ $id }}" class="input" type="text" placeholder="">
 		</div>
 		@isset($addon)
 			<div class="control">

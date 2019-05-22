@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Line extends Model {
     
@@ -18,6 +19,11 @@ class Line extends Model {
 	public function getItemParamsAttribute($value) {
         return json_decode($value);
     }
+	
+	public function getArtworkDescriptionAttribute() {
+		$item_params = (array) $this->item_params;
+		return Arr::pull($item_params, 'artworkDescription');
+	}
 	
 	public function getGlassSizeAttribute() {
 		
@@ -64,4 +70,8 @@ class Line extends Model {
 		
 		return $glass_width . ' x ' . $glass_height;
 	}
+	
+	public function order() {
+        return $this->belongsTo('App\Models\Order');
+    }
 }

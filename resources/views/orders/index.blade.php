@@ -9,25 +9,26 @@
 		</h1>
 		
 		@isset ($orders)
-			<table class="table table-striped">
+			<table class="table table-striped is-fullwidth">
 
 				<thead class="thead-light">
 					<tr>
 						<th>
-							Reference
+							Order
 						</th>
 						<th>
-							Billing Name
+							Date
 						</th>
 						<th>
-							Payment Method
+							Customer
+						</th>
+						<th>
+							Payment
 						</th>
 						<th>
 							Order Total
 						</th>
-						<th>
-							Date Ordered
-						</th>
+						
 						<th>
 							Courier
 						</th>
@@ -44,12 +45,15 @@
 						<tr>
 							<td>
 								<a href="{{ route('orders.show', $order->id) }}">
-									WEB{{ $order->id }}
+									#WEB{{ $order->id }}
 								</a>
 							</td>
 							<td>
+								{{ \Carbon\Carbon::parse($order->created_at)->format('j F \a\t G:i') }}
+							</td>
+							<td>
 								@if ($order->customer)
-									{{ $order->customer->firstname }} {{ $order->customer->surname }}
+									{{ $order->customer->name }}
 								@endif
 							</td>
 							<td>
@@ -57,9 +61,6 @@
 							</td>
 							<td>
 								&pound;{{ $order->total }}
-							</td>
-							<td>
-								{{ \Carbon\Carbon::parse($order->created_at)->format('jS  F Y, G:i:s') }}
 							</td>
 							<td>
 								n/a

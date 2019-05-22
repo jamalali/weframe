@@ -16,4 +16,8 @@ class Order extends Model {
 	public function lines() {
         return $this->hasMany('App\Models\Line');
     }
+	
+	public function customer() {
+        return $this->belongsTo('App\Models\Customer');
+    }
 }

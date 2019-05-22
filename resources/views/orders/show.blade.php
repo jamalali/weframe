@@ -4,6 +4,12 @@
 <div class="columns is-centered">
 	<div class="column">
 		
+		<div class="cta-row" style="margin-bottom:20px;">
+			<a href="{{ route('orders.index') }}">
+				<i class="fas fa-chevron-left"></i> Orders
+			</a>
+		</div>
+		
 		<h1 class="title is-3">
 			Order #{{ $order->id }}
 		</h1>

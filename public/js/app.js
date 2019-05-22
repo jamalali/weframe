@@ -2193,19 +2193,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   props: {
-    glazings: ''
+    glazings: '',
+    glazing: 0
   },
   watch: {
-    glazingCategory: function glazingCategory(newValue) {
-      var selectedCategory = this.glazings[newValue];
-      var hasOptions = 'options' in selectedCategory ? true : false;
-
-      if (hasOptions) {
-        this.glazingOptions = selectedCategory['options'];
-        this.glazingOption = 0;
-      } else {
+    glazing: function glazing(newValue) {
+      if (newValue == 0) {
+        this.glazingCategory = 0;
         this.glazingOptions = false;
-        this.returnGlazing();
+        this.glazingOption = 0;
+      }
+    },
+    glazingCategory: function glazingCategory(newValue) {
+      if (newValue != 0) {
+        var selectedCategory = this.glazings[newValue];
+        var hasOptions = 'options' in selectedCategory ? true : false;
+
+        if (hasOptions) {
+          this.glazingOptions = selectedCategory['options'];
+          this.glazingOption = 0;
+        } else {
+          this.glazingOptions = false;
+          this.returnGlazing();
+        }
       }
     },
     glazingOption: function glazingOption(newValue) {
@@ -2454,7 +2464,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     foam_boards: '',
     moulds: {},
     fixings: '',
-    artwork_mountings: ''
+    artwork_mountings: '',
+    customer_id: false
   },
   methods: {
     setMoulding: function setMoulding(moulding_id) {
@@ -2505,9 +2516,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
+  mounted: function mounted() {
+    this.$store.commit('customerId', this.customer_id);
+  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     orderItem: function orderItem(state) {
       return state.orderItem;
+    },
+    customerID: function customerID(state) {
+      return state.customerID;
     }
   }))
 });
@@ -24180,57 +24197,10 @@ function orderItemDefaults() {
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     orderItem: orderItemDefaults(),
-    basket: [{
-      artworkDescription: "Painting",
-      artworkHeight: "322",
-      artworkMounting: "0",
-      artworkSupplied: "0",
-      artworkWidth: "522",
-      boxFrame: "0",
-      fixing: "0",
-      foamBoard: "0",
-      glazing: 3,
-      moulding: "1",
-      mount: {
-        type: "none"
-      },
-      orderType: "1",
-      total: "40.55"
-    }, {
-      artworkDescription: "London Scene",
-      artworkHeight: "922",
-      artworkMounting: "0",
-      artworkSupplied: "0",
-      artworkWidth: "522",
-      boxFrame: "0",
-      fixing: "0",
-      foamBoard: "0",
-      glazing: 3,
-      moulding: "1",
-      mount: {
-        type: "none"
-      },
-      orderType: "1",
-      total: "40.55"
-    }, {
-      artworkDescription: "Road map",
-      artworkHeight: "363",
-      artworkMounting: "0",
-      artworkSupplied: "0",
-      artworkWidth: "522",
-      boxFrame: "0",
-      fixing: "0",
-      foamBoard: "0",
-      glazing: 3,
-      moulding: "1",
-      mount: {
-        type: "none"
-      },
-      orderType: "1",
-      total: "40.55"
-    }],
+    basket: [],
     orderItemPrice: {},
-    orderType: '1',
+    orderType: '0',
+    customerId: false,
     showBasketItem: false
   },
   getters: {
@@ -24312,13 +24282,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     createOrder: function createOrder(_ref6) {
       var state = _ref6.state,
           getters = _ref6.getters;
-      console.log(state.basket); //			axios.post('http://admin.weframe.local/api/order', {
-      //				type_id	: state.orderType,
-      //				total	: getters.basketTotal,
-      //				lines	: state.basket
-      //			}).then(response => (
-      //				window.location.href = '/admin/orders/' + response.data.order_id
-      //			))
+      axios.post('http://admin.weframe.local/api/order', {
+        customer_id: state.customerId,
+        type_id: state.orderType,
+        total: getters.basketTotal,
+        lines: state.basket
+      }).then(function (response) {
+        return window.location.href = '/orders/' + response.data.order_id;
+      });
     }
   },
   mutations: {
@@ -24346,6 +24317,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     showBasketItem: function showBasketItem(state, itemKey) {
       state.showBasketItem = itemKey;
+    },
+    customerId: function customerId(state, _customerId) {
+      state.customerId = _customerId;
     }
   }
 });

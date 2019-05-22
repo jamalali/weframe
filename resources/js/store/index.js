@@ -23,57 +23,10 @@ export const store = new Vuex.Store({
 	
 	state: {
 		orderItem		: orderItemDefaults(),
-		basket			: [{
-			artworkDescription: "Painting",
-			artworkHeight: "322",
-			artworkMounting: "0",
-			artworkSupplied: "0",
-			artworkWidth: "522",
-			boxFrame: "0",
-			fixing: "0",
-			foamBoard: "0",
-			glazing: 3,
-			moulding: "1",
-			mount: { 
-				type: "none" 
-			},
-			orderType: "1",
-			total: "40.55",
-		},{
-			artworkDescription: "London Scene",
-			artworkHeight: "922",
-			artworkMounting: "0",
-			artworkSupplied: "0",
-			artworkWidth: "522",
-			boxFrame: "0",
-			fixing: "0",
-			foamBoard: "0",
-			glazing: 3,
-			moulding: "1",
-			mount: { 
-				type: "none" 
-			},
-			orderType: "1",
-			total: "40.55",
-		},{
-			artworkDescription: "Road map",
-			artworkHeight: "363",
-			artworkMounting: "0",
-			artworkSupplied: "0",
-			artworkWidth: "522",
-			boxFrame: "0",
-			fixing: "0",
-			foamBoard: "0",
-			glazing: 3,
-			moulding: "1",
-			mount: { 
-				type: "none" 
-			},
-			orderType: "1",
-			total: "40.55",
-		}],
+		basket			: [],
 		orderItemPrice	: {},
-		orderType		: '1',
+		orderType		: '0',
+		customerId		: false,
 		
 		showBasketItem	: false,
 	},
@@ -166,17 +119,15 @@ export const store = new Vuex.Store({
 			commit('resetOrderItemPrice')
 		},
 		
-		createOrder ({state, getters}) {
-			
-			console.log(state.basket)
-			
-//			axios.post('http://admin.weframe.local/api/order', {
-//				type_id	: state.orderType,
-//				total	: getters.basketTotal,
-//				lines	: state.basket
-//			}).then(response => (
-//				window.location.href = '/admin/orders/' + response.data.order_id
-//			))
+		createOrder ({state, getters}) {			
+			axios.post('http://admin.weframe.local/api/order', {
+				customer_id	: state.customerId,
+				type_id		: state.orderType,
+				total		: getters.basketTotal,
+				lines		: state.basket
+			}).then(response => (
+				window.location.href = '/orders/' + response.data.order_id
+			))
 		}
 	},
 	
@@ -211,6 +162,10 @@ export const store = new Vuex.Store({
 		
 		showBasketItem (state, itemKey) {
 			state.showBasketItem = itemKey
+		},
+		
+		customerId (state, customerId) {
+			state.customerId = customerId
 		}
 	}
 })

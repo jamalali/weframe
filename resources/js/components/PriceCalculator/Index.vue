@@ -200,7 +200,8 @@
 			foam_boards			: '',
 			moulds				: {},
 			fixings				: '',
-			artwork_mountings	: ''
+			artwork_mountings	: '',
+			customer_id			: false
 		},
 		methods: {
 			setMoulding: function(moulding_id) {
@@ -256,9 +257,13 @@
 				})
 			}
 		},
+		mounted: function() {
+			this.$store.commit('customerId', this.customer_id)
+		},
 		computed: {
 			...mapState({
-				orderItem: state => state.orderItem
+				orderItem: state => state.orderItem,
+				customerID: state => state.customerID,
 			})
 		}
     }

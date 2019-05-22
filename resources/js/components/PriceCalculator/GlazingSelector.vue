@@ -46,19 +46,29 @@
 			}
 		},
 		props: {
-			glazings: ''
+			glazings: '',
+			glazing: 0
 		},
 		watch: {
-			glazingCategory: function(newValue) {
-				let selectedCategory = this.glazings[newValue]
-				let hasOptions = ('options' in selectedCategory) ? true : false
-				
-				if (hasOptions) {
-					this.glazingOptions = selectedCategory['options']
+			glazing: function(newValue) {
+				if (newValue == 0) {
+					this.glazingCategory = 0
+					this.glazingOptions	= false
 					this.glazingOption = 0
-				} else {
-					this.glazingOptions = false
-					this.returnGlazing()
+				}
+			},
+			glazingCategory: function(newValue) {
+				if (newValue != 0) {
+					let selectedCategory = this.glazings[newValue]
+					let hasOptions = ('options' in selectedCategory) ? true : false
+
+					if (hasOptions) {
+						this.glazingOptions = selectedCategory['options']
+						this.glazingOption = 0
+					} else {
+						this.glazingOptions = false
+						this.returnGlazing()
+					}
 				}
 			},
 			glazingOption: function(newValue) {

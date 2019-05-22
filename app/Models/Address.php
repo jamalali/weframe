@@ -21,6 +21,7 @@ class Address extends Model {
         'postcode',
         'country_id',
         'phone_number',
+        'is_default',
     ];
 	
 	protected $encryptable = [

@@ -32,7 +32,7 @@ class CustomersController extends Controller {
 		$customer = Customer::create($input);
 		$address = $customer->addresses()->create($input['address']);
         
-        return redirect()->route('customer.index')->with('success', 'New customer added');
+        return redirect()->route('customers.index')->with('success', 'New customer added');
     }
 	
     public function show($customer_id) {

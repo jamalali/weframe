@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use App\Models\MountVariant;
+use App\Models\Line;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,16 @@ class RouteServiceProvider extends ServiceProvider
 			return MountVariant::with('mount')->where([
                 'id'		=> $value,
                 'mount_id'  => $mount
+            ])->first() ?? abort(404);
+		});
+		
+		Route::bind('line', function($value, $route) {
+            
+            $order_id = $route->parameter('order');
+			
+			return Line::with('order')->where([
+                'id'		=> $value,
+                'order_id'  => $order_id
             ])->first() ?? abort(404);
 		});
     }

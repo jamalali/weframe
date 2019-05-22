@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Orders;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Glazing;
 use App\Models\Mount;
 use App\Models\Order;
+use App\Models\Customer;
 
 class OrdersController extends Controller {
 
@@ -18,7 +18,11 @@ class OrdersController extends Controller {
         ]);
     }
 
-    public function create() {
+    public function create(Request $request) {
+		
+		$customer_id = $request->input('customer_id') ? $request->input('customer_id') : false;
+		
+		$customer = $customer_id ? Customer::find($customer_id) : false;
 		
 		$mounts				= Mount::with('variants')->get();
 		$glazings			= config('glazings');
@@ -41,7 +45,8 @@ class OrdersController extends Controller {
 			'moulds'			=> json_encode($moulds),
 			'order_types'		=> json_encode($order_types),
 			'fixings'			=> json_encode($fixings),
-			'artwork_mountings'	=> json_encode($artwork_mountings)
+			'artwork_mountings'	=> json_encode($artwork_mountings),
+			'customer'			=> $customer
 		]);
     }
 
