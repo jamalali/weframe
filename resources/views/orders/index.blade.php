@@ -80,14 +80,10 @@
 			</table>
 		@endisset
 
-		<div class="tile is-ancestor">
-			<div class="tile is-2 is-parent">
-				<div class="tile is-child">
-					<a class="title is-5 box has-text-centered" href="{{ route('orders.create') }}">
-						Create an order
-					</a>
-				</div>
-			</div>
+		<div>
+			<a class="button is-primary" href="{{ route('orders.create') }}">
+				Create an order
+			</a>
 		</div>
             
     </div>
